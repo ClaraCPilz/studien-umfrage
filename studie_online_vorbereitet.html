@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studie</title>
+<style>
+:root{--page:#f4f4f1;--card:#fff;--border:#e2e2dd;--accent:#44546a;--accent-h:#36445a;--text:#2b2b2b;--muted:#6f6f6b;--error:#b3261e;--track:#dcdcd7;--dis:#d6d6d1;--input:#fbfbf9;--sel:#e9eef5;--hover:#f6f6f3;--line:#8f8f8a}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--page);color:var(--text);font:14px/1.45 "Segoe UI",system-ui,sans-serif;display:flex;flex-direction:column}
+#track{height:10px;background:var(--track);flex:none}
+#fill{height:100%;width:0;background:var(--accent);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+#page{flex:1;display:flex;align-items:center;justify-content:center;padding:16px;min-height:0}
+#card{background:var(--card);border:1px solid var(--border);width:840px;max-width:100%;height:min(860px,100%);padding:34px 48px;display:flex;flex-direction:column;transition:width .45s cubic-bezier(.2,.8,.2,1);overflow:hidden}
+#card.wide{width:1560px}
+.sec{font:600 12px "Segoe UI",sans-serif;color:var(--muted);letter-spacing:.02em}
+.body{flex:1;min-height:0;display:flex;flex-direction:column;overflow:auto;padding:8px 0}
+.body.center{justify-content:center}
+.bar{display:flex;align-items:center;gap:16px;padding-top:12px;position:relative;min-height:56px}
+.err{color:var(--error);flex:1;font-size:14px}
+.btn{background:var(--accent);color:#fff;border:0;padding:10px 30px;font:600 18px "Segoe UI",sans-serif;cursor:pointer}
+.btn:hover{background:var(--accent-h)}.btn:disabled{background:var(--dis);color:#8a8a86;cursor:default}
+.ans{display:flex;gap:10px;position:absolute;left:50%;transform:translateX(-50%)}
+.ans button{width:110px;border:0;padding:10px;font:600 18px "Segoe UI",sans-serif;cursor:pointer;background:var(--dis);color:var(--text)}
+.ans button.on{background:var(--accent);color:#fff}.ans button:disabled{color:#8a8a86;cursor:default}
+h1{font:600 24px "Segoe UI",sans-serif;text-align:center;margin:6px 0 14px}
+h2{font:600 20px "Segoe UI",sans-serif;margin:8px 0 0}
+.q{font:600 17px "Segoe UI",sans-serif;text-align:center}.hint{color:var(--muted);text-align:center;margin-top:6px}
+.panel{background:var(--hover);border:1px solid var(--border);padding:22px 26px;margin:22px 36px 0;font-size:16px}
+.txt{font-size:16px}.txt .para{margin-top:10px}.txt .para:first-child{margin-top:0}
+.li{display:flex;gap:10px;margin-left:14px}.li i{font-style:normal;min-width:20px}
+.choice{display:flex;align-items:center;gap:14px;border:2px solid var(--border);padding:12px 16px;margin:0 36px 10px;cursor:pointer;font-size:16px}
+.choice.m{padding:9px 16px;margin-bottom:8px}.choice.c{padding:5px 16px;margin-bottom:5px;font-size:15px}
+.choice:hover{background:var(--hover)}.choice.on{background:var(--sel);border-color:var(--accent)}
+.box{width:24px;height:24px;border:2px solid var(--line);background:#fff;flex:none;display:grid;place-items:center;color:#fff;font-size:16px;line-height:1}
+.box.r{border-radius:50%}.on .box{border-color:var(--accent)}.on .box.r{background:radial-gradient(var(--accent) 45%,#fff 50%)}.on .box.k{background:var(--accent)}
+.choice input[type=text]{flex:1;font:inherit;padding:4px 8px;border:1px solid var(--border);background:var(--input)}
+select,input[type=text].id{font:inherit;font-size:16px;padding:8px;border:1px solid var(--border);background:var(--input);color:var(--text)}
+input.id{text-align:center;font-size:20px!important;width:300px}
+.scroll{border:1px solid var(--border);background:var(--input);padding:12px 16px;overflow:auto;flex:1;font-size:16px}
+.scroll h3{font:600 16px "Segoe UI",sans-serif;color:var(--accent);margin:14px 0 6px}.scroll p{margin:0 0 8px}.scroll .li{margin-bottom:3px}
+.two{display:grid;grid-template-columns:640px 1fr;gap:28px;flex:1;min-height:0}
+.two>div{min-height:0;display:flex;flex-direction:column}
+.imgbox{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.imgbox img,.imgbox .ph{max-width:100%;max-height:100%;border:1px solid var(--border);object-fit:contain}
+.ph{background:var(--hover);color:var(--muted);padding:40px;text-align:center}
+table.ueq{width:100%;border-collapse:collapse;flex:1}
+.ueq td{padding:0;text-align:center}.ueq td.l{text-align:right;padding-right:10px;width:120px}.ueq td.r{text-align:left;padding-left:10px;width:120px}
+.ueq tr:nth-child(odd){background:var(--hover)}.ueq tr.bad td.l,.ueq tr.bad td.r,.sus.bad .st{color:var(--error)}
+.dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);background:#fff;cursor:pointer;padding:0}
+.dot:hover{border-color:var(--accent)}.dot.on{border-color:var(--accent);background:radial-gradient(var(--accent) 45%,#fff 50%)}
+.sus{padding:10px 16px}.sus:nth-child(even){background:var(--hover)}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);text-align:center;font-size:12px;color:var(--muted);margin-top:4px;justify-items:center}
+.cols{display:grid;gap:20px;flex:1;min-height:0}.cols>div{display:flex;flex-direction:column;min-height:0}
+.lbl{font:600 14px "Segoe UI",sans-serif;color:var(--accent)}
+textarea{font:inherit;padding:8px 10px;border:1px solid var(--border);background:var(--input);height:110px;margin-top:10px;resize:vertical}
+.cell{border:2px solid var(--border);background:var(--hover);flex:1;display:flex;align-items:center;justify-content:center;min-height:0;font-size:28px;color:var(--muted);margin-top:4px}
+.cell.over{border-color:var(--accent)}.cell img{max-width:100%;max-height:100%;cursor:grab}
+.head{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px}
+.timer{font:600 20px "Segoe UI",sans-serif;color:var(--muted)}
+.area{border:1px solid var(--border);flex:1;min-height:0;display:flex;align-items:center;justify-content:center;margin-top:8px;padding:8px}
+.start{text-align:center;color:var(--muted)}.start p{margin:0 0 14px}
+.qline{font-size:14px;margin-top:10px}.qline:first-child{margin-top:0}
+.route{display:grid;grid-template-columns:1fr 380px;gap:16px;width:100%;height:100%}
+.lists{display:grid;grid-template-columns:1fr 1fr;gap:16px;min-height:0}
+.lists>div{display:flex;flex-direction:column;min-height:0}
+.lb{background:var(--hover);border:2px solid var(--border);flex:1;margin-top:4px;padding:4px 0;display:flex;flex-direction:column;overflow:auto}
+.lb.over{border-color:var(--accent)}.lb small{color:var(--muted);text-align:center;margin:4px 0}
+.chip{color:#fff;font:600 14px "Segoe UI",sans-serif;padding:6px 10px;margin:2px 6px;cursor:grab;text-align:left}
+/* Chips haben eine feste Höhe; Listenfeld bleibt flexibel und kann bei Bedarf scrollen. */
+.lb .chip{height:58px;min-height:58px;flex:0 0 58px;display:flex;align-items:center;box-sizing:border-box}
+#dev{position:fixed;left:2px;bottom:2px;display:flex;gap:2px}#dev button{background:var(--dis);border:0;font-size:11px;padding:2px 7px;cursor:pointer}
+@media(max-width:1100px){.two{grid-template-columns:1fr;overflow:auto}.route{grid-template-columns:1fr;overflow:auto}#card{padding:20px}}
+#fullscreenGate{position:fixed;inset:0;z-index:9999;background:var(--page);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}
+#fullscreenGate>div{max-width:560px;background:var(--card);border:1px solid var(--border);padding:36px 42px}
+#fullscreenGate p{font-size:16px;color:var(--muted);margin:12px 0 22px}
+</style>
+</head>
+<body>
+<div id="track"><div id="fill"></div></div>
+<div id="page"><div id="card"></div></div>
+<div id="dev"></div>
+<script>
+// ===== Einstellungen =====
+const DEV_NAVIGATION=true;            // true = ◀ ▶ unten links (für die echte Studie auf false setzen!)
+const RANDOMIZE_VARIANT_ORDER=false, EXCLUDE_COLOR_DEFICIENCY=true, SECTION_UPPER=true;
+const TASK1_TIME_LIMIT=12, ROUTE_MAX_LINES=8, OTHER="Sonstiges";
+const ID_TITLE="Studie: Ästhetik und Orientierung in Bahnnetzplänen";
+const DP_TITLE="Studien- und Datenschutzinformation";
+const DP=[["p","Vielen Dank für dein Interesse an dieser Studie."],
+["p","Die Studie wird im Rahmen eines Forschungsprojekts an der **Hochschule für Technik und Wirtschaft Dresden (HTW Dresden)** durchgeführt. Ziel ist es, ausgewählte Aspekte der **Ästhetik und Orientierung in Bahnnetzplänen** empirisch zu untersuchen. Im Mittelpunkt steht dabei die Darstellung von Stationen und Knotenpunkten."],
+["p","Die Teilnahme dauert **maximal 60 Minuten** und ist **freiwillig**. Wenn du nicht teilnehmen möchtest oder die Befragung abbrichst, entstehen dir daraus keine Nachteile."],
+["h","Ablauf der Studie"],
+["p","Zu Beginn werden einige allgemeine Angaben zu deiner Person und deiner Nutzungserfahrung erhoben. Anschließend bewertest du verschiedene Designvarianten eines Bahnnetzes und bearbeitest Aufgaben zu diesen Varianten. Danach gibst du erneut Einschätzungen ab und ordnest die Varianten abschließend in eine Rangfolge."],
+["p","Der Ablauf umfasst folgende Schritte:"],
+["li","Allgemeine Angaben und Nutzungserfahrung"],["li","Bewertung des Ersteindrucks der Designvarianten"],["li","Vorläufiges Ranking der Designvarianten"],
+["li","Aufgabenbearbeitung mit zwei Aufgabentypen zu zwei Bahnnetzvarianten"],
+["li","Bewertung des Zweiteindrucks und der Bedienbarkeit (Fragebogen zur Gebrauchstauglichkeit)"],["li","Abschließendes Ranking der Designvarianten"],
+["h","Datenschutz und Datenverarbeitung"],
+["p","Die Studiendaten werden **anonym erhoben und ausschließlich zu wissenschaftlichen Zwecken** im Rahmen dieses Forschungsprojekts verarbeitet und ausgewertet."],
+["p","Es werden **keine Namen, E-Mail-Adressen oder Teilnehmercodes** erfasst. Eine direkte Zuordnung der Antworten zu einzelnen Personen ist der Studienleitung nicht möglich."],
+["p","Folgende Angaben und Daten werden erhoben:"],
+["li","Altersgruppe und Fachbereich"],["li","Angaben zu einer bekannten Farbsehschwäche oder Farbenblindheit"],["li","Häufigkeit von Kreativhobbys und Bahnnutzung"],
+["li","Erfahrung mit Bahnnetzkarten"],["li","Genutzte Quellen für Bahnplanungsinformationen"],["li","Bewertungen der Bahnnetzvarianten"],["li","Aufgabenantworten und Bearbeitungszeiten"],
+["p","**IP-Adressen werden nicht gespeichert.**"],
+["p","Die Ergebnisse können in wissenschaftlichen Berichten, Präsentationen oder Veröffentlichungen dargestellt werden. Dies erfolgt ausschließlich **anonymisiert oder in zusammengefasster Form**, sodass keine Rückschlüsse auf einzelne Personen möglich sind."],
+["h","Mögliche Risiken und Teilnahmevoraussetzungen"],
+["p","Mit der Teilnahme sind keine besonderen Risiken verbunden."],
+["p","Da die Studie Aufgaben mit farbigen Linien enthält, richtet sie sich an Personen **ohne bekannte Farbsehschwäche oder Farbenblindheit**. Wenn bei dir eine entsprechende Einschränkung bekannt ist, kannst du leider nicht an der Studie teilnehmen."],
+["h","Kontakt"],
+["p","Bei Fragen zur Studie kannst du dich an die Studienleitung wenden."],
+["p","Bei Fragen zum Datenschutz ist der Datenschutzbeauftragte der HTW Dresden zuständig."],
+["h","Einwilligung zur Teilnahme"],["p","Mit deiner Zustimmung bestätigst du:"],
+["li","Ich habe die Studien- und Datenschutzinformationen gelesen und verstanden."],["li","Ich nehme freiwillig an der Studie teil."],
+["li","Ich willige ein, dass meine im Rahmen der Studie erhobenen Angaben, Bewertungen, Aufgabenantworten und Bearbeitungszeiten zu wissenschaftlichen Zwecken verarbeitet und ausgewertet werden."]];
+const DP_NO="Ohne deine Zustimmung ist eine Teilnahme an der Studie nicht möglich.";
+const DP_CONSENT="Ich habe die Studien- und Datenschutzinformationen gelesen und verstanden. Ich nehme freiwillig an der Studie teil und willie ein, dass meine Angaben, Bewertungen, Aufgabenantworten und Bearbeitungszeiten zu wissenschaftlichen Zwecken im Rahmen dieser Studie verarbeitet und ausgewertet werden.";
+const DEMO_TITLE="Angaben zu deiner Person";
+const DEMO_TEXT="Im folgenden Abschnitt stellen wir dir einige kurze Fragen zu deiner Person und deinen Erfahrungen mit öffentlichen Verkehrsmitteln.\n\nDeine Antworten helfen uns, die Teilnehmenden der Studie zu beschreiben und die Ergebnisse besser einzuordnen. Bitte wähle jeweils die Antwort aus, die am besten auf dich zutrifft.";
+const QUESTIONS=[
+{key:"Farbschwaeche",type:"radio",text:"Hast du eine bekannte Farbsehschwäche oder eine Form von Farbenblindheit?",options:["Ja","Nein"]},
+{key:"Altersgruppe",type:"dropdown",text:"Wie alt bist du?",options:["unter 18 Jahre","18–24 Jahre","25–34 Jahre","35–44 Jahre","45–54 Jahre","55–64 Jahre","65 Jahre oder älter"]},
+{key:"Fachbereich",type:"dropdown",text:"Welchem Fach- oder Tätigkeitsbereich würdest du dich am ehesten zuordnen?",options:["Ingenieurwesen / Technik","Informatik / Digitale Medien","Wirtschaft / Management","Gestaltung / Design / Kunst","Naturwissenschaften / Mathematik","Verkehr / Mobilität / Logistik","Sozial-, Geistes- und Kulturwissenschaften","Gesundheit / Medizin","Bildung / Erziehung","Sonstiges"]},
+{key:"Kreativhobbys",type:"radio",text:"Übst du regelmäßig kreative oder gestalterische Hobbys aus?",options:["Nein","Ja, ein Hobby","Ja, zwei bis drei Hobbys","Ja, mehr als drei Hobbys"]},
+{key:"Bahnnutzung",type:"radio",text:"Wie häufig nutzt du Bahnen im Alltag oder auf Reisen?",hint:"Gemeint sind zum Beispiel Zug, S-Bahn, U-Bahn oder Straßenbahn.",options:["Täglich","Mehrmals pro Woche","Mehrmals pro Monat","Seltener","Nie"]},
+{key:"Bahnnetzkarten",type:"radio",text:"Wie häufig nutzt du Bahnnetzkarten zur Orientierung oder Verbindungsplanung?",hint:"Gemeint sind zum Beispiel Liniennetzpläne von Straßenbahn, U-Bahn, S-Bahn oder Zugverbindungen.",options:["Sehr häufig","Häufig","Gelegentlich","Selten","Nie","Ich bin mir nicht sicher, was Bahnnetzkarten sind"]},
+{key:"Informationsquellen",type:"multi",text:"Wie informierst du dich normalerweise über deine Verbindung mit öffentlichen Verkehrsmitteln?",hint:"Mehrfachauswahl möglich.",options:["Navigations-App, zum Beispiel Google Maps oder Apple Karten","ÖPNV-App, zum Beispiel DB Navigator, DVB mobil, VVO mobil","Website eines Verkehrsunternehmens oder Verkehrsverbunds","Digitale Anzeige an Haltestellen oder Bahnhöfen","Aushangfahrplan","Liniennetzplan / Bahnnetzkarte","Ich frage andere Personen","Ich nutze öffentliche Verkehrsmittel kaum oder gar nicht"],other:true,exclusive:"Ich nutze öffentliche Verkehrsmittel kaum oder gar nicht"}];
+const VARIANTS=[{id:"A",image:"Bilder/variante_a.png"},{id:"B",image:"Bilder/variante_b.png"}];
+const COMMENT_TITLE="Ergänzende Kommentare zu den Bahnnetzvarianten";
+const COMMENT_TEXT="Du siehst die beiden Varianten noch einmal nebeneinander.\n\nWenn du möchtest, kannst du in den Kommentarfeldern beschreiben, was dir bei den einzelnen Darstellungen aufgefallen ist. Du kannst beispielsweise Aspekte nennen, die deine Einschätzung beeinflusst haben.\n\nKurze Stichpunkte reichen aus. Du kannst die Felder auch leer lassen.";
+const RANK_TITLE="Ästhetische Bewertung der Bahnnetzvarianten";
+const RANK_TEXT="Bitte ordne die beiden Varianten danach, wie ästhetisch du ihre Gestaltung findest.\n\n• **Platz 1:** Die Variante, die du am ästhetischsten findest.\n• **Platz 2:** Die Variante, die du weniger ästhetisch findest.\n\nZiehe die Bilder mit der Maus auf die entsprechenden Plätze. Wenn du ein Bild auf einen bereits belegten Platz ziehst, tauschen die beiden Bilder ihre Position.";
+const RANK_HEADERS=["Platz 1","Platz 2"], RANK_POOL="Noch nicht eingeordnet";
+const PRACTICE2_TITLE="Übungsaufgaben";
+const PRACTICE2_TEXT="Mache dich zunächst mit dem Aufgabenformat vertraut und bearbeite dazu die folgenden **zwei Übungsaufgaben**. Die Bearbeitungszeit wird während der Übungsaufgaben noch nicht erfasst.\n\nIn jeder Aufgabe fällt eine Linie im Bahnnetzplan aus. Finde einen Weg von der Startstation zur Zielstation, indem du andere Linien nutzt. Wähle den Weg mit den **wenigsten Umstiegen** und gib die benötigten Linien in der richtigen Reihenfolge an:\n\n• **Oben:** Linie an der Startstation\n• **Unten:** Linie zum Erreichen der Zielstation\n\n";
+const ROUTE_POOL_TITLE="Verfügbare Linien", ROUTE_RANK_TITLE="Deine Reihenfolge";
+const MEASURE_START=["Beginn der Aufgabenbearbeitung","Die Übungsaufgaben sind abgeschlossen.\n\nJetzt beginnt die Bearbeitung der Aufgaben, deren Antworten und Bearbeitungszeiten in die Auswertung eingehen.\n\nDu bearbeitest {n} Aufgaben mit der {ordinal} Bahnnetzvariante.\n\nBitte arbeite möglichst zügig und sorgfältig. Vermeide zufällige Antworten."];
+const NEXT_VARIANT=["Nächste Bahnnetzvariante","Du hast die Aufgaben mit der vorherigen Variante abgeschlossen.\n\nJetzt bearbeitest du die Aufgaben mit der nächsten Bahnnetzvariante. \n Auch hier folgen {n} Aufgaben.\n\nBitte arbeite möglichst zügig und sorgfältig. Vermeide zufällige Antworten."];
+const ORDINALS=["ersten","zweiten","dritten","vierten","fünften"];
+const NUMW={2:"zwei",3:"drei",4:"vier",5:"fünf",6:"sechs",7:"sieben",8:"acht",9:"neun",10:"zehn",11:"elf",12:"zwölf",13:"dreizehn",14:"vierzehn",15:"fünfzehn"};
+const numw=n=>NUMW[n]||String(n);
+const PRACTICE_TITLE="Übungsaufgaben";
+const PRACTICE_TEXT="Mache dich zunächst mit dem Aufgabenformat vertraut und bearbeite dazu die folgenden **zwei Übungsaufgaben**. Die Bearbeitungszeit wird hier noch nicht erfasst.\n\nIn jeder Aufgabe suchst du zwei Linien im Bahnnetzplan und prüfst, ob sie eine vorgegebene Anzahl gemeinsamer Stationen haben.\n\n";
+const TASK_INTRO_TITLE="Aufgabenblock";
+const TASK_INTRO_TEXT="Im nächsten Abschnitt bearbeitest du zwei Arten von Aufgaben mit jeweils zwei unterschiedlichen Darstellungen des Bahnnetzes.\n\nDer Ablauf ist bei beiden Aufgabenarten gleich:\n\n1. **Übungsphase:** Du machst dich zunächst mit dem jeweiligen Aufgabenformat vertraut.\n2. **Erste Bahnnetzvariante:** Du bearbeitest fünfzehn Aufgaben unter Zeitmessung.\n3. **Zweite Bahnnetzvariante:** Danach folgen ebenfalls fünfzehn Aufgaben mit der zweiten Variante.\n\nDie Bearbeitungszeit wird ausschließlich bei den regulären Aufgaben erfasst. Die Übungsaufgaben fließen nicht in die Auswertung der Bearbeitungszeiten ein.\n\nBitte bearbeite alle Aufgaben möglichst zügig und sorgfältig. Wenn du eine Antwort nicht weißt, rate nicht einfach.";
+const SUS_TITLE="Bewertung der Bedienbarkeit";
+const SUS_TEXT="Bitte schätze ein, wie gut du mit der abgebildeten Bahnnetzvariante bei den Aufgaben zurechtgekommen bist.\n\nGib bei jeder Aussage an, inwieweit du ihr zustimmst. Es gibt keine richtigen oder falschen Antworten.";
+const SUS_LOW="stimme überhaupt nicht zu", SUS_HIGH="stimme voll zu";
+const SUS_ITEMS=["Ich denke, dass ich diese Bahnnetzdarstellung gerne häufig benutzen würde.","Ich fand die Bahnnetzdarstellung unnötig komplex.","Ich fand die Bahnnetzdarstellung einfach zu benutzen.","Ich glaube, ich würde die Hilfe einer technisch versierten Person benötigen, um die Bahnnetzdarstellung benutzen zu können.","Ich fand, die verschiedenen Elemente dieser Bahnnetzdarstellung waren gut integriert.","Ich denke, die Bahnnetzdarstellung enthielt zu viele Inkonsistenzen.","Ich kann mir vorstellen, dass die meisten Leute den Umgang mit dieser Bahnnetzdarstellung sehr schnell lernen.","Ich fand die Bahnnetzdarstellung sehr umständlich zu nutzen.","Ich fühlte mich bei der Benutzung der Bahnnetzdarstellung sehr sicher.","Ich musste eine Menge Dinge lernen, bevor ich mit der Bahnnetzdarstellung arbeiten konnte."];
+const susScore=v=>v.reduce((t,x,i)=>t+(i%2==0?x-1:5-x),0)*2.5;
+const UEQ_COLS=["linke Eigenschaft trifft vollständig zu","linke Eigenschaft trifft überwiegend zu","linke Eigenschaft trifft eher zu","beide Eigenschaften treffen gleichermaßen zu / neutral","rechte Eigenschaft trifft eher zu","rechte Eigenschaft trifft überwiegend zu","rechte Eigenschaft trifft vollständig zu"];
+const UEQ=[["behindernd","unterstützend"],["kompliziert","einfach"],["ineffizient","effizient"],["verwirrend","übersichtlich"],["langweilig","spannend"],["uninteressant","interessant"],["konventionell","originell"],["herkömmlich","neuartig"]];
+const SEC={intro:"Einleitung",base:"Basisdaten",tasks:"Aufgabenblock",p1:"Übungsaufgabe: Gemeinsame Stationen",p2:"Übungsaufgabe: Alternative Route",t1:"Aufgabe: Gemeinsame Stationen",t2:"Aufgabe: Alternative Route",end:"Abschluss"};
+const PHASES=[{key:"Ersteindruck",rank:"Aesthetik",sec:"Ersteindruck",secRank:"Erstranking",introTitle:"Ersteindruck vor der Aufgabenbearbeitung",
+ intro:"Du siehst nun nacheinander zwei unterschiedliche Darstellungen desselben Bahnnetzes.\n\nBitte bewerte jede Darstellung anhand deines ersten Eindrucks. Es geht darum, wie du die Gestaltung wahrnimmst – nicht darum, wie gut du die späteren Aufgaben damit lösen kannst.\n\nAchte bei deiner Einschätzung auf die Darstellung der Stationen und Knotenpunkte. Beurteile jede Variante für sich und antworte spontan.\n\nEs gibt keine richtigen oder falschen Antworten.",
+ title:"Ersteindruck der Bahnnetzvarianten",text:"Bitte schätze die abgebildete Bahnnetzvariante anhand deines bisherigen Eindrucks ein.\n\nWähle für jede Eigenschaft den Punkt auf der Skala aus, der deiner Einschätzung am besten entspricht.\n\n"},
+{key:"Zweiteindruck",rank:"Aesthetik2",sec:"Zweiteindruck",secRank:"Zweitranking",introTitle:"Zweiteindruck nach der Aufgabenbearbeitung",
+ intro:"Du siehst nun erneut die beiden Bahnnetzvarianten.\n\nBitte bewerte jede Variante anhand deiner Erfahrungen aus der Aufgabenbearbeitung. Überlege, wie du die jeweilige Darstellung nach der Bearbeitung der Aufgaben wahrnimmst.\n\nAchte dabei besonders auf die Darstellung der Stationen und Knotenpunkte. Bewerte jede Variante einzeln und antworte spontan.\n\nEs gibt keine richtigen oder falschen Antworten.",
+ title:"Zweiteindruck der Bahnnetzvarianten",text:"Bitte schätze die abgebildete Bahnnetzvariante anhand deiner Erfahrungen mit den Aufgaben ein.\n\nWähle für jede Eigenschaft den Punkt auf der Skala aus, der deiner Einschätzung am besten entspricht.\n\n",sus:true}];
+const LINES={pink:["pinke","#EF7180"],"grün":["grüne","#56A01F"],lila:["lila","#AE31A6"],orange:["orange","#F28810"],gelb:["gelbe","#F6C319"],rot:["rote","#BD3030"],blau:["blaue","#17469E"],braun:["braune","#7D5318"]};
+const ROUTE_LEFT="Finde eine Verbindung von der **{start}** zur **{goal}**.";
+const ROUTE_TEXT="Verwende dafür andere Linien und wähle eine Verbindung mit möglichst wenigen Umstiegen. Ziehe die Linien in die rechte Liste. Du kannst eine Linie auch durch Doppelklicken verschieben.";
+const commonQ=(a,b,n,correct,practice)=>{const[wa,ca]=LINES[a],[wb,cb]=LINES[b];return{correct,question:[[[`${practice?"Suche":"Finde"} die `],[wa,ca],[" und die "],[wb+" Linie",cb],[practice?" im Bahnnetz.":"."]],[["Haben beide Linien mindestens "],[numw(n)+" Stationen gemeinsam","bold"],["?"]]]}};
+const routeQ=(f,s,g)=>({headline:[["Die "],[LINES[f][0]+" Linie",LINES[f][1]],[" fällt aus und kann nicht genutzt werden."]],textLeft:ROUTE_LEFT.replace("{start}",s).replace("{goal}",g),text:ROUTE_TEXT,lines:Object.entries(LINES).map(([k,c])=>[k,c[1]])});
+// PLATZHALTER: durch die echten Aufgaben ersetzen (wie im Python-Original)
+const TASK1_PRACTICE=[commonQ("rot","orange",4,0,1),commonQ("grün","blau",2,0,1)];
+const TASK1_MEASURED=[["rot","blau",2],["orange","grün",3],["braun","pink",4],["blau","gelb",2],["rot","grün",3],["lila","braun",2],["orange","pink",4],["grün","gelb",3],["rot","lila",2],["blau","braun",4],["gelb","pink",2],["braun","rot",3],["lila","grün",4],["blau","orange",2],["pink","gelb",3]].map(r=>commonQ(...r));
+const TASK2_PRACTICE=[routeQ("lila","Birnenstraße","Kakadupflaume"),routeQ("rot","Birnenstraße","Kakadupflaume")];
+const TASK2_MEASURED=["lila","rot","blau","grün","orange","gelb","braun","pink","lila","blau","rot","grün","orange","braun","pink"].map(f=>routeQ(f,"Birnenstraße","Kakadupflaume"));
+const TASK_IMG_PRACTICE=(t,nr,v)=>`Bilder/aufgabe${t}_uebung${nr}_${v}.png`, TASK_IMG=(t,v,nr)=>`Bilder/aufgabe${t}_${v}_${String(nr).padStart(2,"0")}.png`;
+const TASKS={1:{practice:TASK1_PRACTICE,measured:TASK1_MEASURED,name:"Gemeinsame Stationen",sp:SEC.p1,sm:SEC.t1},2:{practice:TASK2_PRACTICE,measured:TASK2_MEASURED,name:"Verbindung bei einer ausgefallenen Linie",sp:SEC.p2,sm:SEC.t2}};
+const TASK_COLS={1:["Antwort","Zeit_ms","Status","Richtig"],2:["Reihenfolge","Zeit_ms","Richtig"]};
+const pad2=n=>String(n).padStart(2,"0");
+
+// ===== Datenhaltung (Spaltenreihenfolge wie im Original) =====
+const now=()=>{const d=new Date(),p=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`};
+function columns(){const c=["ID","Datenschutz_zugestimmt","Zustimmung_Zeit"];
+ QUESTIONS.forEach(q=>{c.push(q.key);if(q.other)c.push(q.key+"_Sonstiges")});
+ PHASES.forEach(f=>{c.push("Reihenfolge_"+f.key);VARIANTS.forEach(v=>{for(let n=1;n<=UEQ.length;n++)c.push(`${f.key}_${v.id}_UEQS${n}`);c.push(`${f.key}_${v.id}_Kommentar`);
+  if(f.sus){for(let n=1;n<=SUS_ITEMS.length;n++)c.push(`SUS_${v.id}_${n}`);c.push(`SUS_${v.id}_Score`)}});
+  c.push(f.rank+"_Ranking");VARIANTS.forEach(v=>c.push(`${f.rank}_Rang_${v.id}`))});
+ for(const t of[1,2]){c.push(`A${t}_Reihenfolge_Varianten`);VARIANTS.forEach(v=>{c.push(`A${t}_${v.id}_Reihenfolge_Aufgaben`);
+  for(let n=1;n<=TASKS[t].measured.length;n++)TASK_COLS[t].forEach(k=>c.push(`A${t}_${v.id}_${pad2(n)}_${k}`));c.push(`A${t}_${v.id}_Anzahl_Richtig`,`A${t}_${v.id}_Mittlere_Zeit_ms`)});
+  c.push(`A${t}_Gesamt_Anzahl_Richtig`,`A${t}_Gesamt_Mittlere_Zeit_ms`)}
+ return c.concat(["Startzeit","Ausgeschlossen","Abschluss_Zeit"])}
+function derived(d){const o={};for(const t of[1,2]){let ok=[],ms=[];VARIANTS.forEach(v=>{let a=[],b=[];
+  for(let n=1;n<=TASKS[t].measured.length;n++){const p=`A${t}_${v.id}_${pad2(n)}`;if(d[p+"_Richtig"]!==undefined&&d[p+"_Richtig"]!=="")a.push(+d[p+"_Richtig"]);if(d[p+"_Zeit_ms"]!==undefined&&d[p+"_Zeit_ms"]!=="")b.push(+d[p+"_Zeit_ms"])}
+  o[`A${t}_${v.id}_Anzahl_Richtig`]=a.length?a.reduce((x,y)=>x+y):"";o[`A${t}_${v.id}_Mittlere_Zeit_ms`]=b.length?Math.round(b.reduce((x,y)=>x+y)/b.length):"";ok.push(...a);ms.push(...b)});
+  o[`A${t}_Gesamt_Anzahl_Richtig`]=ok.length?ok.reduce((x,y)=>x+y):"";o[`A${t}_Gesamt_Mittlere_Zeit_ms`]=ms.length?Math.round(ms.reduce((x,y)=>x+y)/ms.length):""}return o}
+function csv(){const d={...S.data,...derived(S.data)},cols=columns(),all=cols.concat(Object.keys(S.data).filter(k=>!cols.includes(k)));
+ const q=v=>{v=v===undefined?"":String(v);return /[;"\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+ return "\ufeff"+all.map(q).join(";")+"\r\n"+all.map(k=>q(d[k])).join(";")+"\r\n"}
+// ===== Speicherung im Browser UND im privaten GitHub-Datenrepository =====
+const SAVE_ENDPOINT="https://umfrage-speicher.claracamilla-pilz2.workers.dev/";
+let saveQueue=Promise.resolve();
+function save(vals){
+ Object.assign(S.data,vals);
+ const snapshot=csv();
+ try{localStorage.setItem("studie_"+S.data.ID,snapshot)}catch(e){}
+ if(!S.data.ID)return;
+ const d={...S.data,...derived(S.data)},cols=columns();
+ const all=cols.concat(Object.keys(S.data).filter(k=>!cols.includes(k)));
+ const values={};all.forEach(k=>values[k]=d[k]===undefined?"":d[k]);
+ const payload={id:S.data.ID,columns:all,values};
+ // Requests are sent one after another so an older save cannot overwrite a newer one.
+ saveQueue=saveQueue.then(()=>fetch(SAVE_ENDPOINT,{
+  method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)
+ })).then(async r=>{
+  if(!r.ok)throw new Error("HTTP "+r.status+" "+(await r.text()));
+ }).catch(e=>{console.error("Speichern im Studien-Repository fehlgeschlagen:",e)});
+}
+function download(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv()],{type:"text/csv;charset=utf-8"}));a.download=(S.data.ID||"Studie")+".csv";document.body.appendChild(a);a.click();a.remove()}
+const orderValue=(key,nr)=>{const it=String(S.data[key]||"").split(" > ").filter(Boolean);if(!it.includes(pad2(nr)))it.push(pad2(nr));return it.join(" > ")};
+
+// ===== Hilfsfunktionen =====
+const S={data:{},order:[...VARIANTS],pages:[],i:0,hist:[],cur:null,timer:null};
+const $=s=>document.querySelector(s), card=$("#card");
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const bold=t=>esc(t).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+const rich=t=>t.split("\n\n").map(p=>`<div class="para">${p.split("\n").map(l=>{const m=l.match(/^(•|\d+\.)\s+(.*)$/);return m?`<div class="li"><i>${m[1]}</i><span>${bold(m[2])}</span></div>`:`<div>${bold(l)}</div>`}).join("")}</div>`).join("");
+const img=src=>`<img src="${esc(src)}" alt="" onerror="this.outerHTML='<div class=ph>Abbildung nicht gefunden:<br>'+this.getAttribute('src')+'</div>'">`;
+const err=t=>{$("#err").textContent=t||""};
+const runs=parts=>parts.map(([t,s])=>`<span style="${s&&s[0]=="#"?`color:${s};`:""}${s?"font-weight:600":""}">${esc(t)}</span>`).join("");
+function shell(pg,inner,o={}){const sec=pg.sec||"";card.className=pg.wide?"wide":"";
+ card.innerHTML=`<div class="sec">${SECTION_UPPER?sec.toUpperCase():sec}</div><div class="body ${o.center?"center":""}">${inner}</div><div class="bar"><span class="err" id="err"></span>${o.mid||""}<button class="btn" id="nx">${o.btn||"Weiter"}</button></div>`}
+const field=(el,e,f)=>$(el).addEventListener(e,f);
+function show(pg,idx){clearInterval(S.timer);S.cur=null;pg.run();$("#fill").style.width=(idx==null?100:(idx+1)/S.pages.length*100)+"%";const n=$("#nx");if(n&&!pg.noEnter)S.enter=()=>n.click();else S.enter=null}
+function goto(i,push=true){if(push&&S.i!=null)S.hist.push(S.i);S.i=i;show(S.pages[i],i)}
+const next=()=>goto(S.i+1);
+document.addEventListener("keydown",e=>{if(e.key=="Enter"&&S.enter&&e.target.tagName!="TEXTAREA"&&e.target.tagName!="BUTTON")S.enter()});
+if(DEV_NAVIGATION){$("#dev").innerHTML='<button id="db">◀</button><button id="df">▶</button>';
+ $("#db").onclick=()=>{if(S.hist.length){const i=S.hist.pop();S.i=i;show(S.pages[i],i)}};
+ $("#df").onclick=()=>{if(!S.cur)return;S.cur.fill&&S.cur.fill();S.cur.next&&S.cur.next()}}
+
+// ===== Seitentypen =====
+const textPg=(sec,title,text,onNext,wide)=>({sec,wide,run(){shell(this,`<h1>${esc(title)}</h1><div class="panel txt">${rich(text)}</div>`,{center:1});
+ const nx=()=>{onNext&&onNext();next()};$("#nx").onclick=nx;S.cur={next:nx}}});
+const idPg=()=>({sec:SEC.intro,run(){shell(this,`<h1>${esc(ID_TITLE)}</h1><div style="text-align:center;font-size:16px;color:var(--muted);margin-bottom:28px">Bitte gib die dir mitgeteilte <b style="color:var(--text)">Nummer</b> bzw. ID ein.</div><div style="text-align:center"><input class="id" type="text" id="pid" autofocus autocomplete="off"></div>`,{center:1});
+ const nx=()=>{const id=$("#pid").value.trim();if(!/^[A-Za-z0-9_-]{1,40}$/.test(id))return err("Bitte nur Buchstaben, Ziffern, - und _ verwenden (max. 40 Zeichen).");
+  if(localStorage.getItem("studie_"+id)&&!S.dev&&!confirm(`Zur ID „${id}“ existiert bereits eine Datei.\n\nWenn Sie fortfahren, wird sie überschrieben. Fortfahren?`))return;
+  S.data={ID:id,Startzeit:now()};save({});next()};$("#nx").onclick=nx;S.cur={next:nx,fill(){if(!$("#pid").value.trim())$("#pid").value="DEV";S.dev=1}}}});
+const privPg=()=>({sec:SEC.intro,noEnter:1,run(){let on=false;
+ const blocks=DP.map(([k,t],n)=>k=="li"?`<div class="li" style="margin-bottom:${DP[n+1]&&DP[n+1][0]=="li"?3:8}px"><i>•</i><span>${bold(t)}</span></div>`:k=="h"?`<h3>${esc(t)}</h3>`:`<p>${bold(t)}</p>`).join("");
+ shell(this,`<h1>${esc(DP_TITLE)}</h1><div class="scroll">${blocks}</div><div style="text-align:center;font-weight:600;margin:10px 0 8px">${esc(DP_NO)}</div><div class="choice c" id="cons" style="margin:0"><span class="box k"></span><span>${esc(DP_CONSENT)}</span></div>`);
+ const b=$("#nx");b.disabled=true;const tog=()=>{on=!on;$("#cons").classList.toggle("on",on);$("#cons .box").textContent=on?"✓":"";b.disabled=!on};
+ $("#cons").onclick=tog;const nx=()=>{if(!on)return;save({Datenschutz_zugestimmt:"ja",Zustimmung_Zeit:now()});next()};b.onclick=nx;S.cur={next:nx,fill(){if(!on)tog()}}}});
+const qPg=(q,idx)=>({sec:SEC.base,run(){const n=q.options.length+(q.other?1:0),sz=n<=4?"":n<=6?"m":"c";let val="",chk=new Set();
+ shell(this,`<div class="q">${esc(q.text)}</div>${q.hint?`<div class="hint">${esc(q.hint)}</div>`:""}<div id="opts" style="margin-top:24px"></div>`,{center:1});
+ const box=$("#opts");
+ const paint=()=>box.querySelectorAll(".choice").forEach(c=>{const o=c.dataset.o,on=q.type=="radio"?val==o:chk.has(o);c.classList.toggle("on",on);const b=c.querySelector(".box");if(b&&q.type!="radio")b.textContent=on?"✓":""});
+ if(q.type=="dropdown"){box.style.textAlign="center";box.innerHTML=`<select id="dd" style="min-width:420px"><option value="">–</option>${q.options.map(o=>`<option>${esc(o)}</option>`).join("")}</select>`;$("#dd").onchange=e=>val=e.target.value}
+ else{box.innerHTML=q.options.map(o=>`<div class="choice ${sz}" data-o="${esc(o)}"><span class="box ${q.type=="radio"?"r":"k"}"></span><span>${esc(o)}</span></div>`).join("")+(q.other?`<div class="choice ${sz}" data-o="${OTHER}"><span class="box k"></span><span>${OTHER}:</span><input type="text" id="oth"></div>`:"");
+  box.querySelectorAll(".choice").forEach(c=>c.onclick=e=>{const o=c.dataset.o;if(e.target.id=="oth"){if(o){chk.add(OTHER);if(q.exclusive)chk.delete(q.exclusive)}paint();return}
+   if(q.type=="radio")val=o;else{if(chk.has(o))chk.delete(o);else{chk.add(o);if(q.exclusive){if(o==q.exclusive){chk.clear();chk.add(o);if(q.other)$("#oth").value=""}else chk.delete(q.exclusive)}if(o==OTHER)$("#oth").focus()}}paint()});
+  if(q.other)$("#oth").oninput=e=>{if(e.target.value.trim()){chk.add(OTHER);if(q.exclusive)chk.delete(q.exclusive);paint()}}}
+ const nx=()=>{let v={};if(q.type!="multi"){if(!val)return err("Bitte wähle eine Antwort aus.");v[q.key]=val}
+  else{const sel=q.options.filter(o=>chk.has(o)),oc=q.other&&chk.has(OTHER),ot=oc?$("#oth").value.trim():"";if(oc&&!ot)return err("Bitte gib bei „Sonstiges“ an, was du nutzt.");if(!sel.length&&!oc)return err("Bitte wähle mindestens eine Antwort aus.");v[q.key]=sel.concat(oc?[OTHER]:[]).join(" | ");if(q.other)v[q.key+"_Sonstiges"]=ot}
+  if(EXCLUDE_COLOR_DEFICIENCY&&q.key=="Farbschwaeche"&&v.Farbschwaeche=="Ja"){v.Ausgeschlossen="ja";v.Abschluss_Zeit=now();save(v);return show(excludedPg(),null)}
+  save(v);next()};
+ $("#nx").onclick=nx;S.cur={next:nx,fill(){if(q.type=="dropdown"){if(!val){val=q.options[0];$("#dd").value=val}}else if(q.type=="radio"){if(!val){val=q.options.at(-1);paint()}}else if(!chk.size){chk.add(q.options[0]);paint()}}}}});
+const orderSave=ph=>()=>{save({["Reihenfolge_"+PHASES[ph].key]:S.order.map(v=>v.id).join(" | ")})};
+function ratingPg(ph,pos){const f=PHASES[ph];return{sec:f.sec,wide:1,run(){const v=S.order[pos],vals=Array(UEQ.length).fill(null);
+ const rows=UEQ.map(([l,r],i)=>`<tr data-r="${i}"><td class="l">${l}</td>${UEQ_COLS.map((c,j)=>`<td><button class="dot" title="${esc(c)}" data-r="${i}" data-c="${j}"></button></td>`).join("")}<td class="r">${r}</td></tr>`).join("");
+ shell(this,`<div class="two"><div><h2>${esc(f.title)} – Variante ${v.id}</h2><div class="txt">${rich(f.text)}</div><table class="ueq">${rows}</table></div><div class="imgbox">${img(v.image)}</div></div>`);
+ document.querySelectorAll(".dot").forEach(d=>d.onclick=()=>{const r=+d.dataset.r,c=+d.dataset.c;vals[r]=c+1;document.querySelectorAll(`.dot[data-r="${r}"]`).forEach((x,j)=>x.classList.toggle("on",j==c));document.querySelector(`tr[data-r="${r}"]`).classList.remove("bad")});
+ const nx=()=>{const miss=vals.map((x,i)=>x==null?i:-1).filter(i=>i>=0);if(miss.length){miss.forEach(i=>document.querySelector(`tr[data-r="${i}"]`).classList.add("bad"));return err(`Bitte beantworte alle Zeilen (${miss.length} noch offen).`)}
+  const o={};vals.forEach((x,r)=>o[`${f.key}_${v.id}_UEQS${r+1}`]=x);save(o);next()};
+ $("#nx").onclick=nx;S.cur={next:nx,fill(){vals.forEach((x,r)=>{if(x==null)document.querySelector(`.dot[data-r="${r}"][data-c="3"]`).click()})}}}}}
+function susPg(ph,pos){const f=PHASES[ph];return{sec:f.sec,wide:1,run(){const v=S.order[pos],vals=Array(SUS_ITEMS.length).fill(null);
+ const items=SUS_ITEMS.map((t,i)=>`<div class="sus" data-r="${i}"><div class="st" style="font-size:16px">${i+1}. ${esc(t)}</div><div class="scale">${[0,1,2,3,4].map(c=>`<div><button class="dot" data-r="${i}" data-c="${c}"></button><div>${c==0?"1<br>"+SUS_LOW:c==4?"5<br>"+SUS_HIGH:c+1}</div></div>`).join("")}</div></div>`).join("");
+ shell(this,`<div class="cols" style="grid-template-columns:760px 1fr"><div style="overflow:auto"><h2>${SUS_TITLE} – Variante ${v.id}</h2><div class="txt">${rich(SUS_TEXT)}</div><div style="height:10px"></div>${items}</div><div class="imgbox">${img(v.image)}</div></div>`);
+ document.querySelectorAll(".dot").forEach(d=>d.onclick=()=>{const r=+d.dataset.r,c=+d.dataset.c;vals[r]=c+1;document.querySelectorAll(`.dot[data-r="${r}"]`).forEach((x,j)=>x.classList.toggle("on",j==c));document.querySelector(`.sus[data-r="${r}"]`).classList.remove("bad")});
+ const nx=()=>{const miss=vals.map((x,i)=>x==null?i:-1).filter(i=>i>=0);if(miss.length){miss.forEach(i=>document.querySelector(`.sus[data-r="${i}"]`).classList.add("bad"));return err(`Bitte beantworte alle Aussagen (${miss.length} noch offen).`)}
+  const o={};vals.forEach((x,n)=>o[`SUS_${v.id}_${n+1}`]=x);o[`SUS_${v.id}_Score`]=susScore(vals);save(o);next()};
+ $("#nx").onclick=nx;S.cur={next:nx,fill(){vals.forEach((x,r)=>{if(x==null)document.querySelector(`.dot[data-r="${r}"][data-c="2"]`).click()})}}}}}
+const commentPg=ph=>{const f=PHASES[ph];return{sec:f.sec,wide:1,noEnter:1,run(){const n=S.order.length;
+ shell(this,`<h2>${COMMENT_TITLE}</h2><div class="txt" style="margin-bottom:12px">${rich(COMMENT_TEXT)}</div><div class="cols" style="grid-template-columns:repeat(${n},1fr)">${S.order.map(v=>`<div><div class="lbl">Variante ${v.id}</div><div class="imgbox">${img(v.image)}</div><textarea></textarea></div>`).join("")}</div>`);
+ const nx=()=>{const o={};document.querySelectorAll("textarea").forEach((t,i)=>o[`${f.key}_${S.order[i].id}_Kommentar`]=t.value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean).join(" | "));save(o);next()};$("#nx").onclick=nx;S.cur={next:nx}}}};
+const rankPg=ph=>{const f=PHASES[ph];return{sec:f.secRank,wide:1,run(){const n=S.order.length;let cells=Array(n).fill(null).concat(S.order.map((_,i)=>i));
+ shell(this,`<h2>${RANK_TITLE}</h2><div class="txt" style="margin:8px 0 12px">${rich(RANK_TEXT)}</div><div class="cols" style="grid-template-columns:repeat(${n},1fr);grid-template-rows:auto 1fr auto 1fr;flex:1">${RANK_HEADERS.map(h=>`<div class="lbl" style="min-height:0">${h}</div>`).join("")}${cells.map((_,i)=>`<div class="cell" data-i="${i}" style="${i>=n?"grid-row:4;":"grid-row:2;"}"></div>`).join("")}</div>`);
+ const grid=card.querySelector(".cols");const lbl=document.createElement("div");lbl.className="lbl";lbl.style.cssText=`grid-row:3;grid-column:1/-1;margin-top:10px;color:var(--muted)`;lbl.textContent=RANK_POOL;grid.insertBefore(lbl,grid.querySelector('.cell[data-i="'+n+'"]'));
+ grid.querySelectorAll(".cell").forEach(c=>{const i=+c.dataset.i;c.style.gridColumn=(i%n)+1;c.style.display="flex";});
+ const paint=()=>grid.querySelectorAll(".cell").forEach(c=>{const i=+c.dataset.i,v=cells[i];
+  if(v==null){c.innerHTML=i<n?String(i+1):"";c.draggable=false;return}
+  const variant=S.order[v],image=variant.image?img(variant.image):`<div class="ph">Variante ${esc(variant.id)}<br><small>Bild noch nicht verfügbar</small></div>`;
+  c.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:100%;height:100%;padding:8px;pointer-events:none"><strong>Variante ${esc(variant.id)}</strong><div class="imgbox" style="width:100%;height:calc(100% - 28px)">${image}</div></div>`;
+  c.draggable=true;c.style.cursor="grab";c.ondragstart=e=>{e.dataTransfer.setData("text/plain",String(i));e.dataTransfer.effectAllowed="move"};
+ });
+ grid.querySelectorAll(".cell").forEach(c=>{c.ondragover=e=>{e.preventDefault();e.dataTransfer.dropEffect="move";c.classList.add("over")};c.ondragleave=()=>c.classList.remove("over");c.ondrop=e=>{e.preventDefault();c.classList.remove("over");const a=Number(e.dataTransfer.getData("text/plain")),b=Number(c.dataset.i);if(Number.isInteger(a)&&a>=0&&a<cells.length&&a!==b&&cells[a]!=null){[cells[a],cells[b]]=[cells[b],cells[a]];err("");paint()}}});paint();
+ const nx=()=>{if(cells.slice(0,n).some(v=>v==null))return err("Bitte ziehe beide Varianten auf einen Platz.");const r=cells.slice(0,n).map(v=>S.order[v].id),o={[f.rank+"_Ranking"]:r.join(" > ")};r.forEach((id,k)=>o[`${f.rank}_Rang_${id}`]=k+1);if(ph==PHASES.length-1)o.Abschluss_Zeit=now();save(o);next()};
+ $("#nx").onclick=nx;S.cur={next:nx,fill(){if(cells.slice(0,n).some(v=>v==null)){cells=S.order.map((_,i)=>i).concat(Array(n).fill(null));paint()}}}}}};
+function taskSpec(t,practice,nr,v){const c=TASKS[t],s={...(practice?c.practice:c.measured)[nr-1]};s.image=practice?TASK_IMG_PRACTICE(t,nr,v.id):TASK_IMG(t,v.id,nr);s.sec=practice?c.sp:c.sm;
+ s.title=practice?`Übungsaufgabe: ${c.name} - ${v.id}`:`Aufgabe: ${c.name} ${nr} - ${v.id}`;s.save=practice?null:`A${t}_${v.id}_${pad2(nr)}`;s.nr=nr;s.orderKey=`A${t}_${v.id}_Reihenfolge_Aufgaben`;return s}
+const startBox=(txt)=>`<div class="start" id="sb"><p>${txt}</p><button class="btn" id="st">Start</button></div>`;
+const task1Pg=sp=>({sec:sp.sec,wide:1,flow:1,noEnter:1,run(){let started=false,expired=false,ans=null,t0=0;
+ shell(this,`<div class="head"><h2>${esc(sp.title)}</h2><span class="timer" id="tm">Zeit: ${TASK1_TIME_LIMIT} s</span></div><div style="margin:6px 0 10px">${sp.question.map(r=>`<div class="qline" style="font-size:16px">${runs(r.map(([t,s])=>[t,s]))}</div>`).join("")}</div><div class="area" id="ar">${startBox(`Das Bild erscheint, sobald du auf „Start“ klickst.<br>Dann laufen ${TASK1_TIME_LIMIT} Sekunden.`)}</div>`,
+  {mid:`<div class="ans"><button data-a="Ja" disabled>Ja</button><button data-a="Nein" disabled>Nein</button></div>`});
+ const sty=()=>card.querySelectorAll(".ans button").forEach(b=>{b.disabled=!started||expired;b.classList.toggle("on",ans==b.dataset.a)});
+ card.querySelectorAll(".ans button").forEach(b=>b.onclick=()=>{if(started&&!expired){ans=b.dataset.a;err("");sty()}});
+ const start=()=>{if(started)return;started=true;t0=performance.now();$("#ar").innerHTML=`<div class="imgbox" style="width:100%;height:100%">${img(sp.image)}</div>`;sty();
+  S.timer=setInterval(()=>{const rem=TASK1_TIME_LIMIT-(performance.now()-t0)/1000;if(rem<=0){clearInterval(S.timer);expired=true;$("#tm").textContent="Zeit abgelaufen";$("#tm").style.color="var(--error)";err("Die Zeit ist abgelaufen. Klicke auf „Weiter“, um fortzufahren.");sty()}else{$("#tm").textContent=`Zeit: ${Math.ceil(rem)} s`;$("#tm").style.color=rem<=5?"var(--error)":"var(--accent)"}},100)};
+ $("#st").onclick=start;
+ const nx=()=>{if(!started)return err("Bitte starte die Aufgabe mit „Start“.");if(!expired&&ans==null)return err("Bitte wähle „Ja“ oder „Nein“, bevor du auf „Weiter“ klickst.");
+  const ms=Math.round(performance.now()-t0),given=expired?"":ans;clearInterval(S.timer);
+  if(sp.save){const o={[sp.save+"_Antwort"]:given,[sp.save+"_Zeit_ms"]:ms,[sp.save+"_Status"]:expired?"Zeit abgelaufen":"rechtzeitig",[sp.orderKey]:orderValue(sp.orderKey,sp.nr)};if(sp.correct)o[sp.save+"_Richtig"]=given==sp.correct?1:0;save(o)}next()};
+ $("#nx").onclick=nx;S.cur={next:nx,fill(){start();if(!expired&&ans==null){ans="Ja";sty()}}}}});
+const task2Pg=sp=>({sec:sp.sec,wide:1,flow:1,noEnter:1,run(){let started=false,t0=0,pool=sp.lines.map((_,i)=>i),rank=[];
+ shell(this,`<div class="head"><h2>${esc(sp.title)}</h2><span class="timer" id="tm">Zeit: 0:00</span></div><div class="cols" style="grid-template-columns:1fr 1fr;flex:none;margin:10px 0 8px;font-size:16px"><div><div>${runs(sp.headline)}</div><div style="margin-top:10px">${bold(sp.textLeft)}</div></div><div>${esc(sp.text)}</div></div><div class="area" id="ar">${startBox("Das Bild und die Linien erscheinen, sobald du auf „Start“ klickst.<br>Die Zeit wird gemessen, bis du auf „Weiter“ klickst.")}</div>`);
+ const render=()=>{const chip=i=>`<div class="chip" draggable="true" data-i="${i}" style="background:${sp.lines[i][1]}">${esc(sp.lines[i][0])}</div>`;
+  $("#pool").innerHTML=pool.map(chip).join("");$("#rank").innerHTML=`<small>▲ oben: Startlinie</small>${rank.map(chip).join("")}<small style="margin-top:auto">▼ unten: Linie zum Ziel</small>`;
+  document.querySelectorAll(".chip").forEach(c=>{const i=+c.dataset.i;c.ondragstart=e=>e.dataTransfer.setData("text",i);c.ondblclick=()=>toggle(i)})};
+ const toggle=i=>{if(pool.includes(i)){if(rank.length>=ROUTE_MAX_LINES)return err(`Bitte wähle maximal ${ROUTE_MAX_LINES} Linien.`);pool=pool.filter(x=>x!=i);rank.push(i)}else{rank=rank.filter(x=>x!=i);pool.push(i);pool.sort((a,b)=>a-b)}err("");render()};
+ const start=()=>{if(started)return;started=true;err("");t0=performance.now();
+  $("#ar").innerHTML=`<div class="route"><div class="imgbox">${img(sp.image)}</div><div class="lists"><div><div class="lbl">${ROUTE_POOL_TITLE}</div><div class="lb" id="pool"></div></div><div><div class="lbl">${ROUTE_RANK_TITLE}</div><div class="lb" id="rank"></div></div></div></div>`;
+  [["pool"],["rank"]].forEach(([k])=>{const b=$("#"+k);b.ondragover=e=>{e.preventDefault();b.classList.add("over")};b.ondragleave=()=>b.classList.remove("over");
+   b.ondrop=e=>{e.preventDefault();b.classList.remove("over");const i=+e.dataTransfer.getData("text");if(k=="rank"){if(!rank.includes(i)&&rank.length>=ROUTE_MAX_LINES)return err(`Bitte wähle maximal ${ROUTE_MAX_LINES} Linien.`);
+     const others=rank.filter(x=>x!=i),pos=others.filter(x=>{const r=document.querySelector(`#rank .chip[data-i="${x}"]`).getBoundingClientRect();return r.top+r.height/2<e.clientY}).length;pool=pool.filter(x=>x!=i);others.splice(pos,0,i);rank=others;err("")}
+    else if(rank.includes(i)){rank=rank.filter(x=>x!=i);pool.push(i);pool.sort((a,b)=>a-b)}render()}});
+  render();S.timer=setInterval(()=>{const s=Math.floor((performance.now()-t0)/1000);$("#tm").textContent=`Zeit: ${Math.floor(s/60)}:${pad2(s%60)}`;$("#tm").style.color="var(--accent)"},200)};
+ $("#st").onclick=start;
+ const nx=()=>{if(!started)return err("Bitte starte die Aufgabe mit „Start“.");if(!rank.length)return err("Bitte ziehe mindestens eine Linie in die rechte Liste.");
+  const ms=Math.round(performance.now()-t0);clearInterval(S.timer);const names=rank.map(i=>sp.lines[i][0]);
+  if(sp.save){const o={[sp.save+"_Reihenfolge"]:names.join(" > "),[sp.save+"_Zeit_ms"]:ms,[sp.orderKey]:orderValue(sp.orderKey,sp.nr)};if(sp.correct)o[sp.save+"_Richtig"]=names.join()==sp.correct.join()?1:0;save(o)}next()};
+ $("#nx").onclick=nx;S.cur={next:nx,fill(){start();if(!rank.length)toggle(pool[0])}}}});
+const excludedPg=()=>({sec:SEC.end,run(){shell(this,`<h1>Vielen Dank für dein Interesse!</h1><div class="panel txt">${rich("Da die Studie Aufgaben mit farbigen Linien enthält, können Personen mit bekannter Farbsehschwäche oder Farbenblindheit leider nicht teilnehmen.\n\nDeine bisherigen Angaben werden nicht weiter verwendet.")}</div>`,{center:1,btn:"Beenden"});$("#nx").onclick=()=>{card.innerHTML="<h1 style='margin:auto'>Du kannst dieses Fenster jetzt schließen.</h1>"}}});
+const donePg=()=>({sec:SEC.end,run(){shell(this,`<h1>Vielen Dank!</h1><div style="text-align:center;font-size:16px;color:var(--muted)">Deine Angaben wurden gespeichert.<br>(Hier folgen später die weiteren Teile der Studie.)</div><div style="text-align:center;margin-top:24px"><button class="btn" id="dl">CSV-Datei herunterladen</button></div>`,{center:1,btn:"Beenden"});
+ $("#dl").onclick=download;download();$("#nx").onclick=()=>{card.innerHTML="<h1 style='margin:auto'>Du kannst dieses Fenster jetzt schließen.</h1>"}}});
+
+// ===== Ablauf =====
+function flow(t){const P=[],c=TASKS[t],nm=c.measured.length,Page=t==1?task1Pg:task2Pg;
+ S.order.forEach((v,k)=>P.push(Page(taskSpec(t,true,k+1,v))));
+ const ann=(a,k)=>textPg(c.sm,a[0],a[1].replace("{n}",numw(nm)).replace("{ordinal}",ORDINALS[k]));
+ P.push(ann(MEASURE_START,0));
+ S.order.forEach((v,vi)=>{for(let nr=1;nr<=nm;nr++)P.push(Page(taskSpec(t,false,nr,v)));if(vi<S.order.length-1)P.push(ann(NEXT_VARIANT,vi+1))});
+ return P}
+function phase(ph){const f=PHASES[ph],P=[textPg(f.sec,f.introTitle,f.intro,()=>{if(ph==0&&RANDOMIZE_VARIANT_ORDER){/* Reihenfolge wird bei build() gesetzt */}orderSave(ph)()})];
+ S.order.forEach((_,pos)=>{P.push(ratingPg(ph,pos));if(f.sus)P.push(susPg(ph,pos))});P.push(commentPg(ph),rankPg(ph));return P}
+function build(){if(RANDOMIZE_VARIANT_ORDER)S.order.sort(()=>Math.random()-.5);
+ const saveOrder=t=>()=>save({[`A${t}_Reihenfolge_Varianten`]:S.order.map(v=>v.id).join(" > ")});
+ S.pages=[idPg(),privPg(),textPg(SEC.base,DEMO_TITLE,DEMO_TEXT),...QUESTIONS.map(qPg),...phase(0),
+  textPg(SEC.tasks,TASK_INTRO_TITLE,TASK_INTRO_TEXT),textPg(SEC.p1,PRACTICE_TITLE,PRACTICE_TEXT,saveOrder(1)),...flow(1),
+  textPg(SEC.p2,PRACTICE2_TITLE,PRACTICE2_TEXT,saveOrder(2)),...flow(2),...phase(1),donePg()]}
+build();S.i=null;
+// Vollbild muss durch eine bewusste Nutzeraktion gestartet werden.
+const gate=document.createElement("div");gate.id="fullscreenGate";
+gate.innerHTML=`<div><h1>Studie im Vollbild starten</h1><p>Für die bestmögliche Darstellung wird die Studie im Vollbild geöffnet. Klicke auf „Studie starten“, um fortzufahren.</p><button class="btn" id="fullscreenStart">Studie starten</button><p style="font-size:13px;margin-bottom:0">Du kannst den Vollbildmodus jederzeit mit Esc verlassen.</p></div>`;
+document.body.appendChild(gate);
+$("#fullscreenStart").addEventListener("click",async()=>{
+  try{if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen()}catch(e){/* Browser verweigert Vollbild: Studie trotzdem starten */}
+  gate.remove();goto(0,false);
+});
+</script>
+</body>
+</html>
