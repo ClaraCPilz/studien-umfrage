@@ -122,7 +122,7 @@ const DP=[["p","Vielen Dank für dein Interesse an dieser Studie."],
 ["li","Ich habe die Studien- und Datenschutzinformationen gelesen und verstanden."],["li","Ich nehme freiwillig an der Studie teil."],
 ["li","Ich willige ein, dass meine im Rahmen der Studie erhobenen Angaben, Bewertungen, Aufgabenantworten und Bearbeitungszeiten zu wissenschaftlichen Zwecken verarbeitet und ausgewertet werden."]];
 const DP_NO="Ohne deine Zustimmung ist eine Teilnahme an der Studie nicht möglich.";
-const DP_CONSENT="Ich habe die Studien- und Datenschutzinformationen gelesen und verstanden. Ich nehme freiwillig an der Studie teil und willie ein, dass meine Angaben, Bewertungen, Aufgabenantworten und Bearbeitungszeiten zu wissenschaftlichen Zwecken im Rahmen dieser Studie verarbeitet und ausgewertet werden.";
+const DP_CONSENT="Ich habe die Studien- und Datenschutzinformationen gelesen und verstanden. Ich nehme freiwillig an der Studie teil und willige ein, dass meine Angaben, Bewertungen, Aufgabenantworten und Bearbeitungszeiten zu wissenschaftlichen Zwecken im Rahmen dieser Studie verarbeitet und ausgewertet werden.";
 const DEMO_TITLE="Angaben zu deiner Person";
 const DEMO_TEXT="Im folgenden Abschnitt stellen wir dir einige kurze Fragen zu deiner Person und deinen Erfahrungen mit öffentlichen Verkehrsmitteln.\n\nDeine Antworten helfen uns, die Teilnehmenden der Studie zu beschreiben und die Ergebnisse besser einzuordnen. Bitte wähle jeweils die Antwort aus, die am besten auf dich zutrifft.";
 const QUESTIONS=[
@@ -190,7 +190,7 @@ async function loadTaskConfig(){
    const x=cfg.varianten[v].aufgabentypen&&cfg.varianten[v].aufgabentypen[String(t)];
    if(!x||!Array.isArray(x.uebungen)||!Array.isArray(x.aufgaben)||!x.aufgaben.length)throw new Error("Aufgabentyp "+t+" für Variante "+v+" ist unvollständig.");
    if(t===1){for(const q of [...x.uebungen,...x.aufgaben])if(!LINES[q.linie_1]||!LINES[q.linie_2]||!Number.isFinite(Number(q.mindestens_gemeinsame_stationenzahl)))throw new Error("Ungültige Linienangabe in Aufgabe 1, Variante "+v+".");}
-   if(t===2){if(!Array.isArray(x.linien)||!x.linien.length)throw new Error("Linienliste in Aufgabe 2, Variante "+v+" fehlt.");for(const q of [...x.uebungen,...x.aufgaben])if(!LINES[q.ausgefallene_linie])throw new Error("Ungültige ausgefallene Linie in Aufgabe 2, Variante "+v+".");}
+   if(t===2){if(!Array.isArray(x.linien)||!x.linien.length)throw new Error("Linienliste in Aufgabe 2, Variante "+v+" fehlt.");for(const q of [...x.uebungen,...x.aufgaben]){if(!LINES[q.ausgefallene_linie])throw new Error("Ungültige ausgefallene Linie in Aufgabe 2, Variante "+v+".");if(!(q.startstation||x.startstation)||!(q.zielstation||x.zielstation))throw new Error("Start- oder Zielstation fehlt in Aufgabe 2, Variante "+v+", Aufgabe "+q.id+".");}}
   }
  }
  for(const t of [1,2])if(cfg.varianten.A.aufgabentypen[String(t)].aufgaben.length!==cfg.varianten.B.aufgabentypen[String(t)].aufgaben.length)throw new Error("Variante A und B müssen bei Aufgabentyp "+t+" dieselbe Anzahl an Aufgaben enthalten, weil die Teilnehmenden-Zuordnung feste Aufgabenpositionen verwendet.");
@@ -336,7 +336,7 @@ function taskSpec(t,practice,nr,v,pos){
  const entry=list.find(x=>Number(x.id)===Number(nr));
  if(!entry)throw new Error("Aufgabe "+nr+" für Variante "+v.id+" fehlt in aufgaben.json.");
  let s;if(t===1)s=commonQ(entry.linie_1,entry.linie_2,entry.mindestens_gemeinsame_stationenzahl,undefined,practice);
- else{s=routeQ(entry.ausgefallene_linie,vc.startstation,vc.zielstation);s.lines=vc.linien.map(k=>[k,LINES[k][1]]);s.maxLines=Number(vc.maximale_linien_in_antwort)||ROUTE_MAX_LINES;}
+ else{s=routeQ(entry.ausgefallene_linie,entry.startstation||vc.startstation,entry.zielstation||vc.zielstation);s.lines=vc.linien.map(k=>[k,LINES[k][1]]);s.maxLines=Number(vc.maximale_linien_in_antwort)||ROUTE_MAX_LINES;}
  s.image=entry.bild;s.sec=practice?c.sp:c.sm;
  s.title=practice?`Übungsaufgabe: ${vc.name||c.name} - ${v.id}`:`Aufgabe: ${vc.name||c.name} ${pos||nr} - ${v.id}`;
  s.save=practice?null:`A${t}_${v.id}_${pad2(nr)}`;s.nr=nr;s.orderKey=`A${t}_${v.id}_Reihenfolge_Aufgaben`;return s}
