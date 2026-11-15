@@ -1,0 +1,505 @@
+{
+  "version": 2,
+  "hinweis": "ÖFFENTLICHE DATEI: Keine Lösungsschlüssel oder vertraulichen Daten eintragen.",
+  "hinweis_varianten": "A und B sind vollständig unabhängig. Aufgaben, Übungsaufgaben, Start-/Zielstationen und Bilder können unterschiedlich sein. Wenn eine Aufgabe identisch sein soll, dieselben Werte in beiden Varianten eintragen.",
+  "varianten": {
+    "A": {
+      "aufgabentypen": {
+        "1": {
+          "name": "Gemeinsame Stationen",
+          "beschreibung": "Prüfe, ob zwei Linien mindestens die angegebene Anzahl gemeinsamer Stationen haben.",
+          "uebungen": [
+            {
+              "id": 1,
+              "linie_1": "rot",
+              "linie_2": "orange",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_uebung1_A.png"
+            },
+            {
+              "id": 2,
+              "linie_1": "grün",
+              "linie_2": "blau",
+              "mindestens_gemeinsame_stationenzahl": 2,
+              "bild": "Bilder/aufgabe1_uebung2_A.png"
+            }
+          ],
+          "aufgaben": [
+            {
+              "id": 1,
+              "linie_1": "rot",
+              "linie_2": "blau",
+              "mindestens_gemeinsame_stationenzahl": 2,
+              "bild": "Bilder/aufgabe1_A_01.png"
+            },
+            {
+              "id": 2,
+              "linie_1": "orange",
+              "linie_2": "grün",
+              "mindestens_gemeinsame_stationenzahl": 3,
+              "bild": "Bilder/aufgabe1_A_02.png"
+            },
+            {
+              "id": 3,
+              "linie_1": "braun",
+              "linie_2": "pink",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_A_03.png"
+            },
+            {
+              "id": 4,
+              "linie_1": "blau",
+              "linie_2": "gelb",
+              "mindestens_gemeinsame_stationenzahl": 2,
+              "bild": "Bilder/aufgabe1_A_04.png"
+            },
+            {
+              "id": 5,
+              "linie_1": "rot",
+              "linie_2": "grün",
+              "mindestens_gemeinsame_stationenzahl": 3,
+              "bild": "Bilder/aufgabe1_A_05.png"
+            },
+            {
+              "id": 6,
+              "linie_1": "lila",
+              "linie_2": "braun",
+              "mindestens_gemeinsame_stationenzahl": 2,
+              "bild": "Bilder/aufgabe1_A_06.png"
+            },
+            {
+              "id": 7,
+              "linie_1": "orange",
+              "linie_2": "pink",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_A_07.png"
+            },
+            {
+              "id": 8,
+              "linie_1": "grün",
+              "linie_2": "gelb",
+              "mindestens_gemeinsame_stationenzahl": 3,
+              "bild": "Bilder/aufgabe1_A_08.png"
+            },
+            {
+              "id": 9,
+              "linie_1": "rot",
+              "linie_2": "lila",
+              "mindestens_gemeinsame_stationenzahl": 2,
+              "bild": "Bilder/aufgabe1_A_09.png"
+            },
+            {
+              "id": 10,
+              "linie_1": "blau",
+              "linie_2": "braun",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_A_10.png"
+            },
+            {
+              "id": 11,
+              "linie_1": "gelb",
+              "linie_2": "pink",
+              "mindestens_gemeinsame_stationenzahl": 2,
+              "bild": "Bilder/aufgabe1_A_11.png"
+            },
+            {
+              "id": 12,
+              "linie_1": "braun",
+              "linie_2": "rot",
+              "mindestens_gemeinsame_stationenzahl": 3,
+              "bild": "Bilder/aufgabe1_A_12.png"
+            },
+            {
+              "id": 13,
+              "linie_1": "lila",
+              "linie_2": "grün",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_A_13.png"
+            },
+            {
+              "id": 14,
+              "linie_1": "blau",
+              "linie_2": "orange",
+              "mindestens_gemeinsame_stationenzahl": 2,
+              "bild": "Bilder/aufgabe1_A_14.png"
+            },
+            {
+              "id": 15,
+              "linie_1": "pink",
+              "linie_2": "gelb",
+              "mindestens_gemeinsame_stationenzahl": 3,
+              "bild": "Bilder/aufgabe1_A_15.png"
+            },
+            {
+              "id": 16,
+              "linie_1": "lila",
+              "linie_2": "rot",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_A_16.png"
+            }
+          ]
+        },
+        "2": {
+          "name": "Verbindung bei einer ausgefallenen Linie",
+          "beschreibung": "Finde eine Verbindung von der Startstation zur Zielstation, wenn eine Linie ausfällt. Trage die benutzten Linien in der richtigen Reihenfolge ein.",
+          "startstation": "Birnenstraße (Platzhalter – später ersetzen)",
+          "zielstation": "Kakadupflaume (Platzhalter – später ersetzen)",
+          "linien": [
+            "pink",
+            "grün",
+            "lila",
+            "orange",
+            "gelb",
+            "rot",
+            "blau",
+            "braun"
+          ],
+          "maximale_linien_in_antwort": 8,
+          "uebungen": [
+            {
+              "id": 1,
+              "ausgefallene_linie": "lila",
+              "bild": "Bilder/aufgabe2_uebung1_A.png"
+            },
+            {
+              "id": 2,
+              "ausgefallene_linie": "rot",
+              "bild": "Bilder/aufgabe2_uebung2_A.png"
+            }
+          ],
+          "aufgaben": [
+            {
+              "id": 1,
+              "ausgefallene_linie": "lila",
+              "bild": "Bilder/aufgabe2_A_01.png"
+            },
+            {
+              "id": 2,
+              "ausgefallene_linie": "rot",
+              "bild": "Bilder/aufgabe2_A_02.png"
+            },
+            {
+              "id": 3,
+              "ausgefallene_linie": "blau",
+              "bild": "Bilder/aufgabe2_A_03.png"
+            },
+            {
+              "id": 4,
+              "ausgefallene_linie": "grün",
+              "bild": "Bilder/aufgabe2_A_04.png"
+            },
+            {
+              "id": 5,
+              "ausgefallene_linie": "orange",
+              "bild": "Bilder/aufgabe2_A_05.png"
+            },
+            {
+              "id": 6,
+              "ausgefallene_linie": "gelb",
+              "bild": "Bilder/aufgabe2_A_06.png"
+            },
+            {
+              "id": 7,
+              "ausgefallene_linie": "braun",
+              "bild": "Bilder/aufgabe2_A_07.png"
+            },
+            {
+              "id": 8,
+              "ausgefallene_linie": "pink",
+              "bild": "Bilder/aufgabe2_A_08.png"
+            },
+            {
+              "id": 9,
+              "ausgefallene_linie": "lila",
+              "bild": "Bilder/aufgabe2_A_09.png"
+            },
+            {
+              "id": 10,
+              "ausgefallene_linie": "blau",
+              "bild": "Bilder/aufgabe2_A_10.png"
+            },
+            {
+              "id": 11,
+              "ausgefallene_linie": "rot",
+              "bild": "Bilder/aufgabe2_A_11.png"
+            },
+            {
+              "id": 12,
+              "ausgefallene_linie": "grün",
+              "bild": "Bilder/aufgabe2_A_12.png"
+            },
+            {
+              "id": 13,
+              "ausgefallene_linie": "orange",
+              "bild": "Bilder/aufgabe2_A_13.png"
+            },
+            {
+              "id": 14,
+              "ausgefallene_linie": "braun",
+              "bild": "Bilder/aufgabe2_A_14.png"
+            },
+            {
+              "id": 15,
+              "ausgefallene_linie": "pink",
+              "bild": "Bilder/aufgabe2_A_15.png"
+            },
+            {
+              "id": 16,
+              "ausgefallene_linie": "gelb",
+              "bild": "Bilder/aufgabe2_A_16.png"
+            }
+          ]
+        }
+      }
+    },
+    "B": {
+      "aufgabentypen": {
+        "1": {
+          "name": "Gemeinsame Stationen",
+          "beschreibung": "Prüfe, ob zwei Linien mindestens die angegebene Anzahl gemeinsamer Stationen haben.",
+          "uebungen": [
+            {
+              "id": 1,
+              "linie_1": "rot",
+              "linie_2": "orange",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_uebung1_B.png"
+            },
+            {
+              "id": 2,
+              "linie_1": "grün",
+              "linie_2": "blau",
+              "mindestens_gemeinsame_stationenzahl": 2,
+              "bild": "Bilder/aufgabe1_uebung2_B.png"
+            }
+          ],
+          "aufgaben": [
+            {
+              "id": 1,
+              "linie_1": "rot",
+              "linie_2": "blau",
+              "mindestens_gemeinsame_stationenzahl": 2,
+              "bild": "Bilder/aufgabe1_B_01.png"
+            },
+            {
+              "id": 2,
+              "linie_1": "orange",
+              "linie_2": "grün",
+              "mindestens_gemeinsame_stationenzahl": 3,
+              "bild": "Bilder/aufgabe1_B_02.png"
+            },
+            {
+              "id": 3,
+              "linie_1": "braun",
+              "linie_2": "pink",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_B_03.png"
+            },
+            {
+              "id": 4,
+              "linie_1": "blau",
+              "linie_2": "gelb",
+              "mindestens_gemeinsame_stationenzahl": 2,
+              "bild": "Bilder/aufgabe1_B_04.png"
+            },
+            {
+              "id": 5,
+              "linie_1": "rot",
+              "linie_2": "grün",
+              "mindestens_gemeinsame_stationenzahl": 3,
+              "bild": "Bilder/aufgabe1_B_05.png"
+            },
+            {
+              "id": 6,
+              "linie_1": "lila",
+              "linie_2": "braun",
+              "mindestens_gemeinsame_stationenzahl": 2,
+              "bild": "Bilder/aufgabe1_B_06.png"
+            },
+            {
+              "id": 7,
+              "linie_1": "orange",
+              "linie_2": "pink",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_B_07.png"
+            },
+            {
+              "id": 8,
+              "linie_1": "grün",
+              "linie_2": "gelb",
+              "mindestens_gemeinsame_stationenzahl": 3,
+              "bild": "Bilder/aufgabe1_B_08.png"
+            },
+            {
+              "id": 9,
+              "linie_1": "rot",
+              "linie_2": "lila",
+              "mindestens_gemeinsame_stationenzahl": 2,
+              "bild": "Bilder/aufgabe1_B_09.png"
+            },
+            {
+              "id": 10,
+              "linie_1": "blau",
+              "linie_2": "braun",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_B_10.png"
+            },
+            {
+              "id": 11,
+              "linie_1": "gelb",
+              "linie_2": "pink",
+              "mindestens_gemeinsame_stationenzahl": 2,
+              "bild": "Bilder/aufgabe1_B_11.png"
+            },
+            {
+              "id": 12,
+              "linie_1": "braun",
+              "linie_2": "rot",
+              "mindestens_gemeinsame_stationenzahl": 3,
+              "bild": "Bilder/aufgabe1_B_12.png"
+            },
+            {
+              "id": 13,
+              "linie_1": "lila",
+              "linie_2": "grün",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_B_13.png"
+            },
+            {
+              "id": 14,
+              "linie_1": "blau",
+              "linie_2": "orange",
+              "mindestens_gemeinsame_stationenzahl": 2,
+              "bild": "Bilder/aufgabe1_B_14.png"
+            },
+            {
+              "id": 15,
+              "linie_1": "pink",
+              "linie_2": "gelb",
+              "mindestens_gemeinsame_stationenzahl": 3,
+              "bild": "Bilder/aufgabe1_B_15.png"
+            },
+            {
+              "id": 16,
+              "linie_1": "lila",
+              "linie_2": "rot",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_B_16.png"
+            }
+          ]
+        },
+        "2": {
+          "name": "Verbindung bei einer ausgefallenen Linie",
+          "beschreibung": "Finde eine Verbindung von der Startstation zur Zielstation, wenn eine Linie ausfällt. Trage die benutzten Linien in der richtigen Reihenfolge ein.",
+          "startstation": "Birnenstraße (Platzhalter – später ersetzen)",
+          "zielstation": "Kakadupflaume (Platzhalter – später ersetzen)",
+          "linien": [
+            "pink",
+            "grün",
+            "lila",
+            "orange",
+            "gelb",
+            "rot",
+            "blau",
+            "braun"
+          ],
+          "maximale_linien_in_antwort": 8,
+          "uebungen": [
+            {
+              "id": 1,
+              "ausgefallene_linie": "lila",
+              "bild": "Bilder/aufgabe2_uebung1_B.png"
+            },
+            {
+              "id": 2,
+              "ausgefallene_linie": "rot",
+              "bild": "Bilder/aufgabe2_uebung2_B.png"
+            }
+          ],
+          "aufgaben": [
+            {
+              "id": 1,
+              "ausgefallene_linie": "lila",
+              "bild": "Bilder/aufgabe2_B_01.png"
+            },
+            {
+              "id": 2,
+              "ausgefallene_linie": "rot",
+              "bild": "Bilder/aufgabe2_B_02.png"
+            },
+            {
+              "id": 3,
+              "ausgefallene_linie": "blau",
+              "bild": "Bilder/aufgabe2_B_03.png"
+            },
+            {
+              "id": 4,
+              "ausgefallene_linie": "grün",
+              "bild": "Bilder/aufgabe2_B_04.png"
+            },
+            {
+              "id": 5,
+              "ausgefallene_linie": "orange",
+              "bild": "Bilder/aufgabe2_B_05.png"
+            },
+            {
+              "id": 6,
+              "ausgefallene_linie": "gelb",
+              "bild": "Bilder/aufgabe2_B_06.png"
+            },
+            {
+              "id": 7,
+              "ausgefallene_linie": "braun",
+              "bild": "Bilder/aufgabe2_B_07.png"
+            },
+            {
+              "id": 8,
+              "ausgefallene_linie": "pink",
+              "bild": "Bilder/aufgabe2_B_08.png"
+            },
+            {
+              "id": 9,
+              "ausgefallene_linie": "lila",
+              "bild": "Bilder/aufgabe2_B_09.png"
+            },
+            {
+              "id": 10,
+              "ausgefallene_linie": "blau",
+              "bild": "Bilder/aufgabe2_B_10.png"
+            },
+            {
+              "id": 11,
+              "ausgefallene_linie": "rot",
+              "bild": "Bilder/aufgabe2_B_11.png"
+            },
+            {
+              "id": 12,
+              "ausgefallene_linie": "grün",
+              "bild": "Bilder/aufgabe2_B_12.png"
+            },
+            {
+              "id": 13,
+              "ausgefallene_linie": "orange",
+              "bild": "Bilder/aufgabe2_B_13.png"
+            },
+            {
+              "id": 14,
+              "ausgefallene_linie": "braun",
+              "bild": "Bilder/aufgabe2_B_14.png"
+            },
+            {
+              "id": 15,
+              "ausgefallene_linie": "pink",
+              "bild": "Bilder/aufgabe2_B_15.png"
+            },
+            {
+              "id": 16,
+              "ausgefallene_linie": "gelb",
+              "bild": "Bilder/aufgabe2_B_16.png"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
