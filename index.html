@@ -177,6 +177,27 @@ const TASK2_PRACTICE=[routeQ("lila","Birnenstraße","Kakadupflaume"),routeQ("rot
 const TASK2_MEASURED=["lila","rot","blau","grün","orange","gelb","braun","pink","lila","blau","rot","grün","orange","braun","pink","gelb"].map(f=>routeQ(f,"Birnenstraße","Kakadupflaume"));
 const TASK_IMG_PRACTICE=(t,nr,v)=>`Bilder/aufgabe${t}_uebung${nr}_${v}.png`, TASK_IMG=(t,v,nr)=>`Bilder/aufgabe${t}_${v}_${String(nr).padStart(2,"0")}.png`;
 const TASKS={1:{practice:TASK1_PRACTICE,measured:TASK1_MEASURED,name:"Gemeinsame Stationen",sp:SEC.p1,sm:SEC.t1},2:{practice:TASK2_PRACTICE,measured:TASK2_MEASURED,name:"Verbindung bei einer ausgefallenen Linie",sp:SEC.p2,sm:SEC.t2}};
+// Öffentliche Aufgaben werden beim Start aus aufgaben.json geladen.
+let TASK_CONFIG=null;
+async function loadTaskConfig(){
+ if(TASK_CONFIG)return TASK_CONFIG;
+ const r=await fetch("aufgaben.json",{cache:"no-store"});
+ if(!r.ok)throw new Error("aufgaben.json konnte nicht geladen werden (HTTP "+r.status+").");
+ const cfg=await r.json();
+ if(!cfg||!cfg.varianten||!cfg.varianten.A||!cfg.varianten.B)throw new Error("In aufgaben.json fehlen die Varianten A und/oder B.");
+ for(const t of [1,2]){
+  for(const v of ["A","B"]){
+   const x=cfg.varianten[v].aufgabentypen&&cfg.varianten[v].aufgabentypen[String(t)];
+   if(!x||!Array.isArray(x.uebungen)||!Array.isArray(x.aufgaben)||!x.aufgaben.length)throw new Error("Aufgabentyp "+t+" für Variante "+v+" ist unvollständig.");
+   if(t===1){for(const q of [...x.uebungen,...x.aufgaben])if(!LINES[q.linie_1]||!LINES[q.linie_2]||!Number.isFinite(Number(q.mindestens_gemeinsame_stationenzahl)))throw new Error("Ungültige Linienangabe in Aufgabe 1, Variante "+v+".");}
+   if(t===2){if(!Array.isArray(x.linien)||!x.linien.length)throw new Error("Linienliste in Aufgabe 2, Variante "+v+" fehlt.");for(const q of [...x.uebungen,...x.aufgaben])if(!LINES[q.ausgefallene_linie])throw new Error("Ungültige ausgefallene Linie in Aufgabe 2, Variante "+v+".");}
+  }
+ }
+ for(const t of [1,2])if(cfg.varianten.A.aufgabentypen[String(t)].aufgaben.length!==cfg.varianten.B.aufgabentypen[String(t)].aufgaben.length)throw new Error("Variante A und B müssen bei Aufgabentyp "+t+" dieselbe Anzahl an Aufgaben enthalten, weil die Teilnehmenden-Zuordnung feste Aufgabenpositionen verwendet.");
+ TASK_CONFIG=cfg;
+ for(const t of [1,2]){const a=cfg.varianten.A.aufgabentypen[String(t)];TASKS[t].practice=a.uebungen;TASKS[t].measured=a.aufgaben;TASKS[t].name=a.name||TASKS[t].name;}
+ return TASK_CONFIG;
+}
 const TASK_COLS={1:["Antwort","Zeit_ms","Status","Richtig"],2:["Reihenfolge","Zeit_ms","Richtig"]};
 const pad2=n=>String(n).padStart(2,"0");
 
@@ -255,8 +276,9 @@ if(DEV_NAVIGATION){$("#dev").innerHTML='<button id="db">◀</button><button id="
 const textPg=(sec,title,text,onNext,wide)=>({sec,wide,run(){shell(this,`<h1>${esc(title)}</h1><div class="panel txt">${rich(text)}</div>`,{center:1});
  const nx=()=>{onNext&&onNext();next()};$("#nx").onclick=nx;S.cur={next:nx}}});
 const idPg=()=>({sec:SEC.intro,run(){shell(this,`<h1>${esc(ID_TITLE)}</h1><div style="text-align:center;font-size:16px;color:var(--muted);margin-bottom:28px">Bitte gib die dir mitgeteilte <b style="color:var(--text)">Nummer</b> bzw. ID ein.</div><div style="text-align:center"><input class="id" type="text" id="pid" autofocus autocomplete="off"></div>`,{center:1});
- const nx=()=>{let id=$("#pid").value.trim();if(!/^[A-Za-z0-9_-]{1,40}$/.test(id))return err("Bitte nur Buchstaben, Ziffern, - und _ verwenden (max. 40 Zeichen).");
+ const nx=async()=>{let id=$("#pid").value.trim();if(!/^[A-Za-z0-9_-]{1,40}$/.test(id))return err("Bitte nur Buchstaben, Ziffern, - und _ verwenden (max. 40 Zeichen).");
   if(/^\d+$/.test(id))id=String(+id);const dev=id=="DEV"&&DEV_NAVIGATION,pl=dev?DEFAULT_PLAN:PLAN[id];if(!pl)return err("Unbekannte ID. Bitte gib eine Nummer von 1 bis 32 ein.");
+  const b=$("#nx");b.disabled=true;try{await loadTaskConfig()}catch(e){console.error(e);b.disabled=false;return err("Die Aufgabendatei konnte nicht geladen werden. Bitte prüfe, ob aufgaben.json neben der HTML-Datei liegt und gültig ist. "+e.message)}b.disabled=false;
   S.dev=dev;S.t0=Date.now();S.last=Date.now();S.active=true;
   S.data={ID:id,Startzeit:now(),Aufgabentypen_Reihenfolge:pl.t.join(" > ")};save({});S.pages=makePages(pl);startGuards();next()};$("#nx").onclick=nx;S.cur={next:nx,fill(){if(!$("#pid").value.trim())$("#pid").value="DEV";S.dev=1}}}});
 const privPg=()=>({sec:SEC.intro,noEnter:1,run(){let on=false;
@@ -309,8 +331,16 @@ const rankPg=ph=>{const f=PHASES[ph];return{sec:f.secRank,wide:1,run(){const n=S
  grid.querySelectorAll(".cell").forEach(c=>{c.ondragover=e=>{e.preventDefault();e.dataTransfer.dropEffect="move";c.classList.add("over")};c.ondragleave=()=>c.classList.remove("over");c.ondrop=e=>{e.preventDefault();c.classList.remove("over");const a=Number(e.dataTransfer.getData("text/plain")),b=Number(c.dataset.i);if(Number.isInteger(a)&&a>=0&&a<cells.length&&a!==b&&cells[a]!=null){[cells[a],cells[b]]=[cells[b],cells[a]];err("");paint()}}});paint();
  const nx=()=>{if(cells.slice(0,n).some(v=>v==null))return err("Bitte ziehe beide Varianten auf einen Platz.");const r=cells.slice(0,n).map(v=>S.order[v].id),o={[f.rank+"_Ranking"]:r.join(" > ")};r.forEach((id,k)=>o[`${f.rank}_Rang_${id}`]=k+1);if(ph==PHASES.length-1){o.Abschluss_Zeit=now();o.Gesamtdauer_s=Math.round((Date.now()-S.t0)/1000);S.finished=true}save(o);next()};
  $("#nx").onclick=nx;S.cur={next:nx,fill(){if(cells.slice(0,n).some(v=>v==null)){cells=S.order.map((_,i)=>i).concat(Array(n).fill(null));paint()}}}}}};
-function taskSpec(t,practice,nr,v,pos){const c=TASKS[t],s={...(practice?c.practice:c.measured)[nr-1]};s.image=practice?TASK_IMG_PRACTICE(t,nr,v.id):TASK_IMG(t,v.id,nr);s.sec=practice?c.sp:c.sm;
- s.title=practice?`Übungsaufgabe: ${c.name} - ${v.id}`:`Aufgabe: ${c.name} ${pos||nr} - ${v.id}`;s.save=practice?null:`A${t}_${v.id}_${pad2(nr)}`;s.nr=nr;s.orderKey=`A${t}_${v.id}_Reihenfolge_Aufgaben`;return s}
+function taskSpec(t,practice,nr,v,pos){
+ const c=TASKS[t],vc=TASK_CONFIG.varianten[v.id].aufgabentypen[String(t)],list=practice?vc.uebungen:vc.aufgaben;
+ const entry=list.find(x=>Number(x.id)===Number(nr));
+ if(!entry)throw new Error("Aufgabe "+nr+" für Variante "+v.id+" fehlt in aufgaben.json.");
+ let s;if(t===1)s=commonQ(entry.linie_1,entry.linie_2,entry.mindestens_gemeinsame_stationenzahl,undefined,practice);
+ else{s=routeQ(entry.ausgefallene_linie,vc.startstation,vc.zielstation);s.lines=vc.linien.map(k=>[k,LINES[k][1]]);s.maxLines=Number(vc.maximale_linien_in_antwort)||ROUTE_MAX_LINES;}
+ s.image=entry.bild;s.sec=practice?c.sp:c.sm;
+ s.title=practice?`Übungsaufgabe: ${vc.name||c.name} - ${v.id}`:`Aufgabe: ${vc.name||c.name} ${pos||nr} - ${v.id}`;
+ s.save=practice?null:`A${t}_${v.id}_${pad2(nr)}`;s.nr=nr;s.orderKey=`A${t}_${v.id}_Reihenfolge_Aufgaben`;return s}
+
 const startBox=(txt)=>`<div class="start" id="sb"><p>${txt}</p><button class="btn" id="st">Start</button></div>`;
 const task1Pg=sp=>({sec:sp.sec,wide:1,flow:1,noEnter:1,run(){let started=false,expired=false,ans=null,t0=0;
  shell(this,`<div class="head"><h2>${esc(sp.title)}</h2><span class="timer" id="tm">Zeit: ${TASK1_TIME_LIMIT} s</span></div><div style="margin:6px 0 10px">${sp.question.map(r=>`<div class="qline" style="font-size:16px">${runs(r.map(([t,s])=>[t,s]))}</div>`).join("")}</div><div class="area" id="ar">${startBox(`Das Bild erscheint, sobald du auf „Start“ klickst.<br>Dann laufen ${TASK1_TIME_LIMIT} Sekunden.`)}</div>`,
@@ -324,16 +354,16 @@ const task1Pg=sp=>({sec:sp.sec,wide:1,flow:1,noEnter:1,run(){let started=false,e
   const ms=Math.round(performance.now()-t0),given=expired?"":ans;clearInterval(S.timer);
   if(sp.save){const o={[sp.save+"_Antwort"]:given,[sp.save+"_Zeit_ms"]:ms,[sp.save+"_Status"]:expired?"Zeit abgelaufen":"rechtzeitig",[sp.orderKey]:orderValue(sp.orderKey,sp.nr)};if(sp.correct)o[sp.save+"_Richtig"]=given==sp.correct?1:0;save(o)}next()};
  $("#nx").onclick=nx;S.cur={next:nx,fill(){start();if(!expired&&ans==null){ans="Ja";sty()}}}}});
-const task2Pg=sp=>({sec:sp.sec,wide:1,flow:1,noEnter:1,run(){let started=false,t0=0,pool=sp.lines.map((_,i)=>i),rank=[];
+const task2Pg=sp=>({sec:sp.sec,wide:1,flow:1,noEnter:1,run(){let started=false,t0=0,pool=sp.lines.map((_,i)=>i),rank=[],maxLines=sp.maxLines||ROUTE_MAX_LINES;
  shell(this,`<div class="head"><h2>${esc(sp.title)}</h2><span class="timer" id="tm">Zeit: 0:00</span></div><div class="cols" style="grid-template-columns:1fr 1fr;flex:none;margin:10px 0 8px;font-size:16px"><div><div>${runs(sp.headline)}</div><div style="margin-top:10px">${bold(sp.textLeft)}</div></div><div>${esc(sp.text)}</div></div><div class="area" id="ar">${startBox("Das Bild und die Linien erscheinen, sobald du auf „Start“ klickst.<br>Die Zeit wird gemessen, bis du auf „Weiter“ klickst.")}</div>`);
  const render=()=>{const chip=i=>`<div class="chip" draggable="true" data-i="${i}" style="background:${sp.lines[i][1]}">${esc(sp.lines[i][0])}</div>`;
   $("#pool").innerHTML=pool.map(chip).join("");$("#rank").innerHTML=`<small>▲ oben: Startlinie</small>${rank.map(chip).join("")}<small style="margin-top:auto">▼ unten: Linie zum Ziel</small>`;
   document.querySelectorAll(".chip").forEach(c=>{const i=+c.dataset.i;c.ondragstart=e=>e.dataTransfer.setData("text",i);c.ondblclick=()=>toggle(i)})};
- const toggle=i=>{if(pool.includes(i)){if(rank.length>=ROUTE_MAX_LINES)return err(`Bitte wähle maximal ${ROUTE_MAX_LINES} Linien.`);pool=pool.filter(x=>x!=i);rank.push(i)}else{rank=rank.filter(x=>x!=i);pool.push(i);pool.sort((a,b)=>a-b)}err("");render()};
+ const toggle=i=>{if(pool.includes(i)){if(rank.length>=maxLines)return err(`Bitte wähle maximal ${maxLines} Linien.`);pool=pool.filter(x=>x!=i);rank.push(i)}else{rank=rank.filter(x=>x!=i);pool.push(i);pool.sort((a,b)=>a-b)}err("");render()};
  const start=()=>{if(started)return;started=true;err("");t0=performance.now();
   $("#ar").innerHTML=`<div class="route"><div class="imgbox">${img(sp.image)}</div><div class="lists"><div><div class="lbl">${ROUTE_POOL_TITLE}</div><div class="lb" id="pool"></div></div><div><div class="lbl">${ROUTE_RANK_TITLE}</div><div class="lb" id="rank"></div></div></div></div>`;
   [["pool"],["rank"]].forEach(([k])=>{const b=$("#"+k);b.ondragover=e=>{e.preventDefault();b.classList.add("over")};b.ondragleave=()=>b.classList.remove("over");
-   b.ondrop=e=>{e.preventDefault();b.classList.remove("over");const i=+e.dataTransfer.getData("text");if(k=="rank"){if(!rank.includes(i)&&rank.length>=ROUTE_MAX_LINES)return err(`Bitte wähle maximal ${ROUTE_MAX_LINES} Linien.`);
+   b.ondrop=e=>{e.preventDefault();b.classList.remove("over");const i=+e.dataTransfer.getData("text");if(k=="rank"){if(!rank.includes(i)&&rank.length>=maxLines)return err(`Bitte wähle maximal ${maxLines} Linien.`);
      const others=rank.filter(x=>x!=i),pos=others.filter(x=>{const r=document.querySelector(`#rank .chip[data-i="${x}"]`).getBoundingClientRect();return r.top+r.height/2<e.clientY}).length;pool=pool.filter(x=>x!=i);others.splice(pos,0,i);rank=others;err("")}
     else if(rank.includes(i)){rank=rank.filter(x=>x!=i);pool.push(i);pool.sort((a,b)=>a-b)}render()}});
   render();S.timer=setInterval(()=>{const s=Math.floor((performance.now()-t0)/1000);$("#tm").textContent=`Zeit: ${Math.floor(s/60)}:${pad2(s%60)}`;$("#tm").style.color="var(--accent)"},200)};
