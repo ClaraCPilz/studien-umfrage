@@ -393,7 +393,7 @@ function makePages(pl){
  const intro=t=>{const p=t==1?textPg(SEC.p1,PRACTICE_TITLE,PRACTICE_TEXT,saveOrder(1)):textPg(SEC.p2,PRACTICE2_TITLE,PRACTICE2_TEXT,saveOrder(2));p.ord=V(pl.v[t]);return p};
  return [idPg(),privPg(),textPg(SEC.base,DEMO_TITLE,DEMO_TEXT),...QUESTIONS.map(qPg),...phase(0,V(pl.p[0])),
   textPg(SEC.tasks,TASK_INTRO_TITLE,TASK_INTRO_TEXT),...pl.t.flatMap(t=>[intro(t),...flow(t,pl)]),...phase(1,V(pl.p[1])),donePg()]}
-S.pages=makePages(DEFAULT_PLAN);S.i=null;
+S.pages=[idPg()];S.i=null; // Aufgabenliste wird erst nach der ID-Eingabe gebaut (nach dem Laden von aufgaben.json)
 // ===== Absicherung: Gerät, Fenster, Vollbild, Zeitlimit =====
 const isMobileDevice=()=>{const ua=navigator.userAgent||"",m=q=>window.matchMedia&&matchMedia(q).matches;
  return /Android|iPhone|iPad|iPod|Mobile|Silk|Tablet/i.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)||(m("(pointer:coarse)")&&!m("(any-pointer:fine)"))};
