@@ -36,7 +36,7 @@ h2{font:600 20px "Segoe UI",sans-serif;margin:8px 0 0}
 .box{width:24px;height:24px;border:2px solid var(--line);background:#fff;flex:none;display:grid;place-items:center;color:#fff;font-size:16px;line-height:1}
 .box.r{border-radius:50%}.on .box{border-color:var(--accent)}.on .box.r{background:radial-gradient(var(--accent) 45%,#fff 50%)}.on .box.k{background:var(--accent)}
 .choice input[type=text]{flex:1;font:inherit;padding:4px 8px;border:1px solid var(--border);background:var(--input)}
-select,input[type=text].id{font:inherit;font-size:16px;padding:8px;border:1px solid var(--border);background:var(--input);color:var(--text)}
+select,input[type=text].id,input[type=password].id{font:inherit;font-size:16px;padding:8px;border:1px solid var(--border);background:var(--input);color:var(--text)}
 input.id{text-align:center;font-size:20px!important;width:300px}
 .scroll{border:1px solid var(--border);background:var(--input);padding:12px 16px;overflow:auto;flex:1;font-size:16px}
 .scroll h3{font:600 16px "Segoe UI",sans-serif;color:var(--accent);margin:14px 0 6px}.scroll p{margin:0 0 8px}.scroll .li{margin-bottom:3px}
@@ -257,8 +257,23 @@ const $=s=>document.querySelector(s), card=$("#card");
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const bold=t=>esc(t).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
 const rich=t=>t.split("\n\n").map(p=>`<div class="para">${p.split("\n").map(l=>{const m=l.match(/^(•|\d+\.)\s+(.*)$/);return m?`<div class="li"><i>${m[1]}</i><span>${bold(m[2])}</span></div>`:`<div>${bold(l)}</div>`}).join("")}</div>`).join("");
-const img=src=>`<img src="${esc(src)}" alt="" onerror="this.outerHTML='<div class=ph>Abbildung nicht gefunden:<br>'+this.getAttribute('src')+'</div>'">`;
+const img=src=>`<img data-src="${esc(src)}" alt="" draggable="false">`;
+// Bilder liegen im PRIVATEN Repo und werden nur mit Passwort über den Worker geladen.
+const IMG_CACHE=new Map();
+function loadImage(src){const name=String(src).split("/").pop();
+ if(!IMG_CACHE.has(name)){const pr=(async()=>{let last;for(let a=0;a<3;a++){try{
+   const r=await fetch(SAVE_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"image",id:S.data.ID,pw:S.pw,name})});
+   if(!r.ok)throw new Error("HTTP "+r.status);return URL.createObjectURL(await r.blob())}catch(e){last=e;await new Promise(x=>setTimeout(x,700*(a+1)))}}throw last})();
+  pr.catch(()=>IMG_CACHE.delete(name));IMG_CACHE.set(name,pr)}
+ return IMG_CACHE.get(name)}
+function hydrateImages(root){root.querySelectorAll("img[data-src]:not([data-l])").forEach(im=>{im.dataset.l=1;const src=im.dataset.src;
+ loadImage(src).then(u=>{im.src=u}).catch(()=>{im.outerHTML='<div class="ph">Abbildung konnte nicht geladen werden:<br>'+esc(src)+'</div>'})})}
+async function preloadImages(){const names=[...VARIANTS.map(v=>v.image)];
+ for(const v of ["A","B"])for(const t of ["1","2"]){const x=TASK_CONFIG.varianten[v].aufgabentypen[t];[...x.uebungen,...x.aufgaben].forEach(e=>names.push(e.bild))}
+ const q=names.filter(Boolean);const worker=async()=>{while(q.length){try{await loadImage(q.shift())}catch(e){}}};
+ await Promise.all([worker(),worker(),worker()])}
 const err=t=>{$("#err").textContent=t||""};
+new MutationObserver(()=>hydrateImages(card)).observe(card,{childList:true,subtree:true});
 const runs=parts=>parts.map(([t,s])=>`<span style="${s&&s[0]=="#"?`color:${s};`:""}${s?"font-weight:600":""}">${esc(t)}</span>`).join("");
 function shell(pg,inner,o={}){const sec=pg.sec||"";card.className=pg.wide?"wide":"";
  card.innerHTML=`<div class="sec">${SECTION_UPPER?sec.toUpperCase():sec}</div><div class="body ${o.center?"center":""}">${inner}</div><div class="bar"><span class="err" id="err"></span>${o.mid||""}<button class="btn" id="nx">${o.btn||"Weiter"}</button></div>`}
@@ -288,7 +303,7 @@ const idPg=()=>({sec:SEC.intro,run(){shell(this,`<h1>${esc(ID_TITLE)}</h1><div s
   S.pw=pw;
   try{await loadTaskConfig()}catch(e){console.error(e);b.disabled=false;return err("Die Aufgabendatei konnte nicht geladen werden. Bitte prüfe, ob aufgaben.json neben der HTML-Datei liegt und gültig ist. "+e.message)}b.disabled=false;
   S.dev=dev;S.t0=Date.now();S.last=Date.now();S.active=true;
-  S.data={ID:id,Startzeit:now(),Aufgabentypen_Reihenfolge:pl.t.join(" > ")};save({});S.pages=makePages(pl);startGuards();next()};$("#nx").onclick=nx;S.cur={next:nx,fill(){if(!$("#pid").value.trim())$("#pid").value="DEV";S.dev=1}}}});
+  S.data={ID:id,Startzeit:now(),Aufgabentypen_Reihenfolge:pl.t.join(" > ")};save({});S.pages=makePages(pl);startGuards();preloadImages();next()};$("#nx").onclick=nx;S.cur={next:nx,fill(){if(!$("#pid").value.trim())$("#pid").value="DEV";S.dev=1}}}});
 const privPg=()=>({sec:SEC.intro,noEnter:1,run(){let on=false;
  const blocks=DP.map(([k,t],n)=>k=="li"?`<div class="li" style="margin-bottom:${DP[n+1]&&DP[n+1][0]=="li"?3:8}px"><i>•</i><span>${bold(t)}</span></div>`:k=="h"?`<h3>${esc(t)}</h3>`:`<p>${bold(t)}</p>`).join("");
  shell(this,`<h1>${esc(DP_TITLE)}</h1><div class="scroll">${blocks}</div><div style="text-align:center;font-weight:600;margin:10px 0 8px">${esc(DP_NO)}</div><div class="choice c" id="cons" style="margin:0"><span class="box k"></span><span>${esc(DP_CONSENT)}</span></div>`);
@@ -355,7 +370,7 @@ const task1Pg=sp=>({sec:sp.sec,wide:1,flow:1,noEnter:1,run(){let started=false,e
   {mid:`<div class="ans"><button data-a="Ja" disabled>Ja</button><button data-a="Nein" disabled>Nein</button></div>`});
  const sty=()=>card.querySelectorAll(".ans button").forEach(b=>{b.disabled=!started||expired;b.classList.toggle("on",ans==b.dataset.a)});
  card.querySelectorAll(".ans button").forEach(b=>b.onclick=()=>{if(started&&!expired){ans=b.dataset.a;err("");sty()}});
- const start=()=>{if(started)return;started=true;t0=performance.now();$("#ar").innerHTML=`<div class="imgbox" style="width:100%;height:100%">${img(sp.image)}</div>`;sty();
+ const start=async()=>{if(started)return;started=true;$("#st").disabled=true;try{await loadImage(sp.image)}catch(e){}t0=performance.now();$("#ar").innerHTML=`<div class="imgbox" style="width:100%;height:100%">${img(sp.image)}</div>`;sty();
   S.timer=setInterval(()=>{const rem=TASK1_TIME_LIMIT-(performance.now()-t0)/1000;if(rem<=0){clearInterval(S.timer);expired=true;$("#tm").textContent="Zeit abgelaufen";$("#tm").style.color="var(--error)";err("Die Zeit ist abgelaufen. Klicke auf „Weiter“, um fortzufahren.");sty()}else{$("#tm").textContent=`Zeit: ${Math.ceil(rem)} s`;$("#tm").style.color=rem<=5?"var(--error)":"var(--accent)"}},100)};
  $("#st").onclick=start;
  const nx=()=>{if(!started)return err("Bitte starte die Aufgabe mit „Start“.");if(!expired&&ans==null)return err("Bitte wähle „Ja“ oder „Nein“, bevor du auf „Weiter“ klickst.");
@@ -368,7 +383,7 @@ const task2Pg=sp=>({sec:sp.sec,wide:1,flow:1,noEnter:1,run(){let started=false,t
   $("#pool").innerHTML=pool.map(chip).join("");$("#rank").innerHTML=`<small>▲ oben: Startlinie</small>${rank.map(chip).join("")}<small style="margin-top:auto">▼ unten: Linie zum Ziel</small>`;
   document.querySelectorAll(".chip").forEach(c=>{const i=+c.dataset.i;c.ondragstart=e=>e.dataTransfer.setData("text",i);c.ondblclick=()=>toggle(i)})};
  const toggle=i=>{if(pool.includes(i)){if(rank.length>=maxLines)return err(`Bitte wähle maximal ${maxLines} Linien.`);pool=pool.filter(x=>x!=i);rank.push(i)}else{rank=rank.filter(x=>x!=i);pool.push(i);pool.sort((a,b)=>a-b)}err("");render()};
- const start=()=>{if(started)return;started=true;err("");t0=performance.now();
+ const start=async()=>{if(started)return;started=true;err("");$("#st").disabled=true;try{await loadImage(sp.image)}catch(e){}t0=performance.now();
   $("#ar").innerHTML=`<div class="route"><div class="imgbox">${img(sp.image)}</div><div class="lists"><div><div class="lbl">${ROUTE_POOL_TITLE}</div><div class="lb" id="pool"></div></div><div><div class="lbl">${ROUTE_RANK_TITLE}</div><div class="lb" id="rank"></div></div></div></div>`;
   [["pool"],["rank"]].forEach(([k])=>{const b=$("#"+k);b.ondragover=e=>{e.preventDefault();b.classList.add("over")};b.ondragleave=()=>b.classList.remove("over");
    b.ondrop=e=>{e.preventDefault();b.classList.remove("over");const i=+e.dataTransfer.getData("text");if(k=="rank"){if(!rank.includes(i)&&rank.length>=maxLines)return err(`Bitte wähle maximal ${maxLines} Linien.`);
