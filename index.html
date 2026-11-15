@@ -235,7 +235,7 @@ function save(vals){
  const d={...S.data,...derived(S.data)},cols=columns();
  const all=cols.concat(Object.keys(S.data).filter(k=>!cols.includes(k)));
  const values={};all.forEach(k=>values[k]=d[k]===undefined?"":d[k]);
- const payload={id:S.data.ID,columns:all,values};
+ const payload={id:S.data.ID,pw:S.pw,columns:all,values};
  // Requests are sent one after another so an older save cannot overwrite a newer one.
  const body=JSON.stringify(payload);
  saveQueue=saveQueue.then(async()=>{
@@ -275,10 +275,18 @@ if(DEV_NAVIGATION){$("#dev").innerHTML='<button id="db">◀</button><button id="
 // ===== Seitentypen =====
 const textPg=(sec,title,text,onNext,wide)=>({sec,wide,run(){shell(this,`<h1>${esc(title)}</h1><div class="panel txt">${rich(text)}</div>`,{center:1});
  const nx=()=>{onNext&&onNext();next()};$("#nx").onclick=nx;S.cur={next:nx}}});
-const idPg=()=>({sec:SEC.intro,run(){shell(this,`<h1>${esc(ID_TITLE)}</h1><div style="text-align:center;font-size:16px;color:var(--muted);margin-bottom:28px">Bitte gib die dir mitgeteilte <b style="color:var(--text)">Nummer</b> bzw. ID ein.</div><div style="text-align:center"><input class="id" type="text" id="pid" autofocus autocomplete="off"></div>`,{center:1});
+const idPg=()=>({sec:SEC.intro,run(){shell(this,`<h1>${esc(ID_TITLE)}</h1><div style="text-align:center;font-size:16px;color:var(--muted);margin-bottom:28px">Bitte gib die dir mitgeteilte <b style="color:var(--text)">Nummer</b> bzw. ID ein.</div><div style="text-align:center"><input class="id" type="text" id="pid" autofocus autocomplete="off"></div><div style="text-align:center;font-size:16px;color:var(--muted);margin:26px 0 12px">Bitte gib außerdem das dir mitgeteilte <b style="color:var(--text)">Passwort</b> ein.</div><div style="text-align:center"><input class="id" type="password" id="ppw" autocomplete="off"></div>`,{center:1});
  const nx=async()=>{let id=$("#pid").value.trim();if(!/^[A-Za-z0-9_-]{1,40}$/.test(id))return err("Bitte nur Buchstaben, Ziffern, - und _ verwenden (max. 40 Zeichen).");
   if(/^\d+$/.test(id))id=String(+id);const dev=id=="DEV"&&DEV_NAVIGATION,pl=dev?DEFAULT_PLAN:PLAN[id];if(!pl)return err("Unbekannte ID. Bitte gib eine Nummer von 1 bis 32 ein.");
-  const b=$("#nx");b.disabled=true;try{await loadTaskConfig()}catch(e){console.error(e);b.disabled=false;return err("Die Aufgabendatei konnte nicht geladen werden. Bitte prüfe, ob aufgaben.json neben der HTML-Datei liegt und gültig ist. "+e.message)}b.disabled=false;
+  const pw=$("#ppw").value;if(!pw)return err("Bitte gib das Passwort ein.");
+  const b=$("#nx");b.disabled=true;
+  try{const r=await fetch(SAVE_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"check",id,pw})});
+   if(r.status===401){b.disabled=false;return err("Passwort falsch. Bitte prüfe deine Eingabe.")}
+   if(r.status===400){b.disabled=false;return err("Unbekannte ID. Bitte gib eine Nummer von 1 bis 32 ein.")}
+   if(!r.ok)throw new Error("HTTP "+r.status)}
+  catch(e){console.error(e);b.disabled=false;return err("Die Verbindung zum Server ist fehlgeschlagen. Bitte prüfe deine Internetverbindung und versuche es erneut.")}
+  S.pw=pw;
+  try{await loadTaskConfig()}catch(e){console.error(e);b.disabled=false;return err("Die Aufgabendatei konnte nicht geladen werden. Bitte prüfe, ob aufgaben.json neben der HTML-Datei liegt und gültig ist. "+e.message)}b.disabled=false;
   S.dev=dev;S.t0=Date.now();S.last=Date.now();S.active=true;
   S.data={ID:id,Startzeit:now(),Aufgabentypen_Reihenfolge:pl.t.join(" > ")};save({});S.pages=makePages(pl);startGuards();next()};$("#nx").onclick=nx;S.cur={next:nx,fill(){if(!$("#pid").value.trim())$("#pid").value="DEV";S.dev=1}}}});
 const privPg=()=>({sec:SEC.intro,noEnter:1,run(){let on=false;
