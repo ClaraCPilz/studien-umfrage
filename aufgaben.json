@@ -141,9 +141,9 @@
         },
         "2": {
           "name": "Verbindung bei einer ausgefallenen Linie",
-          "beschreibung": "Finde eine Verbindung von der Startstation zur Zielstation, wenn eine Linie ausfällt. Trage die benutzten Linien in der richtigen Reihenfolge ein.",
-          "startstation": "Birnenstraße (Platzhalter – später ersetzen)",
-          "zielstation": "Kakadupflaume (Platzhalter – später ersetzen)",
+          "beschreibung": "Finde eine Verbindung von der Startstation zur Zielstation, wenn eine Linie ausfällt. Trage die benutzten Linien in der richtigen Reihenfolge ein. Start- und Zielstation können pro Aufgabe individuell angegeben werden; fehlen sie dort, gelten die Standardwerte 'startstation'/'zielstation' dieses Aufgabentyps.",
+          "startstation": "Birnenstraße",
+          "zielstation": "Kakadupflaume",
           "linien": [
             "pink",
             "grün",
@@ -159,11 +159,15 @@
             {
               "id": 1,
               "ausgefallene_linie": "lila",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_uebung1_A.png"
             },
             {
               "id": 2,
               "ausgefallene_linie": "rot",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_uebung2_A.png"
             }
           ],
@@ -171,81 +175,113 @@
             {
               "id": 1,
               "ausgefallene_linie": "lila",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_01.png"
             },
             {
               "id": 2,
               "ausgefallene_linie": "rot",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_02.png"
             },
             {
               "id": 3,
               "ausgefallene_linie": "blau",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_03.png"
             },
             {
               "id": 4,
               "ausgefallene_linie": "grün",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_04.png"
             },
             {
               "id": 5,
               "ausgefallene_linie": "orange",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_05.png"
             },
             {
               "id": 6,
               "ausgefallene_linie": "gelb",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_06.png"
             },
             {
               "id": 7,
               "ausgefallene_linie": "braun",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_07.png"
             },
             {
               "id": 8,
               "ausgefallene_linie": "pink",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_08.png"
             },
             {
               "id": 9,
               "ausgefallene_linie": "lila",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_09.png"
             },
             {
               "id": 10,
               "ausgefallene_linie": "blau",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_10.png"
             },
             {
               "id": 11,
               "ausgefallene_linie": "rot",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_11.png"
             },
             {
               "id": 12,
               "ausgefallene_linie": "grün",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_12.png"
             },
             {
               "id": 13,
               "ausgefallene_linie": "orange",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_13.png"
             },
             {
               "id": 14,
               "ausgefallene_linie": "braun",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_14.png"
             },
             {
               "id": 15,
               "ausgefallene_linie": "pink",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_15.png"
             },
             {
               "id": 16,
               "ausgefallene_linie": "gelb",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_A_16.png"
             }
           ]
@@ -390,9 +426,9 @@
         },
         "2": {
           "name": "Verbindung bei einer ausgefallenen Linie",
-          "beschreibung": "Finde eine Verbindung von der Startstation zur Zielstation, wenn eine Linie ausfällt. Trage die benutzten Linien in der richtigen Reihenfolge ein.",
-          "startstation": "Birnenstraße (Platzhalter – später ersetzen)",
-          "zielstation": "Kakadupflaume (Platzhalter – später ersetzen)",
+          "beschreibung": "Finde eine Verbindung von der Startstation zur Zielstation, wenn eine Linie ausfällt. Trage die benutzten Linien in der richtigen Reihenfolge ein. Start- und Zielstation können pro Aufgabe individuell angegeben werden; fehlen sie dort, gelten die Standardwerte 'startstation'/'zielstation' dieses Aufgabentyps.",
+          "startstation": "Birnenstraße",
+          "zielstation": "Kakadupflaume",
           "linien": [
             "pink",
             "grün",
@@ -408,11 +444,15 @@
             {
               "id": 1,
               "ausgefallene_linie": "lila",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_uebung1_B.png"
             },
             {
               "id": 2,
               "ausgefallene_linie": "rot",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_uebung2_B.png"
             }
           ],
@@ -420,81 +460,113 @@
             {
               "id": 1,
               "ausgefallene_linie": "lila",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_01.png"
             },
             {
               "id": 2,
               "ausgefallene_linie": "rot",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_02.png"
             },
             {
               "id": 3,
               "ausgefallene_linie": "blau",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_03.png"
             },
             {
               "id": 4,
               "ausgefallene_linie": "grün",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_04.png"
             },
             {
               "id": 5,
               "ausgefallene_linie": "orange",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_05.png"
             },
             {
               "id": 6,
               "ausgefallene_linie": "gelb",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_06.png"
             },
             {
               "id": 7,
               "ausgefallene_linie": "braun",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_07.png"
             },
             {
               "id": 8,
               "ausgefallene_linie": "pink",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_08.png"
             },
             {
               "id": 9,
               "ausgefallene_linie": "lila",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_09.png"
             },
             {
               "id": 10,
               "ausgefallene_linie": "blau",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_10.png"
             },
             {
               "id": 11,
               "ausgefallene_linie": "rot",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_11.png"
             },
             {
               "id": 12,
               "ausgefallene_linie": "grün",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_12.png"
             },
             {
               "id": 13,
               "ausgefallene_linie": "orange",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_13.png"
             },
             {
               "id": 14,
               "ausgefallene_linie": "braun",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_14.png"
             },
             {
               "id": 15,
               "ausgefallene_linie": "pink",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_15.png"
             },
             {
               "id": 16,
               "ausgefallene_linie": "gelb",
+              "startstation": "Birnenstraße",
+              "zielstation": "Kakadupflaume",
               "bild": "Bilder/aufgabe2_B_16.png"
             }
           ]
