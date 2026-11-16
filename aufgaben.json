@@ -11,279 +11,8 @@
           "uebungen": [
             {
               "id": 1,
-              "linie_1": "rot",
-              "linie_2": "orange",
-              "mindestens_gemeinsame_stationenzahl": 4,
-              "bild": "Bilder/aufgabe1_uebung_A.png"
-            }
-          ],
-          "aufgaben": [
-            {
-              "id": 1,
-              "linie_1": "rot",
-              "linie_2": "blau",
-              "mindestens_gemeinsame_stationenzahl": 2,
-              "bild": "Bilder/aufgabe1_A_01.png"
-            },
-            {
-              "id": 2,
-              "linie_1": "orange",
-              "linie_2": "grün",
-              "mindestens_gemeinsame_stationenzahl": 3,
-              "bild": "Bilder/aufgabe1_A_02.png"
-            },
-            {
-              "id": 3,
-              "linie_1": "braun",
-              "linie_2": "pink",
-              "mindestens_gemeinsame_stationenzahl": 4,
-              "bild": "Bilder/aufgabe1_A_03.png"
-            },
-            {
-              "id": 4,
-              "linie_1": "blau",
-              "linie_2": "gelb",
-              "mindestens_gemeinsame_stationenzahl": 2,
-              "bild": "Bilder/aufgabe1_A_04.png"
-            },
-            {
-              "id": 5,
-              "linie_1": "rot",
-              "linie_2": "grün",
-              "mindestens_gemeinsame_stationenzahl": 3,
-              "bild": "Bilder/aufgabe1_A_05.png"
-            },
-            {
-              "id": 6,
-              "linie_1": "lila",
-              "linie_2": "braun",
-              "mindestens_gemeinsame_stationenzahl": 2,
-              "bild": "Bilder/aufgabe1_A_06.png"
-            },
-            {
-              "id": 7,
-              "linie_1": "orange",
-              "linie_2": "pink",
-              "mindestens_gemeinsame_stationenzahl": 4,
-              "bild": "Bilder/aufgabe1_A_07.png"
-            },
-            {
-              "id": 8,
-              "linie_1": "grün",
-              "linie_2": "gelb",
-              "mindestens_gemeinsame_stationenzahl": 3,
-              "bild": "Bilder/aufgabe1_A_08.png"
-            },
-            {
-              "id": 9,
-              "linie_1": "rot",
-              "linie_2": "lila",
-              "mindestens_gemeinsame_stationenzahl": 2,
-              "bild": "Bilder/aufgabe1_A_09.png"
-            },
-            {
-              "id": 10,
-              "linie_1": "blau",
-              "linie_2": "braun",
-              "mindestens_gemeinsame_stationenzahl": 4,
-              "bild": "Bilder/aufgabe1_A_10.png"
-            },
-            {
-              "id": 11,
-              "linie_1": "gelb",
-              "linie_2": "pink",
-              "mindestens_gemeinsame_stationenzahl": 2,
-              "bild": "Bilder/aufgabe1_A_11.png"
-            },
-            {
-              "id": 12,
-              "linie_1": "braun",
-              "linie_2": "rot",
-              "mindestens_gemeinsame_stationenzahl": 3,
-              "bild": "Bilder/aufgabe1_A_12.png"
-            },
-            {
-              "id": 13,
-              "linie_1": "lila",
-              "linie_2": "grün",
-              "mindestens_gemeinsame_stationenzahl": 4,
-              "bild": "Bilder/aufgabe1_A_13.png"
-            },
-            {
-              "id": 14,
-              "linie_1": "blau",
-              "linie_2": "orange",
-              "mindestens_gemeinsame_stationenzahl": 2,
-              "bild": "Bilder/aufgabe1_A_14.png"
-            },
-            {
-              "id": 15,
               "linie_1": "pink",
               "linie_2": "gelb",
-              "mindestens_gemeinsame_stationenzahl": 3,
-              "bild": "Bilder/aufgabe1_A_15.png"
-            },
-            {
-              "id": 16,
-              "linie_1": "lila",
-              "linie_2": "rot",
-              "mindestens_gemeinsame_stationenzahl": 4,
-              "bild": "Bilder/aufgabe1_A_16.png"
-            }
-          ]
-        },
-        "2": {
-          "name": "Verbindung bei einer ausgefallenen Linie",
-          "beschreibung": "Finde eine Verbindung von der Startstation zur Zielstation, wenn eine Linie ausfällt. Trage die benutzten Linien in der richtigen Reihenfolge ein. Start- und Zielstation können pro Aufgabe individuell angegeben werden; fehlen sie dort, gelten die Standardwerte 'startstation'/'zielstation' dieses Aufgabentyps.",
-          "startstation": "Birnenstraße",
-          "zielstation": "Kakadupflaume",
-          "linien": [
-            "pink",
-            "grün",
-            "lila",
-            "orange",
-            "gelb",
-            "rot",
-            "blau",
-            "braun"
-          ],
-          "maximale_linien_in_antwort": 8,
-          "uebungen": [
-            {
-              "id": 1,
-              "ausgefallene_linie": "lila",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_uebung_A.png"
-            }
-          ],
-          "aufgaben": [
-            {
-              "id": 1,
-              "ausgefallene_linie": "lila",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_01.png"
-            },
-            {
-              "id": 2,
-              "ausgefallene_linie": "rot",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_02.png"
-            },
-            {
-              "id": 3,
-              "ausgefallene_linie": "blau",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_03.png"
-            },
-            {
-              "id": 4,
-              "ausgefallene_linie": "grün",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_04.png"
-            },
-            {
-              "id": 5,
-              "ausgefallene_linie": "orange",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_05.png"
-            },
-            {
-              "id": 6,
-              "ausgefallene_linie": "gelb",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_06.png"
-            },
-            {
-              "id": 7,
-              "ausgefallene_linie": "braun",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_07.png"
-            },
-            {
-              "id": 8,
-              "ausgefallene_linie": "pink",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_08.png"
-            },
-            {
-              "id": 9,
-              "ausgefallene_linie": "lila",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_09.png"
-            },
-            {
-              "id": 10,
-              "ausgefallene_linie": "blau",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_10.png"
-            },
-            {
-              "id": 11,
-              "ausgefallene_linie": "rot",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_11.png"
-            },
-            {
-              "id": 12,
-              "ausgefallene_linie": "grün",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_12.png"
-            },
-            {
-              "id": 13,
-              "ausgefallene_linie": "orange",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_13.png"
-            },
-            {
-              "id": 14,
-              "ausgefallene_linie": "braun",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_14.png"
-            },
-            {
-              "id": 15,
-              "ausgefallene_linie": "pink",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_15.png"
-            },
-            {
-              "id": 16,
-              "ausgefallene_linie": "gelb",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_A_16.png"
-            }
-          ]
-        }
-      }
-    },
-    "B": {
-      "aufgabentypen": {
-        "1": {
-          "name": "Gemeinsame Stationen",
-          "beschreibung": "Prüfe, ob zwei Linien mindestens die angegebene Anzahl gemeinsamer Stationen haben.",
-          "uebungen": [
-            {
-              "id": 1,
-              "linie_1": "rot",
-              "linie_2": "orange",
               "mindestens_gemeinsame_stationenzahl": 4,
               "bild": "Bilder/aufgabe1_uebung_B.png"
             }
@@ -291,114 +20,114 @@
           "aufgaben": [
             {
               "id": 1,
-              "linie_1": "rot",
-              "linie_2": "blau",
-              "mindestens_gemeinsame_stationenzahl": 2,
+              "linie_1": "lila",
+              "linie_2": "rot",
+              "mindestens_gemeinsame_stationenzahl": 4,
               "bild": "Bilder/aufgabe1_B_01.png"
             },
             {
               "id": 2,
-              "linie_1": "orange",
-              "linie_2": "grün",
-              "mindestens_gemeinsame_stationenzahl": 3,
+              "linie_1": "braun",
+              "linie_2": "rot",
+              "mindestens_gemeinsame_stationenzahl": 4,
               "bild": "Bilder/aufgabe1_B_02.png"
             },
             {
               "id": 3,
-              "linie_1": "braun",
-              "linie_2": "pink",
-              "mindestens_gemeinsame_stationenzahl": 4,
+              "linie_1": "blau",
+              "linie_2": "braun",
+              "mindestens_gemeinsame_stationenzahl": 6,
               "bild": "Bilder/aufgabe1_B_03.png"
             },
             {
               "id": 4,
               "linie_1": "blau",
-              "linie_2": "gelb",
-              "mindestens_gemeinsame_stationenzahl": 2,
+              "linie_2": "lila",
+              "mindestens_gemeinsame_stationenzahl": 5,
               "bild": "Bilder/aufgabe1_B_04.png"
             },
             {
               "id": 5,
-              "linie_1": "rot",
-              "linie_2": "grün",
-              "mindestens_gemeinsame_stationenzahl": 3,
+              "linie_1": "gelb",
+              "linie_2": "orange",
+              "mindestens_gemeinsame_stationenzahl": 5,
               "bild": "Bilder/aufgabe1_B_05.png"
             },
             {
               "id": 6,
-              "linie_1": "lila",
-              "linie_2": "braun",
-              "mindestens_gemeinsame_stationenzahl": 2,
+              "linie_1": "braun",
+              "linie_2": "pink",
+              "mindestens_gemeinsame_stationenzahl": 5,
               "bild": "Bilder/aufgabe1_B_06.png"
             },
             {
               "id": 7,
-              "linie_1": "orange",
-              "linie_2": "pink",
+              "linie_1": "gelb",
+              "linie_2": "orange",
               "mindestens_gemeinsame_stationenzahl": 4,
               "bild": "Bilder/aufgabe1_B_07.png"
             },
             {
               "id": 8,
-              "linie_1": "grün",
-              "linie_2": "gelb",
-              "mindestens_gemeinsame_stationenzahl": 3,
+              "linie_1": "braun",
+              "linie_2": "lila",
+              "mindestens_gemeinsame_stationenzahl": 8,
               "bild": "Bilder/aufgabe1_B_08.png"
             },
             {
               "id": 9,
-              "linie_1": "rot",
-              "linie_2": "lila",
-              "mindestens_gemeinsame_stationenzahl": 2,
+              "linie_1": "grün",
+              "linie_2": "pink",
+              "mindestens_gemeinsame_stationenzahl": 4,
               "bild": "Bilder/aufgabe1_B_09.png"
             },
             {
               "id": 10,
-              "linie_1": "blau",
-              "linie_2": "braun",
-              "mindestens_gemeinsame_stationenzahl": 4,
+              "linie_1": "orange",
+              "linie_2": "pink",
+              "mindestens_gemeinsame_stationenzahl": 5,
               "bild": "Bilder/aufgabe1_B_10.png"
             },
             {
               "id": 11,
-              "linie_1": "gelb",
-              "linie_2": "pink",
-              "mindestens_gemeinsame_stationenzahl": 2,
+              "linie_1": "lila",
+              "linie_2": "rot",
+              "mindestens_gemeinsame_stationenzahl": 6,
               "bild": "Bilder/aufgabe1_B_11.png"
             },
             {
               "id": 12,
-              "linie_1": "braun",
+              "linie_1": "blau",
               "linie_2": "rot",
-              "mindestens_gemeinsame_stationenzahl": 3,
+              "mindestens_gemeinsame_stationenzahl": 6,
               "bild": "Bilder/aufgabe1_B_12.png"
             },
             {
               "id": 13,
-              "linie_1": "lila",
-              "linie_2": "grün",
-              "mindestens_gemeinsame_stationenzahl": 4,
+              "linie_1": "grün",
+              "linie_2": "rot",
+              "mindestens_gemeinsame_stationenzahl": 5,
               "bild": "Bilder/aufgabe1_B_13.png"
             },
             {
               "id": 14,
-              "linie_1": "blau",
+              "linie_1": "grün",
               "linie_2": "orange",
-              "mindestens_gemeinsame_stationenzahl": 2,
+              "mindestens_gemeinsame_stationenzahl": 4,
               "bild": "Bilder/aufgabe1_B_14.png"
             },
             {
               "id": 15,
-              "linie_1": "pink",
-              "linie_2": "gelb",
-              "mindestens_gemeinsame_stationenzahl": 3,
+              "linie_1": "blau",
+              "linie_2": "braun",
+              "mindestens_gemeinsame_stationenzahl": 6,
               "bild": "Bilder/aufgabe1_B_15.png"
             },
             {
               "id": 16,
-              "linie_1": "lila",
-              "linie_2": "rot",
-              "mindestens_gemeinsame_stationenzahl": 4,
+              "linie_1": "grün",
+              "linie_2": "pink",
+              "mindestens_gemeinsame_stationenzahl": 3,
               "bild": "Bilder/aufgabe1_B_16.png"
             }
           ]
@@ -422,123 +151,394 @@
           "uebungen": [
             {
               "id": 1,
-              "ausgefallene_linie": "lila",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "braun",
+              "startstation": "Sonnenstraße",
+              "zielstation": "Tierpark",
               "bild": "Bilder/aufgabe2_uebung_B.png"
             }
           ],
           "aufgaben": [
             {
               "id": 1,
-              "ausgefallene_linie": "lila",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "braun",
+              "startstation": "Friedrichstraße",
+              "zielstation": "Gartenstraße",
               "bild": "Bilder/aufgabe2_B_01.png"
             },
             {
               "id": 2,
-              "ausgefallene_linie": "rot",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "blau",
+              "startstation": "Marktstraße",
+              "zielstation": "Stadthalle",
               "bild": "Bilder/aufgabe2_B_02.png"
             },
             {
               "id": 3,
-              "ausgefallene_linie": "blau",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "rot",
+              "startstation": "Sonnenstraße",
+              "zielstation": "Waldstraße",
               "bild": "Bilder/aufgabe2_B_03.png"
             },
             {
               "id": 4,
-              "ausgefallene_linie": "grün",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "rot",
+              "startstation": "Beethovenstraße",
+              "zielstation": "Talstraße",
               "bild": "Bilder/aufgabe2_B_04.png"
             },
             {
               "id": 5,
               "ausgefallene_linie": "orange",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "startstation": "Bergstraße",
+              "zielstation": "Schillerstraße",
               "bild": "Bilder/aufgabe2_B_05.png"
             },
             {
               "id": 6,
-              "ausgefallene_linie": "gelb",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "lila",
+              "startstation": "Schillerstraße",
+              "zielstation": "Jahnstraße",
               "bild": "Bilder/aufgabe2_B_06.png"
             },
             {
               "id": 7,
-              "ausgefallene_linie": "braun",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "grün",
+              "startstation": "Wiesenstraße",
+              "zielstation": "Marktstraße",
               "bild": "Bilder/aufgabe2_B_07.png"
             },
             {
               "id": 8,
-              "ausgefallene_linie": "pink",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "rot",
+              "startstation": "Poststraße",
+              "zielstation": "Blumenstraße",
               "bild": "Bilder/aufgabe2_B_08.png"
             },
             {
               "id": 9,
-              "ausgefallene_linie": "lila",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "orange",
+              "startstation": "Brückenstraße",
+              "zielstation": "Brunnenstraße",
               "bild": "Bilder/aufgabe2_B_09.png"
             },
             {
               "id": 10,
-              "ausgefallene_linie": "blau",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "rot",
+              "startstation": "Berliner Straße",
+              "zielstation": "Feldstraße",
               "bild": "Bilder/aufgabe2_B_10.png"
             },
             {
               "id": 11,
-              "ausgefallene_linie": "rot",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "pink",
+              "startstation": "Industriestraße",
+              "zielstation": "Beethovenstraße",
               "bild": "Bilder/aufgabe2_B_11.png"
             },
             {
               "id": 12,
-              "ausgefallene_linie": "grün",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "lila",
+              "startstation": "Königsberger Straße",
+              "zielstation": "Hauptstraße",
               "bild": "Bilder/aufgabe2_B_12.png"
             },
             {
               "id": 13,
-              "ausgefallene_linie": "orange",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "grün",
+              "startstation": "Sonnenstraße",
+              "zielstation": "Brückenstraße",
               "bild": "Bilder/aufgabe2_B_13.png"
             },
             {
               "id": 14,
               "ausgefallene_linie": "braun",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "startstation": "Rathausstraße",
+              "zielstation": "Rosenstraße",
               "bild": "Bilder/aufgabe2_B_14.png"
             },
             {
               "id": 15,
-              "ausgefallene_linie": "pink",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "blau",
+              "startstation": "Rosenstraße",
+              "zielstation": "Feldstraße",
               "bild": "Bilder/aufgabe2_B_15.png"
             },
             {
               "id": 16,
-              "ausgefallene_linie": "gelb",
-              "startstation": "Birnenstraße",
-              "zielstation": "Kakadupflaume",
+              "ausgefallene_linie": "blau",
+              "startstation": "Friedrichstraße",
+              "zielstation": "Leipziger Straße",
+              "bild": "Bilder/aufgabe2_B_16.png"
+            }
+          ]
+        }
+      }
+    },
+    "B": {
+      "aufgabentypen": {
+        "1": {
+          "name": "Gemeinsame Stationen",
+          "beschreibung": "Prüfe, ob zwei Linien mindestens die angegebene Anzahl gemeinsamer Stationen haben.",
+          "uebungen": [
+            {
+              "id": 1,
+              "linie_1": "pink",
+              "linie_2": "gelb",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_uebung_B.png"
+            }
+          ],
+          "aufgaben": [
+            {
+              "id": 1,
+              "linie_1": "lila",
+              "linie_2": "rot",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_B_01.png"
+            },
+            {
+              "id": 2,
+              "linie_1": "braun",
+              "linie_2": "rot",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_B_02.png"
+            },
+            {
+              "id": 3,
+              "linie_1": "blau",
+              "linie_2": "braun",
+              "mindestens_gemeinsame_stationenzahl": 6,
+              "bild": "Bilder/aufgabe1_B_03.png"
+            },
+            {
+              "id": 4,
+              "linie_1": "blau",
+              "linie_2": "lila",
+              "mindestens_gemeinsame_stationenzahl": 5,
+              "bild": "Bilder/aufgabe1_B_04.png"
+            },
+            {
+              "id": 5,
+              "linie_1": "gelb",
+              "linie_2": "orange",
+              "mindestens_gemeinsame_stationenzahl": 5,
+              "bild": "Bilder/aufgabe1_B_05.png"
+            },
+            {
+              "id": 6,
+              "linie_1": "braun",
+              "linie_2": "pink",
+              "mindestens_gemeinsame_stationenzahl": 5,
+              "bild": "Bilder/aufgabe1_B_06.png"
+            },
+            {
+              "id": 7,
+              "linie_1": "gelb",
+              "linie_2": "orange",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_B_07.png"
+            },
+            {
+              "id": 8,
+              "linie_1": "braun",
+              "linie_2": "lila",
+              "mindestens_gemeinsame_stationenzahl": 8,
+              "bild": "Bilder/aufgabe1_B_08.png"
+            },
+            {
+              "id": 9,
+              "linie_1": "grün",
+              "linie_2": "pink",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_B_09.png"
+            },
+            {
+              "id": 10,
+              "linie_1": "orange",
+              "linie_2": "pink",
+              "mindestens_gemeinsame_stationenzahl": 5,
+              "bild": "Bilder/aufgabe1_B_10.png"
+            },
+            {
+              "id": 11,
+              "linie_1": "lila",
+              "linie_2": "rot",
+              "mindestens_gemeinsame_stationenzahl": 6,
+              "bild": "Bilder/aufgabe1_B_11.png"
+            },
+            {
+              "id": 12,
+              "linie_1": "blau",
+              "linie_2": "rot",
+              "mindestens_gemeinsame_stationenzahl": 6,
+              "bild": "Bilder/aufgabe1_B_12.png"
+            },
+            {
+              "id": 13,
+              "linie_1": "grün",
+              "linie_2": "rot",
+              "mindestens_gemeinsame_stationenzahl": 5,
+              "bild": "Bilder/aufgabe1_B_13.png"
+            },
+            {
+              "id": 14,
+              "linie_1": "grün",
+              "linie_2": "orange",
+              "mindestens_gemeinsame_stationenzahl": 4,
+              "bild": "Bilder/aufgabe1_B_14.png"
+            },
+            {
+              "id": 15,
+              "linie_1": "blau",
+              "linie_2": "braun",
+              "mindestens_gemeinsame_stationenzahl": 6,
+              "bild": "Bilder/aufgabe1_B_15.png"
+            },
+            {
+              "id": 16,
+              "linie_1": "grün",
+              "linie_2": "pink",
+              "mindestens_gemeinsame_stationenzahl": 3,
+              "bild": "Bilder/aufgabe1_B_16.png"
+            }
+          ]
+        },
+        "2": {
+          "name": "Verbindung bei einer ausgefallenen Linie",
+          "beschreibung": "Finde eine Verbindung von der Startstation zur Zielstation, wenn eine Linie ausfällt. Trage die benutzten Linien in der richtigen Reihenfolge ein. Start- und Zielstation können pro Aufgabe individuell angegeben werden; fehlen sie dort, gelten die Standardwerte 'startstation'/'zielstation' dieses Aufgabentyps.",
+          "startstation": "Birnenstraße",
+          "zielstation": "Kakadupflaume",
+          "linien": [
+            "pink",
+            "grün",
+            "lila",
+            "orange",
+            "gelb",
+            "rot",
+            "blau",
+            "braun"
+          ],
+          "maximale_linien_in_antwort": 8,
+          "uebungen": [
+            {
+              "id": 1,
+              "ausgefallene_linie": "braun",
+              "startstation": "Sonnenstraße",
+              "zielstation": "Tierpark",
+              "bild": "Bilder/aufgabe2_uebung_B.png"
+            }
+          ],
+          "aufgaben": [
+            {
+              "id": 1,
+              "ausgefallene_linie": "braun",
+              "startstation": "Friedrichstraße",
+              "zielstation": "Gartenstraße",
+              "bild": "Bilder/aufgabe2_B_01.png"
+            },
+            {
+              "id": 2,
+              "ausgefallene_linie": "blau",
+              "startstation": "Marktstraße",
+              "zielstation": "Stadthalle",
+              "bild": "Bilder/aufgabe2_B_02.png"
+            },
+            {
+              "id": 3,
+              "ausgefallene_linie": "rot",
+              "startstation": "Sonnenstraße",
+              "zielstation": "Waldstraße",
+              "bild": "Bilder/aufgabe2_B_03.png"
+            },
+            {
+              "id": 4,
+              "ausgefallene_linie": "rot",
+              "startstation": "Beethovenstraße",
+              "zielstation": "Talstraße",
+              "bild": "Bilder/aufgabe2_B_04.png"
+            },
+            {
+              "id": 5,
+              "ausgefallene_linie": "orange",
+              "startstation": "Bergstraße",
+              "zielstation": "Schillerstraße",
+              "bild": "Bilder/aufgabe2_B_05.png"
+            },
+            {
+              "id": 6,
+              "ausgefallene_linie": "lila",
+              "startstation": "Schillerstraße",
+              "zielstation": "Jahnstraße",
+              "bild": "Bilder/aufgabe2_B_06.png"
+            },
+            {
+              "id": 7,
+              "ausgefallene_linie": "grün",
+              "startstation": "Wiesenstraße",
+              "zielstation": "Marktstraße",
+              "bild": "Bilder/aufgabe2_B_07.png"
+            },
+            {
+              "id": 8,
+              "ausgefallene_linie": "rot",
+              "startstation": "Poststraße",
+              "zielstation": "Blumenstraße",
+              "bild": "Bilder/aufgabe2_B_08.png"
+            },
+            {
+              "id": 9,
+              "ausgefallene_linie": "orange",
+              "startstation": "Brückenstraße",
+              "zielstation": "Brunnenstraße",
+              "bild": "Bilder/aufgabe2_B_09.png"
+            },
+            {
+              "id": 10,
+              "ausgefallene_linie": "rot",
+              "startstation": "Berliner Straße",
+              "zielstation": "Feldstraße",
+              "bild": "Bilder/aufgabe2_B_10.png"
+            },
+            {
+              "id": 11,
+              "ausgefallene_linie": "pink",
+              "startstation": "Industriestraße",
+              "zielstation": "Beethovenstraße",
+              "bild": "Bilder/aufgabe2_B_11.png"
+            },
+            {
+              "id": 12,
+              "ausgefallene_linie": "lila",
+              "startstation": "Königsberger Straße",
+              "zielstation": "Hauptstraße",
+              "bild": "Bilder/aufgabe2_B_12.png"
+            },
+            {
+              "id": 13,
+              "ausgefallene_linie": "grün",
+              "startstation": "Sonnenstraße",
+              "zielstation": "Brückenstraße",
+              "bild": "Bilder/aufgabe2_B_13.png"
+            },
+            {
+              "id": 14,
+              "ausgefallene_linie": "braun",
+              "startstation": "Rathausstraße",
+              "zielstation": "Rosenstraße",
+              "bild": "Bilder/aufgabe2_B_14.png"
+            },
+            {
+              "id": 15,
+              "ausgefallene_linie": "blau",
+              "startstation": "Rosenstraße",
+              "zielstation": "Feldstraße",
+              "bild": "Bilder/aufgabe2_B_15.png"
+            },
+            {
+              "id": 16,
+              "ausgefallene_linie": "blau",
+              "startstation": "Friedrichstraße",
+              "zielstation": "Leipziger Straße",
               "bild": "Bilder/aufgabe2_B_16.png"
             }
           ]
