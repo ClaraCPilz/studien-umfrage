@@ -404,7 +404,7 @@ const donePg=()=>({sec:SEC.end,run(){shell(this,`<h1>Vielen Dank!</h1><div style
 const V=ids=>[...ids].map(x=>VARIANTS.find(v=>v.id==x));
 const withOrd=(pages,ord)=>{pages.forEach(p=>p.ord=ord);return pages};
 function flow(t,pl){const P=[],c=TASKS[t],nm=c.measured.length,Page=t==1?task1Pg:task2Pg,vo=V(pl.v[t]);
- vo.forEach((v,k)=>{const pg=Page(taskSpec(t,true,k+1,v));pg.info=`${c.name} · Variante ${v.id} · Übungsaufgabe ${k+1}`;P.push(pg)});
+ vo.forEach((v,k)=>{const pg=Page(taskSpec(t,true,1,v));pg.info=`${c.name} · Variante ${v.id} · Übungsaufgabe ${k+1}`;P.push(pg)});
  const ann=(a,k)=>textPg(c.sm,a[0],a[1].replace("{n}",numw(nm)).replace("{ordinal}",ORDINALS[k]));
  P.push(ann(MEASURE_START,0));
  vo.forEach((v,vi)=>{const seq=(pl.o[t+v.id]||Array.from({length:nm},(_,i)=>i+1));seq.forEach((nr,pos)=>{const pg=Page(taskSpec(t,false,nr,v,pos+1));pg.info=`${c.name} · Variante ${v.id} · Aufgabe Nr. ${nr} (Position ${pos+1}/${nm})`;P.push(pg)});if(vi<vo.length-1)P.push(ann(NEXT_VARIANT,vi+1))});
