@@ -14,7 +14,7 @@
               "linie_1": "rot",
               "linie_2": "orange",
               "mindestens_gemeinsame_stationenzahl": 4,
-              "bild": "Bilder/aufgabe1_uebung1_A.png"
+              "bild": "Bilder/aufgabe1_uebung_A.png"
             }
           ],
           "aufgaben": [
@@ -154,7 +154,7 @@
               "ausgefallene_linie": "lila",
               "startstation": "Birnenstraße",
               "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_uebung1_A.png"
+              "bild": "Bilder/aufgabe2_uebung_A.png"
             }
           ],
           "aufgaben": [
@@ -285,7 +285,7 @@
               "linie_1": "rot",
               "linie_2": "orange",
               "mindestens_gemeinsame_stationenzahl": 4,
-              "bild": "Bilder/aufgabe1_uebung1_B.png"
+              "bild": "Bilder/aufgabe1_uebung_B.png"
             }
           ],
           "aufgaben": [
@@ -425,7 +425,7 @@
               "ausgefallene_linie": "lila",
               "startstation": "Birnenstraße",
               "zielstation": "Kakadupflaume",
-              "bild": "Bilder/aufgabe2_uebung1_B.png"
+              "bild": "Bilder/aufgabe2_uebung_B.png"
             }
           ],
           "aufgaben": [
