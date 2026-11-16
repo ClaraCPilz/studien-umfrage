@@ -348,7 +348,7 @@ const rankPg=ph=>{const f=PHASES[ph];return{sec:f.secRank,wide:1,run(){const n=S
  const paint=()=>grid.querySelectorAll(".cell").forEach(c=>{const i=+c.dataset.i,v=cells[i];
   if(v==null){c.innerHTML=i<n?String(i+1):"";c.draggable=false;return}
   const variant=S.order[v],image=variant.image?img(variant.image):`<div class="ph">Variante ${esc(variant.id)}<br><small>Bild noch nicht verfügbar</small></div>`;
-  c.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:100%;height:100%;padding:8px;pointer-events:none"><strong>Variante ${esc(variant.id)}</strong><div class="imgbox" style="width:100%;height:calc(100% - 28px)">${image}</div></div>`;
+  c.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:100%;height:100%;padding:8px;pointer-events:none"><div class="imgbox" style="width:100%;height:100%">${image}</div></div>`;
   c.draggable=true;c.style.cursor="grab";c.ondragstart=e=>{e.dataTransfer.setData("text/plain",String(i));e.dataTransfer.effectAllowed="move"};
  });
  grid.querySelectorAll(".cell").forEach(c=>{c.ondragover=e=>{e.preventDefault();e.dataTransfer.dropEffect="move";c.classList.add("over")};c.ondragleave=()=>c.classList.remove("over");c.ondrop=e=>{e.preventDefault();c.classList.remove("over");const a=Number(e.dataTransfer.getData("text/plain")),b=Number(c.dataset.i);if(Number.isInteger(a)&&a>=0&&a<cells.length&&a!==b&&cells[a]!=null){[cells[a],cells[b]]=[cells[b],cells[a]];err("");paint()}}});paint();
