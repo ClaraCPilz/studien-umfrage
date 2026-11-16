@@ -175,7 +175,7 @@ const TASK1_PRACTICE=[commonQ("rot","orange",4,0,1),commonQ("grün","blau",2,0,1
 const TASK1_MEASURED=[["rot","blau",2],["orange","grün",3],["braun","pink",4],["blau","gelb",2],["rot","grün",3],["lila","braun",2],["orange","pink",4],["grün","gelb",3],["rot","lila",2],["blau","braun",4],["gelb","pink",2],["braun","rot",3],["lila","grün",4],["blau","orange",2],["pink","gelb",3],["lila","rot",4]].map(r=>commonQ(...r));
 const TASK2_PRACTICE=[routeQ("lila","Birnenstraße","Kakadupflaume"),routeQ("rot","Birnenstraße","Kakadupflaume")];
 const TASK2_MEASURED=["lila","rot","blau","grün","orange","gelb","braun","pink","lila","blau","rot","grün","orange","braun","pink","gelb"].map(f=>routeQ(f,"Birnenstraße","Kakadupflaume"));
-const TASK_IMG_PRACTICE=(t,nr,v)=>`Bilder/aufgabe${t}_uebung${nr}_${v}.png`, TASK_IMG=(t,v,nr)=>`Bilder/aufgabe${t}_${v}_${String(nr).padStart(2,"0")}.png`;
+const TASK_IMG_PRACTICE=(t,nr,v)=>`Bilder/aufgabe${t}_uebung_${v}.png`, TASK_IMG=(t,v,nr)=>`Bilder/aufgabe${t}_${v}_${String(nr).padStart(2,"0")}.png`;
 const TASKS={1:{practice:TASK1_PRACTICE,measured:TASK1_MEASURED,name:"Gemeinsame Stationen",sp:SEC.p1,sm:SEC.t1},2:{practice:TASK2_PRACTICE,measured:TASK2_MEASURED,name:"Verbindung bei einer ausgefallenen Linie",sp:SEC.p2,sm:SEC.t2}};
 // Öffentliche Aufgaben werden beim Start aus aufgaben.json geladen.
 let TASK_CONFIG=null;
