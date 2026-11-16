@@ -133,7 +133,7 @@ const QUESTIONS=[
 {key:"Bahnnutzung",type:"radio",text:"Wie häufig nutzt du Bahnen im Alltag oder auf Reisen?",hint:"Gemeint sind zum Beispiel Zug, S-Bahn, U-Bahn oder Straßenbahn.",options:["Täglich","Mehrmals pro Woche","Mehrmals pro Monat","Seltener","Nie"]},
 {key:"Bahnnetzkarten",type:"radio",text:"Wie häufig nutzt du Bahnnetzkarten zur Orientierung oder Verbindungsplanung?",hint:"Gemeint sind zum Beispiel Liniennetzpläne von Straßenbahn, U-Bahn, S-Bahn oder Zugverbindungen.",options:["Sehr häufig","Häufig","Gelegentlich","Selten","Nie","Ich bin mir nicht sicher, was Bahnnetzkarten sind"]},
 {key:"Informationsquellen",type:"multi",text:"Wie informierst du dich normalerweise über deine Verbindung mit öffentlichen Verkehrsmitteln?",hint:"Mehrfachauswahl möglich.",options:["Navigations-App, zum Beispiel Google Maps oder Apple Karten","ÖPNV-App, zum Beispiel DB Navigator, DVB mobil, VVO mobil","Website eines Verkehrsunternehmens oder Verkehrsverbunds","Digitale Anzeige an Haltestellen oder Bahnhöfen","Aushangfahrplan","Liniennetzplan / Bahnnetzkarte","Ich frage andere Personen","Ich nutze öffentliche Verkehrsmittel kaum oder gar nicht"],other:true,exclusive:"Ich nutze öffentliche Verkehrsmittel kaum oder gar nicht"}];
-const VARIANTS=[{id:"A",image:"Bilder/variante_a.png"},{id:"B",image:"Bilder/variante_b.png"}];
+const VARIANTS=[{id:"A",image:"Bilder/variante_a.png",qimage:"Bilder/aufgabe1_uebung_A.png"},{id:"B",image:"Bilder/variante_b.png",qimage:"Bilder/aufgabe1_uebung_B.png"}];
 const COMMENT_TITLE="Ergänzende Kommentare zu den Bahnnetzvarianten";
 const COMMENT_TEXT="Du siehst die beiden Varianten noch einmal nebeneinander.\n\nWenn du möchtest, kannst du in den Kommentarfeldern beschreiben, was dir bei den einzelnen Darstellungen aufgefallen ist. Du kannst beispielsweise Aspekte nennen, die deine Einschätzung beeinflusst haben.\n\nKurze Stichpunkte reichen aus. Du kannst die Felder auch leer lassen.";
 const RANK_TITLE="Ästhetische Bewertung der Bahnnetzvarianten";
@@ -268,7 +268,7 @@ function loadImage(src){const name=String(src).split("/").pop();
  return IMG_CACHE.get(name)}
 function hydrateImages(root){root.querySelectorAll("img[data-src]:not([data-l])").forEach(im=>{im.dataset.l=1;const src=im.dataset.src;
  loadImage(src).then(u=>{im.src=u}).catch(()=>{im.outerHTML='<div class="ph">Abbildung konnte nicht geladen werden:<br>'+esc(src)+'</div>'})})}
-async function preloadImages(){const names=[...VARIANTS.map(v=>v.image)];
+async function preloadImages(){const names=[...VARIANTS.map(v=>v.image),...VARIANTS.map(v=>v.qimage)];
  for(const v of ["A","B"])for(const t of ["1","2"]){const x=TASK_CONFIG.varianten[v].aufgabentypen[t];[...x.uebungen,...x.aufgaben].forEach(e=>names.push(e.bild))}
  const q=names.filter(Boolean);const worker=async()=>{while(q.length){try{await loadImage(q.shift())}catch(e){}}};
  await Promise.all([worker(),worker(),worker()])}
@@ -326,14 +326,14 @@ const qPg=(q,idx)=>({sec:SEC.base,run(){const n=q.options.length+(q.other?1:0),s
 const orderSave=ph=>()=>{save({["Reihenfolge_"+PHASES[ph].key]:S.order.map(v=>v.id).join(" | ")})};
 function ratingPg(ph,pos){const f=PHASES[ph];return{sec:f.sec,wide:1,run(){const v=S.order[pos],vals=Array(UEQ.length).fill(null);
  const rows=UEQ.map(([l,r],i)=>`<tr data-r="${i}"><td class="l">${l}</td>${UEQ_COLS.map((c,j)=>`<td><button class="dot" title="${esc(c)}" data-r="${i}" data-c="${j}"></button></td>`).join("")}<td class="r">${r}</td></tr>`).join("");
- shell(this,`<div class="two"><div><h2>${esc(f.title)} – Variante ${v.id}</h2><div class="txt">${rich(f.text)}</div><table class="ueq">${rows}</table></div><div class="imgbox">${img(v.image)}</div></div>`);
+ shell(this,`<div class="two"><div><h2>${esc(f.title)} – Variante ${v.id}</h2><div class="txt">${rich(f.text)}</div><table class="ueq">${rows}</table></div><div class="imgbox">${img(v.qimage)}</div></div>`);
  document.querySelectorAll(".dot").forEach(d=>d.onclick=()=>{const r=+d.dataset.r,c=+d.dataset.c;vals[r]=c+1;document.querySelectorAll(`.dot[data-r="${r}"]`).forEach((x,j)=>x.classList.toggle("on",j==c));document.querySelector(`tr[data-r="${r}"]`).classList.remove("bad")});
  const nx=()=>{const miss=vals.map((x,i)=>x==null?i:-1).filter(i=>i>=0);if(miss.length){miss.forEach(i=>document.querySelector(`tr[data-r="${i}"]`).classList.add("bad"));return err(`Bitte beantworte alle Zeilen (${miss.length} noch offen).`)}
   const o={};vals.forEach((x,r)=>o[`${f.key}_${v.id}_UEQS${r+1}`]=x);save(o);next()};
  $("#nx").onclick=nx;S.cur={next:nx,fill(){vals.forEach((x,r)=>{if(x==null)document.querySelector(`.dot[data-r="${r}"][data-c="3"]`).click()})}}}}}
 function susPg(ph,pos){const f=PHASES[ph];return{sec:f.sec,wide:1,run(){const v=S.order[pos],vals=Array(SUS_ITEMS.length).fill(null);
  const items=SUS_ITEMS.map((t,i)=>`<div class="sus" data-r="${i}"><div class="st" style="font-size:16px">${i+1}. ${esc(t)}</div><div class="scale">${[0,1,2,3,4].map(c=>`<div><button class="dot" data-r="${i}" data-c="${c}"></button><div>${c==0?"1<br>"+SUS_LOW:c==4?"5<br>"+SUS_HIGH:c+1}</div></div>`).join("")}</div></div>`).join("");
- shell(this,`<div class="cols" style="grid-template-columns:760px 1fr"><div style="overflow:auto"><h2>${SUS_TITLE} – Variante ${v.id}</h2><div class="txt">${rich(SUS_TEXT)}</div><div style="height:10px"></div>${items}</div><div class="imgbox">${img(v.image)}</div></div>`);
+ shell(this,`<div class="cols" style="grid-template-columns:760px 1fr"><div style="overflow:auto"><h2>${SUS_TITLE} – Variante ${v.id}</h2><div class="txt">${rich(SUS_TEXT)}</div><div style="height:10px"></div>${items}</div><div class="imgbox">${img(v.qimage)}</div></div>`);
  document.querySelectorAll(".dot").forEach(d=>d.onclick=()=>{const r=+d.dataset.r,c=+d.dataset.c;vals[r]=c+1;document.querySelectorAll(`.dot[data-r="${r}"]`).forEach((x,j)=>x.classList.toggle("on",j==c));document.querySelector(`.sus[data-r="${r}"]`).classList.remove("bad")});
  const nx=()=>{const miss=vals.map((x,i)=>x==null?i:-1).filter(i=>i>=0);if(miss.length){miss.forEach(i=>document.querySelector(`.sus[data-r="${i}"]`).classList.add("bad"));return err(`Bitte beantworte alle Aussagen (${miss.length} noch offen).`)}
   const o={};vals.forEach((x,n)=>o[`SUS_${v.id}_${n+1}`]=x);o[`SUS_${v.id}_Score`]=susScore(vals);save(o);next()};
