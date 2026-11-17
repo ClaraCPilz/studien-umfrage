@@ -231,6 +231,7 @@ function derived(d){const o={};for(const t of[1,2]){let ok=[],ms=[];VARIANTS.for
   o[`A${t}_Gesamt_Anzahl_Richtig`]=ok.length?ok.reduce((x,y)=>x+y):"";o[`A${t}_Gesamt_Mittlere_Zeit_ms`]=ms.length?Math.round(ms.reduce((x,y)=>x+y)/ms.length):""}return o}
 // ===== Speicherung im Browser UND im privaten GitHub-Datenrepository =====
 const SAVE_ENDPOINT="https://umfrage-speicher.claracamilla-pilz2.workers.dev/";
+const SAVE_INTERVAL_MS=5*60*1000; // Automatische Sammelspeicherung alle 5 Minuten
 let savePromise=null,saveDirty=false,autoSaveTimer=null;
 function makeSaveBody(){
  const d={...S.data,...derived(S.data)},cols=columns();
@@ -272,7 +273,7 @@ async function flushSave(){
 }
 function startAutoSave(){
  if(autoSaveTimer)return;
- autoSaveTimer=setInterval(()=>{if(saveDirty&&navigator.onLine!==false)flushSave()},120000);
+ autoSaveTimer=setInterval(()=>{if(saveDirty&&navigator.onLine!==false)flushSave()},SAVE_INTERVAL_MS);
 }
 window.addEventListener("online",()=>{if(saveDirty)flushSave()});
 const orderValue=(key,nr)=>{const it=String(S.data[key]||"").split(" > ").filter(Boolean);if(!it.includes(pad2(nr)))it.push(pad2(nr));return it.join(" > ")};
