@@ -14,7 +14,7 @@
               "linie_1": "pink",
               "linie_2": "gelb",
               "mindestens_gemeinsame_stationenzahl": 4,
-              "bild": "Bilder/aufgabe1_uebung_B.png"
+              "bild": "Bilder/aufgabe1_uebung_A.png"
             }
           ],
           "aufgaben": [
@@ -23,112 +23,112 @@
               "linie_1": "lila",
               "linie_2": "rot",
               "mindestens_gemeinsame_stationenzahl": 4,
-              "bild": "Bilder/aufgabe1_B_01.png"
+              "bild": "Bilder/aufgabe1_A_01.png"
             },
             {
               "id": 2,
               "linie_1": "braun",
               "linie_2": "rot",
               "mindestens_gemeinsame_stationenzahl": 4,
-              "bild": "Bilder/aufgabe1_B_02.png"
+              "bild": "Bilder/aufgabe1_A_02.png"
             },
             {
               "id": 3,
               "linie_1": "blau",
               "linie_2": "braun",
               "mindestens_gemeinsame_stationenzahl": 6,
-              "bild": "Bilder/aufgabe1_B_03.png"
+              "bild": "Bilder/aufgabe1_A_03.png"
             },
             {
               "id": 4,
               "linie_1": "blau",
               "linie_2": "lila",
               "mindestens_gemeinsame_stationenzahl": 5,
-              "bild": "Bilder/aufgabe1_B_04.png"
+              "bild": "Bilder/aufgabe1_A_04.png"
             },
             {
               "id": 5,
               "linie_1": "gelb",
               "linie_2": "orange",
               "mindestens_gemeinsame_stationenzahl": 5,
-              "bild": "Bilder/aufgabe1_B_05.png"
+              "bild": "Bilder/aufgabe1_A_05.png"
             },
             {
               "id": 6,
               "linie_1": "braun",
               "linie_2": "pink",
               "mindestens_gemeinsame_stationenzahl": 5,
-              "bild": "Bilder/aufgabe1_B_06.png"
+              "bild": "Bilder/aufgabe1_A_06.png"
             },
             {
               "id": 7,
               "linie_1": "gelb",
               "linie_2": "orange",
               "mindestens_gemeinsame_stationenzahl": 4,
-              "bild": "Bilder/aufgabe1_B_07.png"
+              "bild": "Bilder/aufgabe1_A_07.png"
             },
             {
               "id": 8,
               "linie_1": "braun",
               "linie_2": "lila",
               "mindestens_gemeinsame_stationenzahl": 8,
-              "bild": "Bilder/aufgabe1_B_08.png"
+              "bild": "Bilder/aufgabe1_A_08.png"
             },
             {
               "id": 9,
               "linie_1": "grün",
               "linie_2": "pink",
               "mindestens_gemeinsame_stationenzahl": 4,
-              "bild": "Bilder/aufgabe1_B_09.png"
+              "bild": "Bilder/aufgabe1_A_09.png"
             },
             {
               "id": 10,
               "linie_1": "orange",
               "linie_2": "pink",
               "mindestens_gemeinsame_stationenzahl": 5,
-              "bild": "Bilder/aufgabe1_B_10.png"
+              "bild": "Bilder/aufgabe1_A_10.png"
             },
             {
               "id": 11,
               "linie_1": "lila",
               "linie_2": "rot",
               "mindestens_gemeinsame_stationenzahl": 6,
-              "bild": "Bilder/aufgabe1_B_11.png"
+              "bild": "Bilder/aufgabe1_A_11.png"
             },
             {
               "id": 12,
               "linie_1": "blau",
               "linie_2": "rot",
               "mindestens_gemeinsame_stationenzahl": 6,
-              "bild": "Bilder/aufgabe1_B_12.png"
+              "bild": "Bilder/aufgabe1_A_12.png"
             },
             {
               "id": 13,
               "linie_1": "grün",
               "linie_2": "rot",
               "mindestens_gemeinsame_stationenzahl": 5,
-              "bild": "Bilder/aufgabe1_B_13.png"
+              "bild": "Bilder/aufgabe1_A_13.png"
             },
             {
               "id": 14,
               "linie_1": "grün",
               "linie_2": "orange",
               "mindestens_gemeinsame_stationenzahl": 4,
-              "bild": "Bilder/aufgabe1_B_14.png"
+              "bild": "Bilder/aufgabe1_A_14.png"
             },
             {
               "id": 15,
               "linie_1": "blau",
               "linie_2": "braun",
               "mindestens_gemeinsame_stationenzahl": 6,
-              "bild": "Bilder/aufgabe1_B_15.png"
+              "bild": "Bilder/aufgabe1_A_15.png"
             },
             {
               "id": 16,
               "linie_1": "grün",
               "linie_2": "pink",
               "mindestens_gemeinsame_stationenzahl": 3,
-              "bild": "Bilder/aufgabe1_B_16.png"
+              "bild": "Bilder/aufgabe1_A_16.png"
             }
           ]
         },
@@ -154,7 +154,7 @@
               "ausgefallene_linie": "braun",
               "startstation": "Tierpark",
               "zielstation": "Sonnenstraße",
-              "bild": "Bilder/aufgabe2_uebung_B.png"
+              "bild": "Bilder/aufgabe2_uebung_A.png"
             }
           ],
           "aufgaben": [
@@ -163,112 +163,112 @@
               "ausgefallene_linie": "braun",
               "startstation": "Gartenstraße",
               "zielstation": "Friedrichstraße",
-              "bild": "Bilder/aufgabe2_B_01.png"
+              "bild": "Bilder/aufgabe2_A_01.png"
             },
             {
               "id": 2,
               "ausgefallene_linie": "blau",
               "startstation": "Stadthalle",
               "zielstation": "Marktstraße",
-              "bild": "Bilder/aufgabe2_B_02.png"
+              "bild": "Bilder/aufgabe2_A_02.png"
             },
             {
               "id": 3,
               "ausgefallene_linie": "rot",
               "startstation": "Waldstraße",
               "zielstation": "Sonnenstraße",
-              "bild": "Bilder/aufgabe2_B_03.png"
+              "bild": "Bilder/aufgabe2_A_03.png"
             },
             {
               "id": 4,
               "ausgefallene_linie": "rot",
               "startstation": "Talstraße",
               "zielstation": "Beethovenstraße",
-              "bild": "Bilder/aufgabe2_B_04.png"
+              "bild": "Bilder/aufgabe2_A_04.png"
             },
             {
               "id": 5,
               "ausgefallene_linie": "orange",
               "startstation": "Schillerstraße",
               "zielstation": "Bergstraße",
-              "bild": "Bilder/aufgabe2_B_05.png"
+              "bild": "Bilder/aufgabe2_A_05.png"
             },
             {
               "id": 6,
               "ausgefallene_linie": "lila",
               "startstation": "Jahnstraße",
               "zielstation": "Schillerstraße",
-              "bild": "Bilder/aufgabe2_B_06.png"
+              "bild": "Bilder/aufgabe2_A_06.png"
             },
             {
               "id": 7,
               "ausgefallene_linie": "grün",
               "startstation": "Marktstraße",
               "zielstation": "Wiesenstraße",
-              "bild": "Bilder/aufgabe2_B_07.png"
+              "bild": "Bilder/aufgabe2_A_07.png"
             },
             {
               "id": 8,
               "ausgefallene_linie": "rot",
               "startstation": "Blumenstraße",
               "zielstation": "Poststraße",
-              "bild": "Bilder/aufgabe2_B_08.png"
+              "bild": "Bilder/aufgabe2_A_08.png"
             },
             {
               "id": 9,
               "ausgefallene_linie": "orange",
               "startstation": "Brunnenstraße",
               "zielstation": "Brückenstraße",
-              "bild": "Bilder/aufgabe2_B_09.png"
+              "bild": "Bilder/aufgabe2_A_09.png"
             },
             {
               "id": 10,
               "ausgefallene_linie": "rot",
               "startstation": "Feldstraße",
               "zielstation": "Berliner Straße",
-              "bild": "Bilder/aufgabe2_B_10.png"
+              "bild": "Bilder/aufgabe2_A_10.png"
             },
             {
               "id": 11,
               "ausgefallene_linie": "pink",
               "startstation": "Beethovenstraße",
               "zielstation": "Industriestraße",
-              "bild": "Bilder/aufgabe2_B_11.png"
+              "bild": "Bilder/aufgabe2_A_11.png"
             },
             {
               "id": 12,
               "ausgefallene_linie": "lila",
               "startstation": "Hauptstraße",
               "zielstation": "Königsberger Straße",
-              "bild": "Bilder/aufgabe2_B_12.png"
+              "bild": "Bilder/aufgabe2_A_12.png"
             },
             {
               "id": 13,
               "ausgefallene_linie": "grün",
               "startstation": "Brückenstraße",
               "zielstation": "Sonnenstraße",
-              "bild": "Bilder/aufgabe2_B_13.png"
+              "bild": "Bilder/aufgabe2_A_13.png"
             },
             {
               "id": 14,
               "ausgefallene_linie": "braun",
               "startstation": "Rosenstraße",
               "zielstation": "Rathausstraße",
-              "bild": "Bilder/aufgabe2_B_14.png"
+              "bild": "Bilder/aufgabe2_A_14.png"
             },
             {
               "id": 15,
               "ausgefallene_linie": "blau",
               "startstation": "Feldstraße",
               "zielstation": "Rosenstraße",
-              "bild": "Bilder/aufgabe2_B_15.png"
+              "bild": "Bilder/aufgabe2_A_15.png"
             },
             {
               "id": 16,
               "ausgefallene_linie": "blau",
               "startstation": "Leipziger Straße",
               "zielstation": "Friedrichstraße",
-              "bild": "Bilder/aufgabe2_B_16.png"
+              "bild": "Bilder/aufgabe2_A_16.png"
             }
           ]
         }
