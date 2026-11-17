@@ -92,65 +92,70 @@ const GUARD={            // ===== Absicherung =====
 };
 const DEV_NAVIGATION=true;            // true = ◀ ▶ unten links (für die echte Studie auf false setzen!)
 const RANDOMIZE_VARIANT_ORDER=false, EXCLUDE_COLOR_DEFICIENCY=true, SECTION_UPPER=true;
+const PAUSE_SECONDS=60;            // erzwungene Pause vor den Aufgabenblöcken (Sekunden); 0 = keine
 const TASK1_TIME_LIMIT=12, ROUTE_MAX_LINES=8, OTHER="Sonstiges";
 const ID_TITLE="Studie: Ästhetik und Orientierung in Bahnnetzplänen";
 const DP_TITLE="Studien- und Datenschutzinformation";
-const DP=[["p","Vielen Dank für dein Interesse an dieser Studie."],
-["p","Die Studie wird im Rahmen eines Forschungsprojekts an der **Hochschule für Technik und Wirtschaft Dresden (HTW Dresden)** durchgeführt. Ziel ist es, ausgewählte Aspekte der **Ästhetik und Orientierung in Bahnnetzplänen** empirisch zu untersuchen. Im Mittelpunkt steht dabei die Darstellung von Stationen und Knotenpunkten."],
-["p","Die Teilnahme dauert **maximal 60 Minuten** und ist **freiwillig**. Wenn du nicht teilnehmen möchtest oder die Befragung abbrichst, entstehen dir daraus keine Nachteile."],
+const DP=[["p","Vielen Dank für dein Interesse an dieser Studie!"],
+["p","Die Studie wird im Rahmen eines Forschungsprojekts an der **Hochschule für Technik und Wirtschaft Dresden (HTW Dresden)** durchgeführt. Ziel ist es, ausgewählte Aspekte der **Ästhetik und Orientierung in Bahnnetzplänen** empirisch zu untersuchen. Im Mittelpunkt steht dabei die Darstellung von Knotenpunkten in Bahnnetzkarten."],
+["p","Die Teilnahme dauert **maximal 60 Minuten** und ist **freiwillig**. Wenn du nicht teilnehmen möchtest oder die Studie vorzeitig abbrichst, entstehen dir dadurch keine Nachteile. Bei einem Abbruch kann dein Datensatz jedoch nicht verwendet werden. Eine erneute Teilnahme ist anschließend nicht möglich."],
 ["h","Ablauf der Studie"],
-["p","Zu Beginn werden einige allgemeine Angaben zu deiner Person und deiner Nutzungserfahrung erhoben. Anschließend bewertest du verschiedene Designvarianten eines Bahnnetzes und bearbeitest Aufgaben zu diesen Varianten. Danach gibst du erneut Einschätzungen ab und ordnest die Varianten abschließend in eine Rangfolge."],
-["p","Der Ablauf umfasst folgende Schritte:"],
-["li","Allgemeine Angaben und Nutzungserfahrung"],["li","Bewertung des Ersteindrucks der Designvarianten"],["li","Vorläufiges Ranking der Designvarianten"],
-["li","Aufgabenbearbeitung mit zwei Aufgabentypen zu zwei Bahnnetzvarianten"],
-["li","Bewertung des Zweiteindrucks und der Bedienbarkeit (Fragebogen zur Gebrauchstauglichkeit)"],["li","Abschließendes Ranking der Designvarianten"],
+["p","Zu Beginn werden einige allgemeine Angaben zu deiner Person und deiner Nutzungserfahrung erhoben. Anschließend bewertest du verschiedene Designvarianten eines Bahnnetzplans und bearbeitest Aufgaben mit ausgewählten Varianten. Abschließend bewertest du die Varianten erneut."],
+["p","Die Studie umfasst folgende Schritte:"],
+["li","Allgemeine Angaben und Nutzungserfahrung"],["li","Erste Bewertung der Ästhetik der Designvarianten"],["li","Erstes Ranking der Designvarianten"],
+["li","Bearbeitung von zwei Aufgabentypen mit zwei Bahnnetzvarianten"],
+["li","Erneute Bewertung der Ästhetik und Nutzbarkeit der Designvarianten"],["li","Abschließendes Ranking der Designvarianten"],
 ["h","Datenschutz und Datenverarbeitung"],
 ["p","Die Studiendaten werden **anonym erhoben und ausschließlich zu wissenschaftlichen Zwecken** im Rahmen dieses Forschungsprojekts verarbeitet und ausgewertet."],
-["p","Es werden **keine Namen, E-Mail-Adressen oder Teilnehmercodes** erfasst. Eine direkte Zuordnung der Antworten zu einzelnen Personen ist der Studienleitung nicht möglich."],
+["p","Namen oder E-Mail-Adressen werden nicht gemeinsam mit den Teilnehmercodes erfasst. Eine direkte Zuordnung der Antworten zu einzelnen Personen ist nach Abschluss der Studie nicht möglich."],
 ["p","Folgende Angaben und Daten werden erhoben:"],
 ["li","Altersgruppe und Fachbereich"],["li","Angaben zu einer bekannten Farbsehschwäche oder Farbenblindheit"],["li","Häufigkeit von Kreativhobbys und Bahnnutzung"],
-["li","Erfahrung mit Bahnnetzkarten"],["li","Genutzte Quellen für Bahnplanungsinformationen"],["li","Bewertungen der Bahnnetzvarianten"],["li","Aufgabenantworten und Bearbeitungszeiten"],
+["li","Erfahrung mit Bahnnetzkarten"],["li","Genutzte Informationsquellen für die Bahnplanung"],["li","Bewertungen der Bahnnetzvarianten"],["li","Aufgabenantworten und Bearbeitungszeiten"],
 ["p","**IP-Adressen werden nicht gespeichert.**"],
 ["p","Die Ergebnisse können in wissenschaftlichen Berichten, Präsentationen oder Veröffentlichungen dargestellt werden. Dies erfolgt ausschließlich **anonymisiert oder in zusammengefasster Form**, sodass keine Rückschlüsse auf einzelne Personen möglich sind."],
 ["h","Mögliche Risiken und Teilnahmevoraussetzungen"],
 ["p","Mit der Teilnahme sind keine besonderen Risiken verbunden."],
-["p","Da die Studie Aufgaben mit farbigen Linien enthält, richtet sie sich an Personen **ohne bekannte Farbsehschwäche oder Farbenblindheit**. Wenn bei dir eine entsprechende Einschränkung bekannt ist, kannst du leider nicht an der Studie teilnehmen."],
+["p","Da die Studie Aufgaben mit farbigen Linien enthält, richtet sie sich an Personen **ohne bekannte Farbsehschwäche oder Farbenblindheit**. Wenn bei dir eine entsprechende Einschränkung bekannt ist, ist eine Teilnahme leider nicht möglich."],
 ["h","Kontakt"],
 ["p","Bei Fragen zur Studie kannst du dich an die Studienleitung wenden."],
-["p","Bei Fragen zum Datenschutz ist der Datenschutzbeauftragte der HTW Dresden zuständig."],
+["p","Bei Fragen zum Datenschutz kannst du dich an den Datenschutzbeauftragten der HTW Dresden wenden."],
 ["h","Einwilligung zur Teilnahme"],["p","Mit deiner Zustimmung bestätigst du:"],
 ["li","Ich habe die Studien- und Datenschutzinformationen gelesen und verstanden."],["li","Ich nehme freiwillig an der Studie teil."],
 ["li","Ich willige ein, dass meine im Rahmen der Studie erhobenen Angaben, Bewertungen, Aufgabenantworten und Bearbeitungszeiten zu wissenschaftlichen Zwecken verarbeitet und ausgewertet werden."]];
 const DP_NO="Ohne deine Zustimmung ist eine Teilnahme an der Studie nicht möglich.";
 const DP_CONSENT="Ich habe die Studien- und Datenschutzinformationen gelesen und verstanden. Ich nehme freiwillig an der Studie teil und willige ein, dass meine Angaben, Bewertungen, Aufgabenantworten und Bearbeitungszeiten zu wissenschaftlichen Zwecken im Rahmen dieser Studie verarbeitet und ausgewertet werden.";
 const DEMO_TITLE="Angaben zu deiner Person";
-const DEMO_TEXT="Im folgenden Abschnitt stellen wir dir einige kurze Fragen zu deiner Person und deinen Erfahrungen mit öffentlichen Verkehrsmitteln.\n\nDeine Antworten helfen uns, die Teilnehmenden der Studie zu beschreiben und die Ergebnisse besser einzuordnen. Bitte wähle jeweils die Antwort aus, die am besten auf dich zutrifft.";
+const DEMO_TEXT="Im folgenden Abschnitt stellen wir dir einige kurze Fragen zu deiner Person und deinen bisherigen Erfahrungen mit öffentlichen Verkehrsmitteln.\n\nDeine Antworten helfen uns, dein Vorwissen und deine bisherigen Erfahrungen bei der Auswertung zu berücksichtigen und die Ergebnisse besser einzuordnen.\n\nBitte wähle jeweils die Antwort aus, die am besten auf dich zutrifft.";
+const FACHBEREICH_MODE="dropdown"; // "dropdown" = Auswahlliste ohne Schrägstriche | "erfahrung" = Vorschlag aus der Doku (Mehrfachauswahl zu Erfahrungen durch Ausbildung, Studium oder Beruf)
+const FACH_Q=FACHBEREICH_MODE==="erfahrung"
+ ?{key:"Erfahrungsbereiche",type:"multi",text:"In welchem der folgenden Bereiche hast du durch Ausbildung, Studium oder Beruf bereits Erfahrungen gesammelt?",hint:"Mehrfachauswahl möglich.",options:["Gestaltung / Design","Informatik / Technik","Kartografie / Geografie","Verkehr / Stadtplanung","Keiner der genannten Bereiche"],exclusive:"Keiner der genannten Bereiche"}
+ :{key:"Fachbereich",type:"dropdown",text:"Welchem Fach- oder Tätigkeitsbereich würdest du dich am ehesten zuordnen?",options:["Naturwissenschaften","Ingenieurwissenschaften & Technik","Medizin, Gesundheit & Lebenswissenschaften","Sozialwissenschaften","Wirtschafts- & Rechtswissenschaften","Geisteswissenschaften","Bildungswissenschaften & Psychologie","Kunst, Design & Medien","Sonstiges"]};
 const QUESTIONS=[
 {key:"Farbschwaeche",type:"radio",text:"Hast du eine bekannte Farbsehschwäche oder eine Form von Farbenblindheit?",options:["Ja","Nein"]},
 {key:"Altersgruppe",type:"dropdown",text:"Wie alt bist du?",options:["unter 18 Jahre","18–24 Jahre","25–34 Jahre","35–44 Jahre","45–54 Jahre","55–64 Jahre","65 Jahre oder älter"]},
-{key:"Fachbereich",type:"dropdown",text:"Welchem Fach- oder Tätigkeitsbereich würdest du dich am ehesten zuordnen?",options:["Ingenieurwesen / Technik","Informatik / Digitale Medien","Wirtschaft / Management","Gestaltung / Design / Kunst","Naturwissenschaften / Mathematik","Verkehr / Mobilität / Logistik","Sozial-, Geistes- und Kulturwissenschaften","Gesundheit / Medizin","Bildung / Erziehung","Sonstiges"]},
+FACH_Q,
 {key:"Kreativhobbys",type:"radio",text:"Übst du regelmäßig kreative oder gestalterische Hobbys aus?",options:["Nein","Ja, ein Hobby","Ja, zwei bis drei Hobbys","Ja, mehr als drei Hobbys"]},
 {key:"Bahnnutzung",type:"radio",text:"Wie häufig nutzt du Bahnen im Alltag oder auf Reisen?",hint:"Gemeint sind zum Beispiel Zug, S-Bahn, U-Bahn oder Straßenbahn.",options:["Täglich","Mehrmals pro Woche","Mehrmals pro Monat","Seltener","Nie"]},
 {key:"Bahnnetzkarten",type:"radio",text:"Wie häufig nutzt du Bahnnetzkarten zur Orientierung oder Verbindungsplanung?",hint:"Gemeint sind zum Beispiel Liniennetzpläne von Straßenbahn, U-Bahn, S-Bahn oder Zugverbindungen.",options:["Sehr häufig","Häufig","Gelegentlich","Selten","Nie","Ich bin mir nicht sicher, was Bahnnetzkarten sind"]},
 {key:"Informationsquellen",type:"multi",text:"Wie informierst du dich normalerweise über deine Verbindung mit öffentlichen Verkehrsmitteln?",hint:"Mehrfachauswahl möglich.",options:["Navigations-App, zum Beispiel Google Maps oder Apple Karten","ÖPNV-App, zum Beispiel DB Navigator, DVB mobil, VVO mobil","Website eines Verkehrsunternehmens oder Verkehrsverbunds","Digitale Anzeige an Haltestellen oder Bahnhöfen","Aushangfahrplan","Liniennetzplan / Bahnnetzkarte","Ich frage andere Personen","Ich nutze öffentliche Verkehrsmittel kaum oder gar nicht"],other:true,exclusive:"Ich nutze öffentliche Verkehrsmittel kaum oder gar nicht"}];
 const VARIANTS=[{id:"A",image:"Bilder/variante_a.png",qimage:"Bilder/aufgabe1_uebung_A.png"},{id:"B",image:"Bilder/variante_b.png",qimage:"Bilder/aufgabe1_uebung_B.png"}];
 const COMMENT_TITLE="Ergänzende Kommentare zu den Bahnnetzvarianten";
-const COMMENT_TEXT="Du siehst die beiden Varianten noch einmal nebeneinander.\n\nWenn du möchtest, kannst du in den Kommentarfeldern beschreiben, was dir bei den einzelnen Darstellungen aufgefallen ist. Du kannst beispielsweise Aspekte nennen, die deine Einschätzung beeinflusst haben.\n\nKurze Stichpunkte reichen aus. Du kannst die Felder auch leer lassen.";
-const RANK_TITLE="Ästhetische Bewertung der Bahnnetzvarianten";
-const RANK_TEXT="Bitte ordne die beiden Varianten danach, wie ästhetisch du ihre Gestaltung findest.\n\n• **Platz 1:** Die Variante, die du am ästhetischsten findest.\n• **Platz 2:** Die Variante, die du weniger ästhetisch findest.\n\nZiehe die Bilder mit der Maus auf die entsprechenden Plätze. Wenn du ein Bild auf einen bereits belegten Platz ziehst, tauschen die beiden Bilder ihre Position.";
+const COMMENT_TEXT="Du siehst die beiden Varianten nun noch einmal nebeneinander.\n\nIn den Kommentarfeldern kannst du beschreiben, was dir an den einzelnen Darstellungen aufgefallen ist und welche Aspekte deine Bewertung beeinflusst haben.\n\nKurze Stichpunkte genügen. Deine Anmerkungen helfen uns, deine Einschätzung besser nachzuvollziehen.";
+const RANK_TITLE="Ranking der Bahnnetzvarianten";
+const RANK_TEXT="Bitte ordne die beiden Varianten danach, welche dir insgesamt besser gefällt.\n\n• **Platz 1**: Die Variante, die dir insgesamt besser gefällt.\n• **Platz 2**: Die Variante, die dir insgesamt weniger gut gefällt.\n\nZiehe die Bilder mit der Maus auf die entsprechenden Plätze. Wenn du ein Bild auf einen bereits belegten Platz ziehst, tauschen die beiden Bilder ihre Position.";
 const RANK_HEADERS=["Platz 1","Platz 2"], RANK_POOL="Noch nicht eingeordnet";
 const PRACTICE2_TITLE="Übungsaufgaben";
-const PRACTICE2_TEXT="Mache dich zunächst mit dem Aufgabenformat vertraut und bearbeite dazu die folgenden **zwei Übungsaufgaben**. Die Bearbeitungszeit wird während der Übungsaufgaben noch nicht erfasst.\n\nIn jeder Aufgabe fällt eine Linie im Bahnnetzplan aus. Finde einen Weg von der Startstation zur Zielstation, indem du andere Linien nutzt. Wähle den Weg mit den **wenigsten Umstiegen** und gib die benötigten Linien in der richtigen Reihenfolge an:\n\n• **Oben:** Linie an der Startstation\n• **Unten:** Linie zum Erreichen der Zielstation\n\n";
+const PRACTICE2_TEXT="Mache dich zunächst mit dem Aufgabenformat vertraut und bearbeite dazu die folgenden **zwei Übungsaufgaben**. Die Bearbeitungszeit wird während der Übungsaufgaben noch nicht erfasst.\n\nIn jeder Aufgabe fällt eine Linie im Bahnnetzplan aus. Finde einen Weg von der Startstation zur Zielstation, indem du andere Linien nutzt. Wähle dabei den Weg mit den **wenigsten Umstiegen**, auch wenn dieser auf dem Plan länger erscheint.\n\nGib die benötigten Linien in der richtigen Reihenfolge an:\n\n• Oben: Linie an der Startstation\n• Unten: Linie zum Erreichen der Zielstation\n\nBevor es losgeht, hast du **mindestens eine Minute Pause**, um dich auf die Aufgaben vorzubereiten.\n\nSobald der Timer abgelaufen ist und du bereit bist, klicke auf „Weiter“.";
 const ROUTE_POOL_TITLE="Verfügbare Linien", ROUTE_RANK_TITLE="Deine Reihenfolge";
-const MEASURE_START=["Beginn der Aufgabenbearbeitung","Die Übungsaufgaben sind abgeschlossen.\n\nJetzt beginnt die Bearbeitung der Aufgaben, deren Antworten und Bearbeitungszeiten in die Auswertung eingehen.\n\nDu bearbeitest {n} Aufgaben mit der {ordinal} Bahnnetzvariante.\n\nBitte arbeite möglichst zügig und sorgfältig. Vermeide zufällige Antworten."];
-const NEXT_VARIANT=["Nächste Bahnnetzvariante","Du hast die Aufgaben mit der vorherigen Variante abgeschlossen.\n\nJetzt bearbeitest du die Aufgaben mit der nächsten Bahnnetzvariante. \n Auch hier folgen {n} Aufgaben.\n\nBitte arbeite möglichst zügig und sorgfältig. Vermeide zufällige Antworten."];
+const MEASURE_START=["Beginn der Aufgabenbearbeitung","Die Übungsaufgaben sind abgeschlossen.\n\nBevor der erste Aufgabenblock beginnt, hast du **eine Minute Pause**, um dich auf die kommenden Aufgaben vorzubereiten.\n\nAnschließend bearbeitest du **{n} Aufgaben mit der {ordinal} Bahnnetzvariante**, deren Antworten und Bearbeitungszeiten in die Auswertung eingehen.\n\nSobald die Pause vorbei ist und du bereit bist, klicke auf „Weiter“.\n\nBitte arbeite möglichst **zügig und sorgfältig**. Vermeide zufällige Antworten."];
+const NEXT_VARIANT=["Nächste Bahnnetzvariante","Du hast die Aufgaben mit der vorherigen Variante abgeschlossen.\n\nJetzt hast du **eine Minute Pause**, bevor du die nächsten **{n} Aufgaben mit der {ordinal} Bahnnetzvariante** bearbeitest. Nutze die Zeit, um dich kurz zu erholen.\n\nSobald die Pause vorbei ist und du bereit bist, klicke auf „Weiter“.\n\nBitte arbeite anschließend wieder möglichst **zügig und sorgfältig**. Vermeide zufällige Antworten."];
 const ORDINALS=["ersten","zweiten","dritten","vierten","fünften"];
-const NUMW={2:"zwei",3:"drei",4:"vier",5:"fünf",6:"sechs",7:"sieben",8:"acht",9:"neun",10:"zehn",11:"elf",12:"zwölf",13:"dreizehn",14:"vierzehn",15:"fünfzehn",16:"sechzehn"};
-const numw=n=>NUMW[n]||String(n);
+
+
 const PRACTICE_TITLE="Übungsaufgaben";
 const PRACTICE_TEXT="Mache dich zunächst mit dem Aufgabenformat vertraut und bearbeite dazu die folgenden **zwei Übungsaufgaben**. Die Bearbeitungszeit wird hier noch nicht erfasst.\n\nIn jeder Aufgabe suchst du zwei Linien im Bahnnetzplan und prüfst, ob sie eine vorgegebene Anzahl gemeinsamer Stationen haben.\n\n";
 const TASK_INTRO_TITLE="Aufgabenblock";
-const TASK_INTRO_TEXT="Im nächsten Abschnitt bearbeitest du zwei Arten von Aufgaben mit jeweils zwei unterschiedlichen Darstellungen des Bahnnetzes.\n\nDer Ablauf ist bei beiden Aufgabenarten gleich:\n\n1. **Übungsphase:** Du machst dich zunächst mit dem jeweiligen Aufgabenformat vertraut.\n2. **Erste Bahnnetzvariante:** Du bearbeitest sechzehn Aufgaben unter Zeitmessung.\n3. **Zweite Bahnnetzvariante:** Danach folgen ebenfalls sechzehn Aufgaben mit der zweiten Variante.\n\nDie Bearbeitungszeit wird ausschließlich bei den regulären Aufgaben erfasst. Die Übungsaufgaben fließen nicht in die Auswertung der Bearbeitungszeiten ein.\n\nBitte bearbeite alle Aufgaben möglichst zügig und sorgfältig. Wenn du eine Antwort nicht weißt, rate nicht einfach.";
+const TASK_INTRO_TEXT="Im nächsten Abschnitt bearbeitest du zwei Arten von Aufgaben mit jeweils zwei unterschiedlichen Darstellungen desselben Bahnnetzes.\n\nDer Ablauf ist bei beiden Aufgabenarten gleich:\n\n1. **Übungsphase**: Du machst dich zunächst mit dem Aufgabenformat vertraut, indem du zwei Übungsaufgaben löst.\n2. **Erste Bahnnetzvariante**: Du bearbeitest 16 Aufgaben unter Zeitmessung.\n3. **Zweite Bahnnetzvariante**: Anschließend bearbeitest du weitere 16 Aufgaben mit der zweiten Variante.\n\nDie Bearbeitungszeit wird nur bei den regulären Aufgaben erfasst. Die Übungsaufgaben fließen nicht in die Auswertung ein.\n\n**Bitte konzentriere dich bei der Bearbeitung besonders auf die Aufgaben und löse sie möglichst zügig und sorgfältig.** Sowohl deine Antworten als auch die benötigte Zeit sind für uns wichtig. Wenn du eine Antwort nicht weißt, versuche nicht, einfach zu raten.";
 const SUS_TITLE="Bewertung der Bedienbarkeit";
 const SUS_TEXT="Bitte schätze ein, wie gut du mit der abgebildeten Bahnnetzvariante bei den Aufgaben zurechtgekommen bist.\n\nGib bei jeder Aussage an, inwieweit du ihr zustimmst. Es gibt keine richtigen oder falschen Antworten.";
 const SUS_LOW="stimme überhaupt nicht zu", SUS_HIGH="stimme voll zu";
@@ -160,16 +165,17 @@ const UEQ_COLS=["linke Eigenschaft trifft vollständig zu","linke Eigenschaft tr
 const UEQ=[["behindernd","unterstützend"],["kompliziert","einfach"],["ineffizient","effizient"],["verwirrend","übersichtlich"],["langweilig","spannend"],["uninteressant","interessant"],["konventionell","originell"],["herkömmlich","neuartig"]];
 const SEC={intro:"Einleitung",base:"Basisdaten",tasks:"Aufgabenblock",p1:"Übungsaufgabe: Gemeinsame Stationen",p2:"Übungsaufgabe: Alternative Route",t1:"Aufgabe: Gemeinsame Stationen",t2:"Aufgabe: Alternative Route",end:"Abschluss"};
 const PHASES=[{key:"Ersteindruck",rank:"Aesthetik",sec:"Ersteindruck",secRank:"Erstranking",introTitle:"Ersteindruck vor der Aufgabenbearbeitung",
- intro:"Du siehst nun nacheinander zwei unterschiedliche Darstellungen desselben Bahnnetzes.\n\nBitte bewerte jede Darstellung anhand deines ersten Eindrucks. Es geht darum, wie du die Gestaltung wahrnimmst – nicht darum, wie gut du die späteren Aufgaben damit lösen kannst.\n\nAchte bei deiner Einschätzung auf die Darstellung der Stationen und Knotenpunkte. Beurteile jede Variante für sich und antworte spontan.\n\nEs gibt keine richtigen oder falschen Antworten.",
+ intro:"Du siehst nun nacheinander zwei unterschiedliche Darstellungen desselben Bahnnetzes.\n\nBitte bewerte jede Darstellung anhand deines ersten Eindrucks. Es geht darum, wie du die Gestaltung wahrnimmst – nicht darum, wie gut du die späteren Aufgaben damit lösen kannst.\n\nAchte bei deiner Einschätzung **insbesondere auf die Darstellung der Stationen und Knotenpunkte**. Knotenpunkte sind Stationen, an denen mehrere Bahnlinien halten.\n\nBeurteile jede Variante für sich und antworte möglichst spontan.\n\nEs gibt keine richtigen oder falschen Antworten.",
  title:"Ersteindruck der Bahnnetzvarianten",text:"Bitte schätze die abgebildete Bahnnetzvariante anhand deines bisherigen Eindrucks ein.\n\nWähle für jede Eigenschaft den Punkt auf der Skala aus, der deiner Einschätzung am besten entspricht.\n\n"},
 {key:"Zweiteindruck",rank:"Aesthetik2",sec:"Zweiteindruck",secRank:"Zweitranking",introTitle:"Zweiteindruck nach der Aufgabenbearbeitung",
- intro:"Du siehst nun erneut die beiden Bahnnetzvarianten.\n\nBitte bewerte jede Variante anhand deiner Erfahrungen aus der Aufgabenbearbeitung. Überlege, wie du die jeweilige Darstellung nach der Bearbeitung der Aufgaben wahrnimmst.\n\nAchte dabei besonders auf die Darstellung der Stationen und Knotenpunkte. Bewerte jede Variante einzeln und antworte spontan.\n\nEs gibt keine richtigen oder falschen Antworten.",
+ intro:"Du siehst nun erneut nacheinander die beiden unterschiedlichen Darstellungen desselben Bahnnetzes.\n\nBitte bewerte jede Darstellung anhand deiner Erfahrungen aus der Aufgabenbearbeitung. Es geht darum, wie du die Gestaltung jetzt wahrnimmst – nachdem du die Aufgaben damit bearbeitet hast.\n\nAchte bei deiner Einschätzung **insbesondere auf die Darstellung der Stationen und Knotenpunkte**. Knotenpunkte sind Stationen, an denen mehrere Bahnlinien halten.\n\nBeurteile jede Variante für sich und antworte möglichst spontan.\n\nEs gibt keine richtigen oder falschen Antworten.",
  title:"Zweiteindruck der Bahnnetzvarianten",text:"Bitte schätze die abgebildete Bahnnetzvariante anhand deiner Erfahrungen mit den Aufgaben ein.\n\nWähle für jede Eigenschaft den Punkt auf der Skala aus, der deiner Einschätzung am besten entspricht.\n\n",sus:true}];
-const LINES={pink:["pinke","#EF7180"],"grün":["grüne","#56A01F"],lila:["lila","#AE31A6"],orange:["orange","#F28810"],gelb:["gelbe","#F6C319"],rot:["rote","#BD3030"],blau:["blaue","#17469E"],braun:["braune","#7D5318"]};
-const ROUTE_LEFT="Finde eine Verbindung von der **{start}** zur **{goal}**.";
-const ROUTE_TEXT="Verwende dafür andere Linien und wähle eine Verbindung mit möglichst wenigen Umstiegen. Ziehe die Linien in die rechte Liste. Du kannst eine Linie auch durch Doppelklicken verschieben.";
-const commonQ=(a,b,n,correct,practice)=>{const[wa,ca]=LINES[a],[wb,cb]=LINES[b];return{correct,question:[[[`${practice?"Suche":"Finde"} die `],[wa,ca],[" und die "],[wb+" Linie",cb],[practice?" im Bahnnetz.":"."]],[["Haben beide Linien mindestens "],[numw(n)+" Stationen gemeinsam","bold"],["?"]]]}};
-const routeQ=(f,s,g)=>({headline:[["Die "],[LINES[f][0]+" Linie",LINES[f][1]],[" fällt aus und kann nicht genutzt werden."]],textLeft:ROUTE_LEFT.replace("{start}",s).replace("{goal}",g),text:ROUTE_TEXT,lines:Object.entries(LINES).map(([k,c])=>[k,c[1]])});
+const LINE_LABEL={pink:"rosa"},lineLabel=k=>LINE_LABEL[k]||k;
+const LINES={pink:["rosa","#EF7180"],"grün":["grüne","#56A01F"],lila:["lila","#AE31A6"],orange:["orange","#F28810"],gelb:["gelbe","#F6C319"],rot:["rote","#BD3030"],blau:["blaue","#17469E"],braun:["braune","#7D5318"]};
+const ROUTE_LEFT="Welche anderen Linien nutzt du, um von **{start}** nach **{goal}** zu kommen? Wähle den Weg mit den wenigsten Umstiegen.";
+const ROUTE_TEXT="Ziehe die Linien in die rechte Liste. Du kannst eine Linie auch durch Doppelklicken verschieben.";
+const commonQ=(a,b,n,correct)=>{const[wa,ca]=LINES[a],[wb,cb]=LINES[b];return{correct,question:[[["Finde die "],[wa,ca],[" und die "],[wb+" Linie",cb],["."]],[["Haben sie "],[n+" oder mehr gemeinsame Stationen","bold"],["?"]]]}};
+const routeQ=(f,s,g)=>({headline:[["Die "],[LINES[f][0]+" Linie",LINES[f][1]],[" fällt aus."]],textLeft:ROUTE_LEFT.replace("{start}",s).replace("{goal}",g),text:ROUTE_TEXT,lines:Object.entries(LINES).map(([k,c])=>[k,c[1]])});
 // PLATZHALTER: durch die echten Aufgaben ersetzen (wie im Python-Original)
 const TASK1_PRACTICE=[commonQ("rot","orange",4,0,1),commonQ("grün","blau",2,0,1)];
 const TASK1_MEASURED=[["rot","blau",2],["orange","grün",3],["braun","pink",4],["blau","gelb",2],["rot","grün",3],["lila","braun",2],["orange","pink",4],["grün","gelb",3],["rot","lila",2],["blau","braun",4],["gelb","pink",2],["braun","rot",3],["lila","grün",4],["blau","orange",2],["pink","gelb",3],["lila","rot",4]].map(r=>commonQ(...r));
@@ -288,9 +294,10 @@ if(DEV_NAVIGATION){$("#dev").innerHTML='<button id="db">◀</button><button id="
  $("#df").onclick=()=>{if(!S.cur)return;S.cur.fill&&S.cur.fill();S.cur.next&&S.cur.next()}}
 
 // ===== Seitentypen =====
-const textPg=(sec,title,text,onNext,wide)=>({sec,wide,run(){shell(this,`<h1>${esc(title)}</h1><div class="panel txt">${rich(text)}</div>`,{center:1});
- const nx=()=>{onNext&&onNext();next()};$("#nx").onclick=nx;S.cur={next:nx}}});
-const idPg=()=>({sec:SEC.intro,run(){shell(this,`<h1>${esc(ID_TITLE)}</h1><div style="text-align:center;font-size:16px;color:var(--muted);margin-bottom:28px">Bitte gib die dir mitgeteilte <b style="color:var(--text)">Nummer</b> bzw. ID ein.</div><div style="text-align:center"><input class="id" type="text" id="pid" autofocus autocomplete="off"></div><div style="text-align:center;font-size:16px;color:var(--muted);margin:26px 0 12px">Bitte gib außerdem das dir mitgeteilte <b style="color:var(--text)">Passwort</b> ein.</div><div style="text-align:center"><input class="id" type="password" id="ppw" autocomplete="off"></div>`,{center:1});
+const textPg=(sec,title,text,onNext,wide,wait)=>({sec,wide,run(){shell(this,`<h1>${esc(title)}</h1><div class="panel txt">${rich(text)}${wait?'<div id="pz" style="text-align:center;font-weight:600;color:var(--accent);margin-top:14px"></div>':""}</div>`,{center:1});
+ const nx=()=>{onNext&&onNext();next()},b=$("#nx");b.onclick=nx;S.cur={next:nx};
+ if(wait){const t0=Date.now();if(!S.dev)b.disabled=true;const tick=()=>{const rem=Math.max(0,Math.ceil(wait-(Date.now()-t0)/1000));$("#pz").textContent=rem>0?`Verbleibende Pause: ${Math.floor(rem/60)}:${pad2(rem%60)}`:"Die Pause ist vorbei. Du kannst jetzt fortfahren.";if(rem<=0){clearInterval(S.timer);b.disabled=false}};tick();S.timer=setInterval(tick,250)}}});
+const idPg=()=>({sec:SEC.intro,run(){shell(this,`<h1>${esc(ID_TITLE)}</h1><div style="text-align:center;font-size:16px;font-weight:600;margin-bottom:10px">ID:</div><div style="text-align:center"><input class="id" type="text" id="pid" autofocus autocomplete="off"></div><div style="text-align:center;font-size:16px;font-weight:600;margin:26px 0 10px">Passwort:</div><div style="text-align:center"><input class="id" type="password" id="ppw" autocomplete="off"></div>`,{center:1});
  const nx=async()=>{let id=$("#pid").value.trim();if(!/^[A-Za-z0-9_-]{1,40}$/.test(id))return err("Bitte nur Buchstaben, Ziffern, - und _ verwenden (max. 40 Zeichen).");
   if(/^\d+$/.test(id))id=String(+id);const dev=id=="DEV"&&DEV_NAVIGATION,pl=dev?DEFAULT_PLAN:PLAN[id];if(!pl)return err("Unbekannte ID. Bitte gib eine Nummer von 1 bis 32 ein.");
   const pw=$("#ppw").value;if(!pw)return err("Bitte gib das Passwort ein.");
@@ -359,14 +366,14 @@ function taskSpec(t,practice,nr,v,pos){
  const entry=list.find(x=>Number(x.id)===Number(nr));
  if(!entry)throw new Error("Aufgabe "+nr+" für Variante "+v.id+" fehlt in aufgaben.json.");
  let s;if(t===1)s=commonQ(entry.linie_1,entry.linie_2,entry.mindestens_gemeinsame_stationenzahl,undefined,practice);
- else{s=routeQ(entry.ausgefallene_linie,entry.startstation||vc.startstation,entry.zielstation||vc.zielstation);s.lines=vc.linien.map(k=>[k,LINES[k][1]]);s.maxLines=Number(vc.maximale_linien_in_antwort)||ROUTE_MAX_LINES;}
+ else{s=routeQ(entry.ausgefallene_linie,entry.startstation||vc.startstation,entry.zielstation||vc.zielstation);s.lines=vc.linien.map(k=>[k,LINES[k][1],lineLabel(k)]).sort((a,b)=>a[2].localeCompare(b[2],"de"));s.maxLines=Number(vc.maximale_linien_in_antwort)||ROUTE_MAX_LINES;}
  s.image=entry.bild;s.sec=practice?c.sp:c.sm;
  s.title=practice?`Übungsaufgabe: ${vc.name||c.name} - ${v.id}`:`Aufgabe: ${vc.name||c.name} ${pos||nr} - ${v.id}`;
  s.save=practice?null:`A${t}_${v.id}_${pad2(nr)}`;s.nr=nr;s.orderKey=`A${t}_${v.id}_Reihenfolge_Aufgaben`;return s}
 
 const startBox=(txt)=>`<div class="start" id="sb"><p>${txt}</p><button class="btn" id="st">Start</button></div>`;
 const task1Pg=sp=>({sec:sp.sec,wide:1,flow:1,noEnter:1,run(){let started=false,expired=false,ans=null,t0=0;
- shell(this,`<div class="head"><h2>${esc(sp.title)}</h2><span class="timer" id="tm">Zeit: ${TASK1_TIME_LIMIT} s</span></div><div style="margin:6px 0 10px">${sp.question.map(r=>`<div class="qline" style="font-size:16px">${runs(r.map(([t,s])=>[t,s]))}</div>`).join("")}</div><div class="area" id="ar">${startBox(`Das Bild erscheint, sobald du auf „Start“ klickst.<br>Dann laufen ${TASK1_TIME_LIMIT} Sekunden.`)}</div>`,
+ shell(this,`<div class="head"><h2>${esc(sp.title)}</h2><span class="timer" id="tm">Zeit: ${TASK1_TIME_LIMIT} s</span></div><div style="margin:6px 0 10px">${sp.question.map(r=>`<div class="qline" style="font-size:16px">${runs(r.map(([t,s])=>[t,s]))}</div>`).join("")}</div><div class="area" id="ar">${startBox(`Das Bild erscheint nach einem Klick auf „Start“.<br>Ab dann hast du ${TASK1_TIME_LIMIT} Sekunden Zeit.`)}</div>`,
   {mid:`<div class="ans"><button data-a="Ja" disabled>Ja</button><button data-a="Nein" disabled>Nein</button></div>`});
  const sty=()=>card.querySelectorAll(".ans button").forEach(b=>{b.disabled=!started||expired;b.classList.toggle("on",ans==b.dataset.a)});
  card.querySelectorAll(".ans button").forEach(b=>b.onclick=()=>{if(started&&!expired){ans=b.dataset.a;err("");sty()}});
@@ -379,7 +386,7 @@ const task1Pg=sp=>({sec:sp.sec,wide:1,flow:1,noEnter:1,run(){let started=false,e
  $("#nx").onclick=nx;S.cur={next:nx,fill(){start();if(!expired&&ans==null){ans="Ja";sty()}}}}});
 const task2Pg=sp=>({sec:sp.sec,wide:1,flow:1,noEnter:1,run(){let started=false,t0=0,pool=sp.lines.map((_,i)=>i),rank=[],maxLines=sp.maxLines||ROUTE_MAX_LINES;
  shell(this,`<div class="head"><h2>${esc(sp.title)}</h2><span class="timer" id="tm">Zeit: 0:00</span></div><div class="cols" style="grid-template-columns:1fr 1fr;flex:none;margin:10px 0 8px;font-size:16px"><div><div>${runs(sp.headline)}</div><div style="margin-top:10px">${bold(sp.textLeft)}</div></div><div>${esc(sp.text)}</div></div><div class="area" id="ar">${startBox("Das Bild und die Linien erscheinen, sobald du auf „Start“ klickst.<br>Die Zeit wird gemessen, bis du auf „Weiter“ klickst.")}</div>`);
- const render=()=>{const chip=i=>`<div class="chip" draggable="true" data-i="${i}" style="background:${sp.lines[i][1]}">${esc(sp.lines[i][0])}</div>`;
+ const render=()=>{const chip=i=>`<div class="chip" draggable="true" data-i="${i}" style="background:${sp.lines[i][1]}">${esc(sp.lines[i][2]||sp.lines[i][0])}</div>`;
   $("#pool").innerHTML=pool.map(chip).join("");$("#rank").innerHTML=`<small>▲ oben: Startlinie</small>${rank.map(chip).join("")}<small style="margin-top:auto">▼ unten: Linie zum Ziel</small>`;
   document.querySelectorAll(".chip").forEach(c=>{const i=+c.dataset.i;c.ondragstart=e=>e.dataTransfer.setData("text",i);c.ondblclick=()=>toggle(i)})};
  const toggle=i=>{if(pool.includes(i)){if(rank.length>=maxLines)return err(`Bitte wähle maximal ${maxLines} Linien.`);pool=pool.filter(x=>x!=i);rank.push(i)}else{rank=rank.filter(x=>x!=i);pool.push(i);pool.sort((a,b)=>a-b)}err("");render()};
@@ -405,7 +412,7 @@ const V=ids=>[...ids].map(x=>VARIANTS.find(v=>v.id==x));
 const withOrd=(pages,ord)=>{pages.forEach(p=>p.ord=ord);return pages};
 function flow(t,pl){const P=[],c=TASKS[t],nm=c.measured.length,Page=t==1?task1Pg:task2Pg,vo=V(pl.v[t]);
  vo.forEach((v,k)=>{const pg=Page(taskSpec(t,true,1,v));pg.info=`${c.name} · Variante ${v.id} · Übungsaufgabe ${k+1}`;P.push(pg)});
- const ann=(a,k)=>textPg(c.sm,a[0],a[1].replace("{n}",numw(nm)).replace("{ordinal}",ORDINALS[k]));
+ const ann=(a,k)=>textPg(c.sm,a[0],a[1].replace("{n}",String(nm)).replace("{ordinal}",ORDINALS[k]),undefined,undefined,PAUSE_SECONDS);
  P.push(ann(MEASURE_START,0));
  vo.forEach((v,vi)=>{const seq=(pl.o[t+v.id]||Array.from({length:nm},(_,i)=>i+1));seq.forEach((nr,pos)=>{const pg=Page(taskSpec(t,false,nr,v,pos+1));pg.info=`${c.name} · Variante ${v.id} · Aufgabe Nr. ${nr} (Position ${pos+1}/${nm})`;P.push(pg)});if(vi<vo.length-1)P.push(ann(NEXT_VARIANT,vi+1))});
  return withOrd(P,vo)}
@@ -413,7 +420,7 @@ function phase(ph,ord){const f=PHASES[ph],P=[textPg(f.sec,f.introTitle,f.intro,o
  ord.forEach((_,pos)=>{P.push(ratingPg(ph,pos));if(f.sus)P.push(susPg(ph,pos))});P.push(commentPg(ph),rankPg(ph));return withOrd(P,ord)}
 function makePages(pl){
  const saveOrder=t=>()=>save({[`A${t}_Reihenfolge_Varianten`]:S.order.map(v=>v.id).join(" > ")});
- const intro=t=>{const p=t==1?textPg(SEC.p1,PRACTICE_TITLE,PRACTICE_TEXT,saveOrder(1)):textPg(SEC.p2,PRACTICE2_TITLE,PRACTICE2_TEXT,saveOrder(2));p.ord=V(pl.v[t]);return p};
+ const intro=t=>{const p=t==1?textPg(SEC.p1,PRACTICE_TITLE,PRACTICE_TEXT,saveOrder(1)):textPg(SEC.p2,PRACTICE2_TITLE,PRACTICE2_TEXT,saveOrder(2),undefined,PAUSE_SECONDS);p.ord=V(pl.v[t]);return p};
  return [idPg(),privPg(),textPg(SEC.base,DEMO_TITLE,DEMO_TEXT),...QUESTIONS.map(qPg),...phase(0,V(pl.p[0])),
   textPg(SEC.tasks,TASK_INTRO_TITLE,TASK_INTRO_TEXT),...pl.t.flatMap(t=>[intro(t),...flow(t,pl)]),...phase(1,V(pl.p[1])),donePg()]}
 S.pages=[idPg()];S.i=null; // Aufgabenliste wird erst nach der ID-Eingabe gebaut (nach dem Laden von aufgaben.json)
