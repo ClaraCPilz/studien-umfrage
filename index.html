@@ -92,7 +92,9 @@ const GUARD={            // ===== Absicherung =====
 };
 const DEV_NAVIGATION=true;            // true = ◀ ▶ unten links (für die echte Studie auf false setzen!)
 const RANDOMIZE_VARIANT_ORDER=false, EXCLUDE_COLOR_DEFICIENCY=true, SECTION_UPPER=true;
-const PAUSE_SECONDS=60;            // erzwungene Pause vor den Aufgabenblöcken (Sekunden); 0 = keine
+const PRACTICE_PAUSE_SECONDS=30;      // erzwungene Pause auf den Info-Seiten vor den Übungsaufgaben (Sekunden); 0 = keine
+const MEASURE_PAUSE_SECONDS=60;       // erzwungene Pause vor jedem Block mit 16 Aufgaben (Sekunden); 0 = keine
+const ID_MAX=64, PLAN_SIZE=32;     // erlaubte IDs 1–64; ID 33 nutzt den Plan von ID 1, ID 34 den von ID 2 usw.
 const TASK1_TIME_LIMIT=12, ROUTE_MAX_LINES=8, OTHER="Sonstiges";
 const ID_TITLE="Studie: Ästhetik und Orientierung in Bahnnetzplänen";
 const DP_TITLE="Studien- und Datenschutzinformation";
@@ -129,7 +131,7 @@ const DEMO_TEXT="Im folgenden Abschnitt stellen wir dir einige kurze Fragen zu d
 const FACHBEREICH_MODE="dropdown"; // "dropdown" = Auswahlliste ohne Schrägstriche | "erfahrung" = Vorschlag aus der Doku (Mehrfachauswahl zu Erfahrungen durch Ausbildung, Studium oder Beruf)
 const FACH_Q=FACHBEREICH_MODE==="erfahrung"
  ?{key:"Erfahrungsbereiche",type:"multi",text:"In welchem der folgenden Bereiche hast du durch Ausbildung, Studium oder Beruf bereits Erfahrungen gesammelt?",hint:"Mehrfachauswahl möglich.",options:["Gestaltung / Design","Informatik / Technik","Kartografie / Geografie","Verkehr / Stadtplanung","Keiner der genannten Bereiche"],exclusive:"Keiner der genannten Bereiche"}
- :{key:"Fachbereich",type:"dropdown",text:"Welchem Fach- oder Tätigkeitsbereich würdest du dich am ehesten zuordnen?",options:["Naturwissenschaften","Ingenieurwissenschaften & Technik","Medizin, Gesundheit & Lebenswissenschaften","Sozialwissenschaften","Wirtschafts- & Rechtswissenschaften","Geisteswissenschaften","Bildungswissenschaften & Psychologie","Kunst, Design & Medien","Sonstiges"]};
+ :{key:"Fachbereich",type:"dropdown",otherText:true,text:"Welchem Fach- oder Tätigkeitsbereich würdest du dich am ehesten zuordnen?",options:["Naturwissenschaften","Ingenieurwissenschaften & Technik","Medizin, Gesundheit & Lebenswissenschaften","Sozialwissenschaften","Wirtschafts- & Rechtswissenschaften","Geisteswissenschaften","Bildungswissenschaften & Psychologie","Kunst, Design & Medien","Sonstiges"]};
 const QUESTIONS=[
 {key:"Farbschwaeche",type:"radio",text:"Hast du eine bekannte Farbsehschwäche oder eine Form von Farbenblindheit?",options:["Ja","Nein"]},
 {key:"Altersgruppe",type:"dropdown",text:"Wie alt bist du?",options:["unter 18 Jahre","18–24 Jahre","25–34 Jahre","35–44 Jahre","45–54 Jahre","55–64 Jahre","65 Jahre oder älter"]},
@@ -145,7 +147,7 @@ const RANK_TITLE="Ranking der Bahnnetzvarianten";
 const RANK_TEXT="Bitte ordne die beiden Varianten danach, welche dir insgesamt besser gefällt.\n\n• **Platz 1**: Die Variante, die dir insgesamt besser gefällt.\n• **Platz 2**: Die Variante, die dir insgesamt weniger gut gefällt.\n\nZiehe die Bilder mit der Maus auf die entsprechenden Plätze. Wenn du ein Bild auf einen bereits belegten Platz ziehst, tauschen die beiden Bilder ihre Position.";
 const RANK_HEADERS=["Platz 1","Platz 2"], RANK_POOL="Noch nicht eingeordnet";
 const PRACTICE2_TITLE="Übungsaufgaben";
-const PRACTICE2_TEXT="Mache dich zunächst mit dem Aufgabenformat vertraut und bearbeite dazu die folgenden **zwei Übungsaufgaben**. Die Bearbeitungszeit wird während der Übungsaufgaben noch nicht erfasst.\n\nIn jeder Aufgabe fällt eine Linie im Bahnnetzplan aus. Finde einen Weg von der Startstation zur Zielstation, indem du andere Linien nutzt. Wähle dabei den Weg mit den **wenigsten Umstiegen**, auch wenn dieser auf dem Plan länger erscheint.\n\nGib die benötigten Linien in der richtigen Reihenfolge an:\n\n• Oben: Linie an der Startstation\n• Unten: Linie zum Erreichen der Zielstation\n\nBevor es losgeht, hast du **mindestens eine Minute Pause**, um dich auf die Aufgaben vorzubereiten.\n\nSobald der Timer abgelaufen ist und du bereit bist, klicke auf „Weiter“.";
+const PRACTICE2_TEXT="Mache dich zunächst mit dem Aufgabenformat vertraut und bearbeite dazu die folgenden **zwei Übungsaufgaben**. Die Bearbeitungszeit wird während der Übungsaufgaben noch nicht erfasst.\n\nIn jeder Aufgabe fällt eine Linie im Bahnnetzplan aus. Finde einen Weg von der Startstation zur Zielstation, indem du andere Linien nutzt. Wähle dabei den Weg mit den **wenigsten Umstiegen**, auch wenn dieser auf dem Plan länger erscheint.\n\nGib die benötigten Linien in der richtigen Reihenfolge an:\n\n• Oben: Linie an der Startstation\n• Unten: Linie zum Erreichen der Zielstation\n\nBevor es losgeht, hast du **mindestens 30 Sekunden Pause**, um dich auf die Aufgaben vorzubereiten.\n\nSobald der Timer abgelaufen ist und du bereit bist, klicke auf „Weiter“.";
 const ROUTE_POOL_TITLE="Verfügbare Linien", ROUTE_RANK_TITLE="Deine Reihenfolge";
 const MEASURE_START=["Beginn der Aufgabenbearbeitung","Die Übungsaufgaben sind abgeschlossen.\n\nBevor der erste Aufgabenblock beginnt, hast du **eine Minute Pause**, um dich auf die kommenden Aufgaben vorzubereiten.\n\nAnschließend bearbeitest du **{n} Aufgaben mit der {ordinal} Bahnnetzvariante**, deren Antworten und Bearbeitungszeiten in die Auswertung eingehen.\n\nSobald die Pause vorbei ist und du bereit bist, klicke auf „Weiter“.\n\nBitte arbeite möglichst **zügig und sorgfältig**. Vermeide zufällige Antworten."];
 const NEXT_VARIANT=["Nächste Bahnnetzvariante","Du hast die Aufgaben mit der vorherigen Variante abgeschlossen.\n\nJetzt hast du **eine Minute Pause**, bevor du die nächsten **{n} Aufgaben mit der {ordinal} Bahnnetzvariante** bearbeitest. Nutze die Zeit, um dich kurz zu erholen.\n\nSobald die Pause vorbei ist und du bereit bist, klicke auf „Weiter“.\n\nBitte arbeite anschließend wieder möglichst **zügig und sorgfältig**. Vermeide zufällige Antworten."];
@@ -153,7 +155,7 @@ const ORDINALS=["ersten","zweiten","dritten","vierten","fünften"];
 
 
 const PRACTICE_TITLE="Übungsaufgaben";
-const PRACTICE_TEXT="Mache dich zunächst mit dem Aufgabenformat vertraut und bearbeite dazu die folgenden **zwei Übungsaufgaben**. Die Bearbeitungszeit wird hier noch nicht erfasst.\n\nIn jeder Aufgabe suchst du zwei Linien im Bahnnetzplan und prüfst, ob sie eine vorgegebene Anzahl gemeinsamer Stationen haben.\n\n";
+const PRACTICE_TEXT="Mache dich zunächst mit dem Aufgabenformat vertraut und bearbeite dazu die folgenden **zwei Übungsaufgaben**. Die Bearbeitungszeit wird hier noch nicht erfasst.\n\nIn jeder Aufgabe suchst du zwei Linien im Bahnnetzplan und prüfst, ob sie eine vorgegebene Anzahl gemeinsamer Stationen haben.\n\nBevor es losgeht, hast du **mindestens 30 Sekunden Pause**, um dich auf die Aufgaben vorzubereiten.\n\nSobald der Timer abgelaufen ist und du bereit bist, klicke auf „Weiter“.";
 const TASK_INTRO_TITLE="Aufgabenblock";
 const TASK_INTRO_TEXT="Im nächsten Abschnitt bearbeitest du zwei Arten von Aufgaben mit jeweils zwei unterschiedlichen Darstellungen desselben Bahnnetzes.\n\nDer Ablauf ist bei beiden Aufgabenarten gleich:\n\n1. **Übungsphase**: Du machst dich zunächst mit dem Aufgabenformat vertraut, indem du zwei Übungsaufgaben löst.\n2. **Erste Bahnnetzvariante**: Du bearbeitest 16 Aufgaben unter Zeitmessung.\n3. **Zweite Bahnnetzvariante**: Anschließend bearbeitest du weitere 16 Aufgaben mit der zweiten Variante.\n\nDie Bearbeitungszeit wird nur bei den regulären Aufgaben erfasst. Die Übungsaufgaben fließen nicht in die Auswertung ein.\n\n**Bitte konzentriere dich bei der Bearbeitung besonders auf die Aufgaben und löse sie möglichst zügig und sorgfältig.** Sowohl deine Antworten als auch die benötigte Zeit sind für uns wichtig. Wenn du eine Antwort nicht weißt, versuche nicht, einfach zu raten.";
 const SUS_TITLE="Bewertung der Bedienbarkeit";
@@ -215,7 +217,7 @@ const DEFAULT_PLAN={p:["AB","AB"],t:[1,2],v:{1:"AB",2:"AB"},o:{"1A":null,"1B":nu
 // ===== Datenhaltung (Spaltenreihenfolge wie im Original) =====
 const now=()=>{const d=new Date(),p=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`};
 function columns(){const c=["ID","Datenschutz_zugestimmt","Zustimmung_Zeit"];
- QUESTIONS.forEach(q=>{c.push(q.key);if(q.other)c.push(q.key+"_Sonstiges")});
+ QUESTIONS.forEach(q=>{c.push(q.key);if(q.other||q.otherText)c.push(q.key+"_Sonstiges")});
  PHASES.forEach(f=>{c.push("Reihenfolge_"+f.key);VARIANTS.forEach(v=>{for(let n=1;n<=UEQ.length;n++)c.push(`${f.key}_${v.id}_UEQS${n}`);c.push(`${f.key}_${v.id}_Kommentar`);
   if(f.sus){for(let n=1;n<=SUS_ITEMS.length;n++)c.push(`SUS_${v.id}_${n}`);c.push(`SUS_${v.id}_Score`)}});
   c.push(f.rank+"_Ranking");VARIANTS.forEach(v=>c.push(`${f.rank}_Rang_${v.id}`))});
@@ -227,16 +229,11 @@ function derived(d){const o={};for(const t of[1,2]){let ok=[],ms=[];VARIANTS.for
   for(let n=1;n<=TASKS[t].measured.length;n++){const p=`A${t}_${v.id}_${pad2(n)}`;if(d[p+"_Richtig"]!==undefined&&d[p+"_Richtig"]!=="")a.push(+d[p+"_Richtig"]);if(d[p+"_Zeit_ms"]!==undefined&&d[p+"_Zeit_ms"]!=="")b.push(+d[p+"_Zeit_ms"])}
   o[`A${t}_${v.id}_Anzahl_Richtig`]=a.length?a.reduce((x,y)=>x+y):"";o[`A${t}_${v.id}_Mittlere_Zeit_ms`]=b.length?Math.round(b.reduce((x,y)=>x+y)/b.length):"";ok.push(...a);ms.push(...b)});
   o[`A${t}_Gesamt_Anzahl_Richtig`]=ok.length?ok.reduce((x,y)=>x+y):"";o[`A${t}_Gesamt_Mittlere_Zeit_ms`]=ms.length?Math.round(ms.reduce((x,y)=>x+y)/ms.length):""}return o}
-function csv(){const d={...S.data,...derived(S.data)},cols=columns(),all=cols.concat(Object.keys(S.data).filter(k=>!cols.includes(k)));
- const q=v=>{v=v===undefined?"":String(v);return /[;"\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
- return "\ufeff"+all.map(q).join(";")+"\r\n"+all.map(k=>q(d[k])).join(";")+"\r\n"}
 // ===== Speicherung im Browser UND im privaten GitHub-Datenrepository =====
 const SAVE_ENDPOINT="https://umfrage-speicher.claracamilla-pilz2.workers.dev/";
 let saveQueue=Promise.resolve();
 function save(vals){
  Object.assign(S.data,vals);
- const snapshot=csv();
- try{localStorage.setItem("studie_"+S.data.ID,snapshot)}catch(e){}
  if(!S.data.ID)return;
  const d={...S.data,...derived(S.data)},cols=columns();
  const all=cols.concat(Object.keys(S.data).filter(k=>!cols.includes(k)));
@@ -251,10 +248,9 @@ function save(vals){
     S.saveFail=false;return}
    catch(e){console.error("Speichern fehlgeschlagen (Versuch "+(a+1)+"):",e);if(a<GUARD.SAVE_RETRIES)await new Promise(r=>setTimeout(r,1500*(a+1)))}
   }
-  S.saveFail=true;S.data.Speicherfehler=(+S.data.Speicherfehler||0)+1;try{localStorage.setItem("studie_"+S.data.ID,csv())}catch(e){}
+  S.saveFail=true;S.data.Speicherfehler=(+S.data.Speicherfehler||0)+1
  });
 }
-function download(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv()],{type:"text/csv;charset=utf-8"}));a.download=(S.data.ID||"Studie")+".csv";document.body.appendChild(a);a.click();a.remove()}
 const orderValue=(key,nr)=>{const it=String(S.data[key]||"").split(" > ").filter(Boolean);if(!it.includes(pad2(nr)))it.push(pad2(nr));return it.join(" > ")};
 
 // ===== Hilfsfunktionen =====
@@ -268,7 +264,7 @@ const img=src=>`<img data-src="${esc(src)}" alt="" draggable="false">`;
 const IMG_CACHE=new Map();
 function loadImage(src){const name=String(src).split("/").pop();
  if(!IMG_CACHE.has(name)){const pr=(async()=>{let last;for(let a=0;a<3;a++){try{
-   const r=await fetch(SAVE_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"image",id:S.data.ID,pw:S.pw,name})});
+   const r=await fetch(SAVE_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"image",id:S.pid,pw:S.pw,name})});
    if(!r.ok)throw new Error("HTTP "+r.status);return URL.createObjectURL(await r.blob())}catch(e){last=e;await new Promise(x=>setTimeout(x,700*(a+1)))}}throw last})();
   pr.catch(()=>IMG_CACHE.delete(name));IMG_CACHE.set(name,pr)}
  return IMG_CACHE.get(name)}
@@ -298,16 +294,17 @@ const textPg=(sec,title,text,onNext,wide,wait)=>({sec,wide,run(){shell(this,`<h1
  const nx=()=>{onNext&&onNext();next()},b=$("#nx");b.onclick=nx;S.cur={next:nx};
  if(wait){const t0=Date.now();if(!S.dev)b.disabled=true;const tick=()=>{const rem=Math.max(0,Math.ceil(wait-(Date.now()-t0)/1000));$("#pz").textContent=rem>0?`Verbleibende Pause: ${Math.floor(rem/60)}:${pad2(rem%60)}`:"Die Pause ist vorbei. Du kannst jetzt fortfahren.";if(rem<=0){clearInterval(S.timer);b.disabled=false}};tick();S.timer=setInterval(tick,250)}}});
 const idPg=()=>({sec:SEC.intro,run(){shell(this,`<h1>${esc(ID_TITLE)}</h1><div style="display:grid;grid-template-columns:auto auto;justify-content:center;align-items:center;gap:22px 16px"><label for="pid" style="font-size:16px;font-weight:600;text-align:right">ID:</label><input class="id" type="text" id="pid" autofocus autocomplete="off"><label for="ppw" style="font-size:16px;font-weight:600;text-align:right">Passwort:</label><input class="id" type="password" id="ppw" autocomplete="off"></div>`,{center:1});
- const nx=async()=>{let id=$("#pid").value.trim();if(!/^[A-Za-z0-9_-]{1,40}$/.test(id))return err("Bitte nur Buchstaben, Ziffern, - und _ verwenden (max. 40 Zeichen).");
-  if(/^\d+$/.test(id))id=String(+id);const dev=id=="DEV"&&DEV_NAVIGATION,pl=dev?DEFAULT_PLAN:PLAN[id];if(!pl)return err("Unbekannte ID. Bitte gib eine Nummer von 1 bis 32 ein.");
+ const nx=async()=>{let id=$("#pid").value.trim();const dev=id=="DEV"&&DEV_NAVIGATION;
+  if(!dev){if(!/^\d+$/.test(id)||+id<1||+id>ID_MAX)return err("Ungültige ID. Bitte gib eine Zahl von 1 bis "+ID_MAX+" ein.");id=String(+id)}
+  const base=dev?id:String(+id>PLAN_SIZE?+id-PLAN_SIZE:+id),pl=dev?DEFAULT_PLAN:PLAN[base];if(!pl)return err("Ungültige ID. Bitte gib eine Zahl von 1 bis "+ID_MAX+" ein.");
   const pw=$("#ppw").value;if(!pw)return err("Bitte gib das Passwort ein.");
   const b=$("#nx");b.disabled=true;
-  try{const r=await fetch(SAVE_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"check",id,pw})});
+  try{const r=await fetch(SAVE_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"check",id:base,pw})});
    if(r.status===401){b.disabled=false;return err("Passwort falsch. Bitte prüfe deine Eingabe.")}
-   if(r.status===400){b.disabled=false;return err("Unbekannte ID. Bitte gib eine Nummer von 1 bis 32 ein.")}
+   if(r.status===400){b.disabled=false;return err("Ungültige ID. Bitte gib eine Zahl von 1 bis "+ID_MAX+" ein.")}
    if(!r.ok)throw new Error("HTTP "+r.status)}
   catch(e){console.error(e);b.disabled=false;return err("Die Verbindung zum Server ist fehlgeschlagen. Bitte prüfe deine Internetverbindung und versuche es erneut.")}
-  S.pw=pw;
+  S.pw=pw;S.pid=base;
   try{await loadTaskConfig()}catch(e){console.error(e);b.disabled=false;return err("Die Aufgabendatei konnte nicht geladen werden. Bitte prüfe, ob aufgaben.json neben der HTML-Datei liegt und gültig ist. "+e.message)}b.disabled=false;
   S.dev=dev;S.t0=Date.now();S.last=Date.now();S.active=true;
   S.data={ID:id,Startzeit:now(),Aufgabentypen_Reihenfolge:pl.t.join(" > ")};save({});S.pages=makePages(pl);startGuards();preloadImages();next()};$("#nx").onclick=nx;S.cur={next:nx,fill(){if(!$("#pid").value.trim())$("#pid").value="DEV";S.dev=1}}}});
@@ -320,12 +317,14 @@ const qPg=(q,idx)=>({sec:SEC.base,run(){const n=q.options.length+(q.other?1:0),s
  shell(this,`<div class="q">${esc(q.text)}</div>${q.hint?`<div class="hint">${esc(q.hint)}</div>`:""}<div id="opts" style="margin-top:24px"></div>`,{center:1});
  const box=$("#opts");
  const paint=()=>box.querySelectorAll(".choice").forEach(c=>{const o=c.dataset.o,on=q.type=="radio"?val==o:chk.has(o);c.classList.toggle("on",on);const b=c.querySelector(".box");if(b&&q.type!="radio")b.textContent=on?"✓":""});
- if(q.type=="dropdown"){box.style.textAlign="center";box.innerHTML=`<select id="dd" style="min-width:420px"><option value="">–</option>${q.options.map(o=>`<option>${esc(o)}</option>`).join("")}</select>`;$("#dd").onchange=e=>val=e.target.value}
+ if(q.type=="dropdown"){box.style.textAlign="center";box.innerHTML=`<select id="dd" style="min-width:420px"><option value="">–</option>${q.options.map(o=>`<option>${esc(o)}</option>`).join("")}</select>${q.otherText?`<div id="othrow" style="display:none;margin-top:14px"><input type="text" id="oth" placeholder="Bitte angeben" autocomplete="off" style="font:inherit;font-size:16px;padding:8px;border:1px solid var(--border);background:var(--input);color:var(--text);min-width:420px"></div>`:""}`;
+  $("#dd").onchange=e=>{val=e.target.value;if(q.otherText){const o=val==OTHER;$("#othrow").style.display=o?"":"none";if(o)$("#oth").focus();else $("#oth").value=""}}}
  else{box.innerHTML=q.options.map(o=>`<div class="choice ${sz}" data-o="${esc(o)}"><span class="box ${q.type=="radio"?"r":"k"}"></span><span>${esc(o)}</span></div>`).join("")+(q.other?`<div class="choice ${sz}" data-o="${OTHER}"><span class="box k"></span><span>${OTHER}:</span><input type="text" id="oth"></div>`:"");
   box.querySelectorAll(".choice").forEach(c=>c.onclick=e=>{const o=c.dataset.o;if(e.target.id=="oth"){if(o){chk.add(OTHER);if(q.exclusive)chk.delete(q.exclusive)}paint();return}
    if(q.type=="radio")val=o;else{if(chk.has(o))chk.delete(o);else{chk.add(o);if(q.exclusive){if(o==q.exclusive){chk.clear();chk.add(o);if(q.other)$("#oth").value=""}else chk.delete(q.exclusive)}if(o==OTHER)$("#oth").focus()}}paint()});
   if(q.other)$("#oth").oninput=e=>{if(e.target.value.trim()){chk.add(OTHER);if(q.exclusive)chk.delete(q.exclusive);paint()}}}
- const nx=()=>{let v={};if(q.type!="multi"){if(!val)return err("Bitte wähle eine Antwort aus.");v[q.key]=val}
+ const nx=()=>{let v={};if(q.type!="multi"){if(!val)return err("Bitte wähle eine Antwort aus.");v[q.key]=val;
+   if(q.otherText){const ot=val==OTHER?$("#oth").value.trim():"";if(val==OTHER&&!ot)return err("Bitte gib bei „Sonstiges“ an, welchem Bereich du dich zuordnest.");v[q.key+"_Sonstiges"]=ot}}
   else{const sel=q.options.filter(o=>chk.has(o)),oc=q.other&&chk.has(OTHER),ot=oc?$("#oth").value.trim():"";if(oc&&!ot)return err("Bitte gib bei „Sonstiges“ an, was du nutzt.");if(!sel.length&&!oc)return err("Bitte wähle mindestens eine Antwort aus.");v[q.key]=sel.concat(oc?[OTHER]:[]).join(" | ");if(q.other)v[q.key+"_Sonstiges"]=ot}
   if(EXCLUDE_COLOR_DEFICIENCY&&q.key=="Farbschwaeche"&&v.Farbschwaeche=="Ja"){v.Ausgeschlossen="ja";v.Abschluss_Zeit=now();S.finished=true;save(v);return show(excludedPg(),null)}
   save(v);next()};
@@ -347,6 +346,8 @@ function susPg(ph,pos){const f=PHASES[ph];return{sec:f.sec,wide:1,run(){const v=
  $("#nx").onclick=nx;S.cur={next:nx,fill(){vals.forEach((x,r)=>{if(x==null)document.querySelector(`.dot[data-r="${r}"][data-c="2"]`).click()})}}}}}
 const commentPg=ph=>{const f=PHASES[ph];return{sec:f.sec,wide:1,noEnter:1,run(){const n=S.order.length;
  shell(this,`<h2>${COMMENT_TITLE}</h2><div class="txt" style="margin-bottom:12px">${rich(COMMENT_TEXT)}</div><div class="cols" style="grid-template-columns:repeat(${n},1fr)">${S.order.map(v=>`<div><div class="lbl">Variante ${v.id}</div><div class="imgbox">${img(v.image)}</div><textarea></textarea></div>`).join("")}</div>`);
+ // Bilder auf die halbe Höhe verkleinern (Seitenverhältnis bleibt erhalten)
+ card.querySelectorAll(".imgbox img").forEach(im=>im.addEventListener("load",()=>{const h=im.getBoundingClientRect().height;if(h>0)im.style.maxHeight=Math.round(h/2)+"px"},{once:true}));
  const nx=()=>{const o={};document.querySelectorAll("textarea").forEach((t,i)=>o[`${f.key}_${S.order[i].id}_Kommentar`]=t.value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean).join(" | "));save(o);next()};$("#nx").onclick=nx;S.cur={next:nx}}}};
 const rankPg=ph=>{const f=PHASES[ph];return{sec:f.secRank,wide:1,run(){const n=S.order.length;let cells=Array(n).fill(null).concat(S.order.map((_,i)=>i));
  shell(this,`<h2>${RANK_TITLE}</h2><div class="txt" style="margin:8px 0 12px">${rich(RANK_TEXT)}</div><div class="cols" style="grid-template-columns:repeat(${n},1fr);grid-template-rows:auto 1fr auto 1fr;flex:1">${RANK_HEADERS.map(h=>`<div class="lbl" style="min-height:0">${h}</div>`).join("")}${cells.map((_,i)=>`<div class="cell" data-i="${i}" style="${i>=n?"grid-row:4;":"grid-row:2;"}"></div>`).join("")}</div>`);
@@ -403,16 +404,16 @@ const task2Pg=sp=>({sec:sp.sec,wide:1,flow:1,noEnter:1,run(){let started=false,t
   if(sp.save){const o={[sp.save+"_Reihenfolge"]:names.join(" > "),[sp.save+"_Zeit_ms"]:ms,[sp.orderKey]:orderValue(sp.orderKey,sp.nr)};if(sp.correct)o[sp.save+"_Richtig"]=names.join()==sp.correct.join()?1:0;save(o)}next()};
  $("#nx").onclick=nx;S.cur={next:nx,fill(){start();if(!rank.length)toggle(pool[0])}}}});
 const excludedPg=()=>({sec:SEC.end,run(){shell(this,`<h1>Vielen Dank für dein Interesse!</h1><div class="panel txt">${rich("Da die Studie Aufgaben mit farbigen Linien enthält, können Personen mit bekannter Farbsehschwäche oder Farbenblindheit leider nicht teilnehmen.\n\nDeine bisherigen Angaben werden nicht weiter verwendet.")}</div>`,{center:1,btn:"Beenden"});$("#nx").onclick=()=>{card.innerHTML="<h1 style='margin:auto'>Du kannst dieses Fenster jetzt schließen.</h1>"}}});
-const donePg=()=>({sec:SEC.end,run(){shell(this,`<h1>Vielen Dank!</h1><div style="text-align:center;font-size:16px;color:var(--muted)"><span id="st">Deine Angaben werden gespeichert …</span><br></div><div style="text-align:center;margin-top:24px"><button class="btn" id="dl">CSV-Datei herunterladen</button></div>`,{center:1,btn:"Beenden"});
- $("#dl").onclick=download;download();
- saveQueue.then(()=>{const e=$("#st");if(e)e.innerHTML=S.saveFail?"<b style='color:#b00020'>Die Daten konnten nicht übertragen werden.</b><br>Die CSV-Datei wurde auf deinem Computer gespeichert. Bitte sende sie an "+esc(GUARD.CONTACT)+".":"Deine Angaben wurden gespeichert."});$("#nx").onclick=()=>{card.innerHTML="<h1 style='margin:auto'>Du kannst dieses Fenster jetzt schließen.</h1>"}}});
+const donePg=()=>({sec:SEC.end,run(){shell(this,`<h1>Vielen Dank!</h1><div style="text-align:center;font-size:16px;color:var(--muted)"><span id="st">Deine Angaben werden gespeichert …</span><br></div>`,{center:1,btn:"Beenden"});
+ $("#nx").disabled=true;
+ saveQueue.then(()=>{const e=$("#st");if(e)e.innerHTML=S.saveFail?"<b style='color:#b00020'>Die Daten konnten nicht übertragen werden.</b><br>Bitte wende dich an "+esc(GUARD.CONTACT)+".":"Deine Angaben wurden gespeichert.";const n=$("#nx");if(n)n.disabled=false});$("#nx").onclick=()=>{card.innerHTML="<h1 style='margin:auto'>Du kannst dieses Fenster jetzt schließen.</h1>"}}});
 
 // ===== Ablauf =====
 const V=ids=>[...ids].map(x=>VARIANTS.find(v=>v.id==x));
 const withOrd=(pages,ord)=>{pages.forEach(p=>p.ord=ord);return pages};
 function flow(t,pl){const P=[],c=TASKS[t],nm=c.measured.length,Page=t==1?task1Pg:task2Pg,vo=V(pl.v[t]);
  vo.forEach((v,k)=>{const pg=Page(taskSpec(t,true,1,v));pg.info=`${c.name} · Variante ${v.id} · Übungsaufgabe ${k+1}`;P.push(pg)});
- const ann=(a,k)=>textPg(c.sm,a[0],a[1].replace("{n}",String(nm)).replace("{ordinal}",ORDINALS[k]),undefined,undefined,PAUSE_SECONDS);
+ const ann=(a,k)=>textPg(c.sm,a[0],a[1].replace("{n}",String(nm)).replace("{ordinal}",ORDINALS[k]),undefined,undefined,MEASURE_PAUSE_SECONDS);
  P.push(ann(MEASURE_START,0));
  vo.forEach((v,vi)=>{const seq=(pl.o[t+v.id]||Array.from({length:nm},(_,i)=>i+1));seq.forEach((nr,pos)=>{const pg=Page(taskSpec(t,false,nr,v,pos+1));pg.info=`${c.name} · Variante ${v.id} · Aufgabe Nr. ${nr} (Position ${pos+1}/${nm})`;P.push(pg)});if(vi<vo.length-1)P.push(ann(NEXT_VARIANT,vi+1))});
  return withOrd(P,vo)}
@@ -420,7 +421,7 @@ function phase(ph,ord){const f=PHASES[ph],P=[textPg(f.sec,f.introTitle,f.intro,o
  ord.forEach((_,pos)=>{P.push(ratingPg(ph,pos));if(f.sus)P.push(susPg(ph,pos))});P.push(commentPg(ph),rankPg(ph));return withOrd(P,ord)}
 function makePages(pl){
  const saveOrder=t=>()=>save({[`A${t}_Reihenfolge_Varianten`]:S.order.map(v=>v.id).join(" > ")});
- const intro=t=>{const p=t==1?textPg(SEC.p1,PRACTICE_TITLE,PRACTICE_TEXT,saveOrder(1)):textPg(SEC.p2,PRACTICE2_TITLE,PRACTICE2_TEXT,saveOrder(2),undefined,PAUSE_SECONDS);p.ord=V(pl.v[t]);return p};
+ const intro=t=>{const p=t==1?textPg(SEC.p1,PRACTICE_TITLE,PRACTICE_TEXT,saveOrder(1),undefined,PRACTICE_PAUSE_SECONDS):textPg(SEC.p2,PRACTICE2_TITLE,PRACTICE2_TEXT,saveOrder(2),undefined,PRACTICE_PAUSE_SECONDS);p.ord=V(pl.v[t]);return p};
  return [idPg(),privPg(),textPg(SEC.base,DEMO_TITLE,DEMO_TEXT),...QUESTIONS.map(qPg),...phase(0,V(pl.p[0])),
   textPg(SEC.tasks,TASK_INTRO_TITLE,TASK_INTRO_TEXT),...pl.t.flatMap(t=>[intro(t),...flow(t,pl)]),...phase(1,V(pl.p[1])),donePg()]}
 S.pages=[idPg()];S.i=null; // Aufgabenliste wird erst nach der ID-Eingabe gebaut (nach dem Laden von aufgaben.json)
