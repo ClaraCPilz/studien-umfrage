@@ -418,8 +418,10 @@ function makePages(pl){
   textPg(SEC.tasks,TASK_INTRO_TITLE,TASK_INTRO_TEXT),...pl.t.flatMap(t=>[intro(t),...flow(t,pl)]),...phase(1,V(pl.p[1])),donePg()]}
 S.pages=[idPg()];S.i=null; // Aufgabenliste wird erst nach der ID-Eingabe gebaut (nach dem Laden von aufgaben.json)
 // ===== Absicherung: Gerät, Fenster, Vollbild, Zeitlimit =====
-const isMobileDevice=()=>{const ua=navigator.userAgent||"",m=q=>window.matchMedia&&matchMedia(q).matches;
- return /Android|iPhone|iPad|iPod|Mobile|Silk|Tablet/i.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)||(m("(pointer:coarse)")&&!m("(any-pointer:fine)"))};
+const isMobileDevice=()=>{const ua=navigator.userAgent||"",d=navigator.userAgentData;
+ // Touchscreen-Laptops sollen NICHT blockiert werden: keine Pointer-/Touch-Heuristik außer dem iPad-Fall (iPadOS meldet sich als Mac).
+ if(d&&d.mobile===true)return true;
+ return /Android|iPhone|iPad|iPod|Mobile|Silk|Tablet/i.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)};
 const envState=()=>isMobileDevice()?"mobile":(innerWidth<GUARD.MIN_WIDTH||innerHeight<GUARD.MIN_HEIGHT)?"small":"";
 const bump=k=>{if(S.data&&S.data.ID)S.data[k]=(+S.data[k]||0)+1};
 function abortStudy(reason,text){if(S.aborted||S.finished)return true;S.aborted=S.finished=true;clearInterval(S.timer);S.enter=null;S.cur=null;ovHide();
