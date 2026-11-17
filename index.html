@@ -231,29 +231,50 @@ function derived(d){const o={};for(const t of[1,2]){let ok=[],ms=[];VARIANTS.for
   o[`A${t}_Gesamt_Anzahl_Richtig`]=ok.length?ok.reduce((x,y)=>x+y):"";o[`A${t}_Gesamt_Mittlere_Zeit_ms`]=ms.length?Math.round(ms.reduce((x,y)=>x+y)/ms.length):""}return o}
 // ===== Speicherung im Browser UND im privaten GitHub-Datenrepository =====
 const SAVE_ENDPOINT="https://umfrage-speicher.claracamilla-pilz2.workers.dev/";
-let saveQueue=Promise.resolve();
-function save(vals){
- Object.assign(S.data,vals);
- if(!S.data.ID)return;
+let savePromise=null,saveDirty=false,autoSaveTimer=null;
+function makeSaveBody(){
  const d={...S.data,...derived(S.data)},cols=columns();
  const all=cols.concat(Object.keys(S.data).filter(k=>!cols.includes(k)));
  const values={};all.forEach(k=>values[k]=d[k]===undefined?"":d[k]);
- const payload={id:S.data.ID,pw:S.pw,columns:all,values};
- // Requests are sent one after another so an older save cannot overwrite a newer one.
- const body=JSON.stringify(payload);
- // Vor der ausdrücklichen Zustimmung werden keinerlei Umfragedaten gespeichert.
- if(!S.data.Datenschutz_zugestimmt)return Promise.resolve();
- saveQueue=saveQueue.then(async()=>{
-  for(let a=0;a<=GUARD.SAVE_RETRIES;a++){
-   try{const r=await fetch(SAVE_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body});
-    if(!r.ok)throw new Error("HTTP "+r.status+" "+(await r.text()));
-    S.saveFail=false;return}
-   catch(e){console.error("Speichern fehlgeschlagen (Versuch "+(a+1)+"):",e);if(a<GUARD.SAVE_RETRIES)await new Promise(r=>setTimeout(r,1500*(a+1)))}
-  }
-  S.saveFail=true;S.data.Speicherfehler=(+S.data.Speicherfehler||0)+1
- });
- return saveQueue;
+ return JSON.stringify({id:S.data.ID,pw:S.pw,columns:all,values});
 }
+// Antworten werden sofort im Arbeitsspeicher aktualisiert, aber gebündelt übertragen.
+function save(vals,options={}){
+ Object.assign(S.data,vals);
+ if(!S.data.ID||!S.data.Datenschutz_zugestimmt)return Promise.resolve(true);
+ saveDirty=true;
+ return options.immediate?flushSave():Promise.resolve(true);
+}
+async function flushSave(){
+ if(!S.data.ID||!S.data.Datenschutz_zugestimmt||!saveDirty)return !S.saveFail;
+ if(savePromise)return savePromise;
+ savePromise=(async()=>{
+  while(saveDirty){
+   if(navigator.onLine===false){S.saveFail=true;return false}
+   saveDirty=false;
+   const body=makeSaveBody();let saved=false;
+   for(let a=0;a<=GUARD.SAVE_RETRIES;a++){
+    try{
+     const r=await fetch(SAVE_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body});
+     if(!r.ok)throw new Error("HTTP "+r.status+" "+(await r.text()));
+     saved=true;break;
+    }catch(e){
+     console.error("Speichern fehlgeschlagen (Versuch "+(a+1)+"):",e);
+     if(a<GUARD.SAVE_RETRIES)await new Promise(r=>setTimeout(r,1500*(a+1)));
+    }
+   }
+   if(!saved){saveDirty=true;S.saveFail=true;S.data.Speicherfehler=(+S.data.Speicherfehler||0)+1;return false}
+   S.saveFail=false;
+  }
+  return true;
+ })();
+ try{return await savePromise}finally{savePromise=null}
+}
+function startAutoSave(){
+ if(autoSaveTimer)return;
+ autoSaveTimer=setInterval(()=>{if(saveDirty&&navigator.onLine!==false)flushSave()},120000);
+}
+window.addEventListener("online",()=>{if(saveDirty)flushSave()});
 const orderValue=(key,nr)=>{const it=String(S.data[key]||"").split(" > ").filter(Boolean);if(!it.includes(pad2(nr)))it.push(pad2(nr));return it.join(" > ")};
 
 // ===== Hilfsfunktionen =====
@@ -294,7 +315,7 @@ if(DEV_NAVIGATION){$("#dev").innerHTML='<button id="db">◀</button><button id="
 
 // ===== Seitentypen =====
 const textPg=(sec,title,text,onNext,wide,wait)=>({sec,wide,run(){shell(this,`<h1>${esc(title)}</h1><div class="panel txt">${rich(text)}${wait?'<div id="pz" style="text-align:center;font-weight:600;color:var(--accent);margin-top:14px"></div>':""}</div>`,{center:1});
- const nx=()=>{onNext&&onNext();next()},b=$("#nx");b.onclick=nx;S.cur={next:nx};
+ const nx=async()=>{onNext&&onNext();const ok=await flushSave();if(!ok)console.warn("Zwischenspeicherung fehlgeschlagen; Antworten bleiben im Arbeitsspeicher und werden erneut übertragen.");next()},b=$("#nx");b.onclick=nx;S.cur={next:nx};
  if(wait){const t0=Date.now();if(!S.dev)b.disabled=true;const tick=()=>{const rem=Math.max(0,Math.ceil(wait-(Date.now()-t0)/1000));$("#pz").textContent=rem>0?`Verbleibende Pause: ${Math.floor(rem/60)}:${pad2(rem%60)}`:"Die Pause ist vorbei. Du kannst jetzt fortfahren.";if(rem<=0){clearInterval(S.timer);b.disabled=false}};tick();S.timer=setInterval(tick,250)}}});
 const idPg=()=>({sec:SEC.intro,run(){shell(this,`<h1>${esc(ID_TITLE)}</h1><div style="display:grid;grid-template-columns:auto auto;justify-content:center;align-items:center;gap:22px 16px"><label for="pid" style="font-size:16px;font-weight:600;text-align:right">ID:</label><input class="id" type="text" id="pid" autofocus autocomplete="off"><label for="ppw" style="font-size:16px;font-weight:600;text-align:right">Passwort:</label><input class="id" type="password" id="ppw" autocomplete="off"></div>`,{center:1});
  const nx=async()=>{let id=$("#pid").value.trim();const dev=id=="DEV"&&DEV_NAVIGATION;
@@ -318,9 +339,9 @@ const privPg=()=>({sec:SEC.intro,noEnter:1,run(){let on=false;
  const b=$("#nx");b.disabled=true;const tog=()=>{on=!on;$("#cons").classList.toggle("on",on);$("#cons .box").textContent=on?"✓":"";b.disabled=!on};
  $("#cons").onclick=tog;const nx=async()=>{if(!on)return;b.disabled=true;err("");
   // Erst jetzt wird der bisherige Startdatensatz zusammen mit der dokumentierten Zustimmung übertragen.
-  await save({Datenschutz_zugestimmt:"ja",Zustimmung_Zeit:now()});
+  await save({Datenschutz_zugestimmt:"ja",Zustimmung_Zeit:now()},{immediate:true});
   if(S.saveFail){err("Die Zustimmung und deine Angaben konnten nicht gespeichert werden. Bitte prüfe deine Verbindung und klicke erneut auf „Weiter“.");b.disabled=false;return}
-  preloadImages();next()
+  startAutoSave();preloadImages();next()
  };b.onclick=nx;S.cur={next:nx,fill(){if(!on)tog()}}}});
 const qPg=(q,idx)=>({sec:SEC.base,run(){const n=q.options.length+(q.other?1:0),sz=n<=4?"":n<=6?"m":"c";let val="",chk=new Set();
  shell(this,`<div class="q">${esc(q.text)}</div>${q.hint?`<div class="hint">${esc(q.hint)}</div>`:""}<div id="opts" style="margin-top:24px"></div>`,{center:1});
@@ -413,7 +434,9 @@ const task2Pg=sp=>({sec:sp.sec,wide:1,flow:1,noEnter:1,run(){let started=false,t
 const excludedPg=()=>({sec:SEC.end,run(){shell(this,`<h1>Vielen Dank für dein Interesse!</h1><div class="panel txt">${rich("Da die Studie Aufgaben mit farbigen Linien enthält, können Personen mit bekannter Farbsehschwäche oder Farbenblindheit leider nicht teilnehmen.\n\nDeine bisherigen Angaben werden nicht weiter verwendet.")}</div>`,{center:1,btn:"Beenden"});$("#nx").onclick=()=>{card.innerHTML="<h1 style='margin:auto'>Du kannst dieses Fenster jetzt schließen.</h1>"}}});
 const donePg=()=>({sec:SEC.end,run(){shell(this,`<h1>Vielen Dank!</h1><div style="text-align:center;font-size:16px;color:var(--muted)"><span id="st">Deine Angaben werden gespeichert …</span><br></div>`,{center:1,btn:"Beenden"});
  $("#nx").disabled=true;
- saveQueue.then(()=>{const e=$("#st");if(e)e.innerHTML=S.saveFail?"<b style='color:#b00020'>Die Daten konnten nicht übertragen werden.</b><br>Bitte wende dich an "+esc(GUARD.CONTACT)+".":"Deine Angaben wurden gespeichert.";const n=$("#nx");if(n)n.disabled=false});$("#nx").onclick=()=>{card.innerHTML="<h1 style='margin:auto'>Du kannst dieses Fenster jetzt schließen.</h1>"}}});
+ const status=$("#st"),btn=$("#nx");
+ const finishSave=async()=>{btn.disabled=true;const ok=await flushSave();if(ok){status.textContent="Deine Angaben wurden erfolgreich gespeichert.";btn.textContent="Beenden";btn.disabled=false;btn.onclick=()=>{card.innerHTML="<h1 style='margin:auto'>Du kannst dieses Fenster jetzt schließen.</h1>"}}else{status.innerHTML="<b style='color:#b00020'>Die Daten konnten noch nicht übertragen werden.</b><br>Bitte prüfe deine Internetverbindung und versuche es erneut. Deine Antworten bleiben bis zum Schließen dieses Fensters im Arbeitsspeicher.";btn.textContent="Erneut speichern";btn.disabled=false;btn.onclick=finishSave}};
+ finishSave();}});
 
 // ===== Ablauf =====
 const V=ids=>[...ids].map(x=>VARIANTS.find(v=>v.id==x));
@@ -440,7 +463,7 @@ const isMobileDevice=()=>{const ua=navigator.userAgent||"",d=navigator.userAgent
 const envState=()=>isMobileDevice()?"mobile":(innerWidth<GUARD.MIN_WIDTH||innerHeight<GUARD.MIN_HEIGHT)?"small":"";
 const bump=k=>{if(S.data&&S.data.ID)S.data[k]=(+S.data[k]||0)+1};
 function abortStudy(reason,text){if(S.aborted||S.finished)return true;S.aborted=S.finished=true;clearInterval(S.timer);S.enter=null;S.cur=null;ovHide();
- save({Abbruch_Grund:reason,Abbruch_Zeit:now(),Gesamtdauer_s:Math.round((Date.now()-S.t0)/1000)});
+ save({Abbruch_Grund:reason,Abbruch_Zeit:now(),Gesamtdauer_s:Math.round((Date.now()-S.t0)/1000)});flushSave();
  card.className="";card.innerHTML=`<h1>Die Studie wurde beendet</h1><div class="panel txt">${rich(text+"\n\nBitte wende dich an "+GUARD.CONTACT+".")}</div>`;return true}
 function guardTick(){if(!S.active||S.finished||S.dev)return false;const t=Date.now();
  if(t-S.t0>GUARD.MAX_TOTAL_MIN*60000)return abortStudy("Zeitlimit","Die maximale Bearbeitungsdauer von "+GUARD.MAX_TOTAL_MIN+" Minuten wurde überschritten. Die Studie muss an einem Stück bearbeitet werden.");
