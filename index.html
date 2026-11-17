@@ -241,6 +241,8 @@ function save(vals){
  const payload={id:S.data.ID,pw:S.pw,columns:all,values};
  // Requests are sent one after another so an older save cannot overwrite a newer one.
  const body=JSON.stringify(payload);
+ // Vor der ausdrücklichen Zustimmung werden keinerlei Umfragedaten gespeichert.
+ if(!S.data.Datenschutz_zugestimmt)return Promise.resolve();
  saveQueue=saveQueue.then(async()=>{
   for(let a=0;a<=GUARD.SAVE_RETRIES;a++){
    try{const r=await fetch(SAVE_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body});
@@ -250,6 +252,7 @@ function save(vals){
   }
   S.saveFail=true;S.data.Speicherfehler=(+S.data.Speicherfehler||0)+1
  });
+ return saveQueue;
 }
 const orderValue=(key,nr)=>{const it=String(S.data[key]||"").split(" > ").filter(Boolean);if(!it.includes(pad2(nr)))it.push(pad2(nr));return it.join(" > ")};
 
@@ -307,12 +310,18 @@ const idPg=()=>({sec:SEC.intro,run(){shell(this,`<h1>${esc(ID_TITLE)}</h1><div s
   S.pw=pw;S.pid=base;
   try{await loadTaskConfig()}catch(e){console.error(e);b.disabled=false;return err("Die Aufgabendatei konnte nicht geladen werden. Bitte prüfe, ob aufgaben.json neben der HTML-Datei liegt und gültig ist. "+e.message)}b.disabled=false;
   S.dev=dev;S.t0=Date.now();S.last=Date.now();S.active=true;
-  S.data={ID:id,Startzeit:now(),Aufgabentypen_Reihenfolge:pl.t.join(" > ")};save({});S.pages=makePages(pl);startGuards();preloadImages();next()};$("#nx").onclick=nx;S.cur={next:nx,fill(){if(!$("#pid").value.trim())$("#pid").value="DEV";S.dev=1}}}});
+  // Bis zur Zustimmung bleiben ID, Startzeit und Ablaufplan nur im Arbeitsspeicher.
+  S.data={ID:id,Startzeit:now(),Aufgabentypen_Reihenfolge:pl.t.join(" > ")};S.pages=makePages(pl);startGuards();next()};$("#nx").onclick=nx;S.cur={next:nx,fill(){if(!$("#pid").value.trim())$("#pid").value="DEV";S.dev=1}}}});
 const privPg=()=>({sec:SEC.intro,noEnter:1,run(){let on=false;
  const blocks=DP.map(([k,t],n)=>k=="li"?`<div class="li" style="margin-bottom:${DP[n+1]&&DP[n+1][0]=="li"?3:8}px"><i>•</i><span>${bold(t)}</span></div>`:k=="h"?`<h3>${esc(t)}</h3>`:`<p>${bold(t)}</p>`).join("");
  shell(this,`<h1>${esc(DP_TITLE)}</h1><div class="scroll">${blocks}</div><div style="text-align:center;font-weight:600;margin:10px 0 8px">${esc(DP_NO)}</div><div class="choice c" id="cons" style="margin:0"><span class="box k"></span><span>${esc(DP_CONSENT)}</span></div>`);
  const b=$("#nx");b.disabled=true;const tog=()=>{on=!on;$("#cons").classList.toggle("on",on);$("#cons .box").textContent=on?"✓":"";b.disabled=!on};
- $("#cons").onclick=tog;const nx=()=>{if(!on)return;save({Datenschutz_zugestimmt:"ja",Zustimmung_Zeit:now()});next()};b.onclick=nx;S.cur={next:nx,fill(){if(!on)tog()}}}});
+ $("#cons").onclick=tog;const nx=async()=>{if(!on)return;b.disabled=true;err("");
+  // Erst jetzt wird der bisherige Startdatensatz zusammen mit der dokumentierten Zustimmung übertragen.
+  await save({Datenschutz_zugestimmt:"ja",Zustimmung_Zeit:now()});
+  if(S.saveFail){err("Die Zustimmung und deine Angaben konnten nicht gespeichert werden. Bitte prüfe deine Verbindung und klicke erneut auf „Weiter“.");b.disabled=false;return}
+  preloadImages();next()
+ };b.onclick=nx;S.cur={next:nx,fill(){if(!on)tog()}}}});
 const qPg=(q,idx)=>({sec:SEC.base,run(){const n=q.options.length+(q.other?1:0),sz=n<=4?"":n<=6?"m":"c";let val="",chk=new Set();
  shell(this,`<div class="q">${esc(q.text)}</div>${q.hint?`<div class="hint">${esc(q.hint)}</div>`:""}<div id="opts" style="margin-top:24px"></div>`,{center:1});
  const box=$("#opts");
