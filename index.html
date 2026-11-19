@@ -344,9 +344,9 @@ const idPg=()=>({sec:SEC.intro,run(){shell(this,`<h1>${esc(ID_TITLE)}</h1><div s
   S.data={ID:id,Startzeit:now(),Aufgabentypen_Reihenfolge:pl.t.join(" > ")};S.pages=makePages(pl);startGuards();next()};$("#nx").onclick=nx;S.cur={next:nx,fill(){if(!$("#pid").value.trim())$("#pid").value="DEV";S.dev=1}}}});
 const privPg=()=>({sec:SEC.intro,noEnter:1,run(){let on=false;
  const blocks=DP.map(([k,t],n)=>k=="li"?`<div class="li" style="margin-bottom:${DP[n+1]&&DP[n+1][0]=="li"?3:8}px"><i>•</i><span>${bold(t)}</span></div>`:k=="h"?`<h3>${esc(t)}</h3>`:`<p>${bold(t)}</p>`).join("");
- shell(this,`<h1>${esc(DP_TITLE)}</h1><div class="scroll" id="dpscroll" tabindex="0">${blocks}</div><div id="scrollhint">Bitte scrolle bis zum Ende der Information, um zustimmen zu können.</div><div style="text-align:center;font-weight:600;margin:8px 0 8px">${esc(DP_NO)}</div><div class="choice c locked" id="cons" style="margin:0"><span class="box k"></span><span>${esc(DP_CONSENT)}</span></div>`);
+ shell(this,`<h1>${esc(DP_TITLE)}</h1><div class="scroll" id="dpscroll" tabindex="0">${blocks}</div><div style="text-align:center;font-weight:600;margin:8px 0 8px">${esc(DP_NO)}</div><div class="choice c locked" id="cons" style="margin:0"><span class="box k"></span><span>${esc(DP_CONSENT)}</span></div>`);
  const b=$("#nx");b.disabled=true;let read=false;
- const sc=$("#dpscroll"),unlock=()=>{if(read)return;read=true;$("#cons").classList.remove("locked");$("#scrollhint").textContent="Du hast die Information bis zum Ende gelesen. Du kannst jetzt zustimmen.";err("")};
+ const sc=$("#dpscroll"),unlock=()=>{if(read)return;read=true;$("#cons").classList.remove("locked");err("")};
  const chk=()=>{if(sc.scrollTop+sc.clientHeight>=sc.scrollHeight-8)unlock()};
  sc.addEventListener("scroll",chk);window.addEventListener("resize",chk);setTimeout(chk,100);
  const tog=()=>{if(!read){err("Bitte lies die Information zuerst bis zum Ende (nach unten scrollen).");return}on=!on;$("#cons").classList.toggle("on",on);$("#cons .box").textContent=on?"✓":"";b.disabled=!on};
