@@ -2,9 +2,10 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 <title>Studie</title>
 <style>
+html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%}
 :root{--page:#f4f4f1;--card:#fff;--border:#e2e2dd;--accent:#44546a;--accent-h:#36445a;--text:#2b2b2b;--muted:#6f6f6b;--error:#b3261e;--track:#dcdcd7;--dis:#d6d6d1;--input:#fbfbf9;--sel:#e9eef5;--hover:#f6f6f3;--line:#8f8f8a}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
@@ -127,13 +128,13 @@ const DP=[["p","Vielen Dank für dein Interesse an dieser Studie!"],
 ["p","Die Studiendaten werden **anonym erhoben und ausschließlich zu wissenschaftlichen Zwecken** im Rahmen dieses Forschungsprojekts verarbeitet und ausgewertet."],
 ["p","Namen oder E-Mail-Adressen werden nicht gemeinsam mit den Teilnehmercodes erfasst. Eine direkte Zuordnung der Antworten zu einzelnen Personen ist nach Abschluss der Studie nicht möglich."],
 ["p","Folgende Angaben und Daten werden erhoben:"],
-["li","Altersgruppe und Fachbereich"],["li","Angaben zu einer bekannten Farbsehschwäche oder Farbenblindheit"],["li","Häufigkeit der Bahnnutzung"],
-["li","Erfahrung mit Bahnnetzkarten"],["li","Genutzte Informationsquellen für die Bahnplanung"],["li","Bewertungen der Bahnnetzvarianten"],["li","Aufgabenantworten und Bearbeitungszeiten"],
+["li","Altersgruppe und Fachbereich"],["li","Häufigkeit der Bahnnutzung"],
+["li","Erfahrung mit Bahnnetzkarten"],["li","Genutzte Informationsquellen für die Bahnplanung"],["li","Bewertungen der Bahnnetzvarianten"],["li","Aufgabenantworten und Bearbeitungszeiten"],["li","Bildschirmgröße (Auflösung in Pixeln)"],
 ["p","**IP-Adressen werden nicht gespeichert.**"],
 ["p","Die Ergebnisse können in wissenschaftlichen Berichten, Präsentationen oder Veröffentlichungen dargestellt werden. Dies erfolgt ausschließlich **anonymisiert oder in zusammengefasster Form**, sodass keine Rückschlüsse auf einzelne Personen möglich sind."],
 ["h","Mögliche Risiken und Teilnahmevoraussetzungen"],
 ["p","Mit der Teilnahme sind keine besonderen Risiken verbunden."],
-["p","Da die Studie Aufgaben mit farbigen Linien enthält, richtet sie sich an Personen **ohne bekannte Farbsehschwäche oder Farbenblindheit**. Wenn bei dir eine entsprechende Einschränkung bekannt ist, ist eine Teilnahme leider nicht möglich."],
+["p","Da die Studie Aufgaben mit farbigen Linien enthält, richtet sie sich an Personen **ohne bekannte Farbsehschwäche oder Farbenblindheit**. Wenn bei dir eine entsprechende Einschränkung bekannt ist, ist eine Teilnahme leider nicht möglich. Dazu wirst du zu Beginn einmal gefragt; **deine Antwort darauf wird nicht gespeichert**, sondern nur zur Prüfung der Teilnahmevoraussetzung verwendet."],
 ["h","Kontakt"],
 ["p","Bei Fragen zur Studie kannst du dich an die Studienleitung wenden."],
 ["p","Bei Fragen zum Datenschutz kannst du dich an den Datenschutzbeauftragten der HTW Dresden wenden."],
@@ -149,7 +150,7 @@ const FACH_Q=FACHBEREICH_MODE==="erfahrung"
  ?{key:"Erfahrungsbereiche",type:"multi",text:"In welchem der folgenden Bereiche hast du durch Ausbildung, Studium oder Beruf bereits Erfahrungen gesammelt?",hint:"Mehrfachauswahl möglich.",options:["Gestaltung / Design","Informatik / Technik","Kartografie / Geografie","Verkehr / Stadtplanung","Keiner der genannten Bereiche"],exclusive:"Keiner der genannten Bereiche"}
  :{key:"Fachbereich",type:"dropdown",otherText:true,text:"Welchem Fach- oder Tätigkeitsbereich würdest du dich am ehesten zuordnen?",options:["Naturwissenschaften","Ingenieurwissenschaften & Technik","Medizin, Gesundheit & Lebenswissenschaften","Sozialwissenschaften","Wirtschafts- & Rechtswissenschaften","Geisteswissenschaften","Bildungswissenschaften & Psychologie","Kunst, Design & Medien","Sonstiges"]};
 const QUESTIONS=[
-{key:"Farbschwaeche",type:"radio",text:"Hast du eine bekannte Farbsehschwäche oder eine Form von Farbenblindheit?",options:["Ja","Nein"]},
+{key:"Farbschwaeche",type:"radio",text:"Hast du eine bekannte Farbsehschwäche oder eine Form von Farbenblindheit?",options:["Ja","Nein"],noStore:true}, // noStore: Antwort wird nur zur Ausschlussprüfung genutzt und nie gespeichert (Gesundheitsangabe)
 {key:"Altersgruppe",type:"dropdown",text:"Wie alt bist du?",options:["unter 18 Jahre","18–24 Jahre","25–34 Jahre","35–44 Jahre","45–54 Jahre","55–64 Jahre","65 Jahre oder älter"]},
 FACH_Q,
 {key:"Bahnnutzung",type:"radio",text:"Wie häufig nutzt du Bahnen im Alltag oder auf Reisen?",hint:"Gemeint sind zum Beispiel Zug, S-Bahn, U-Bahn oder Straßenbahn.",options:["Täglich","Mehrmals pro Woche","Mehrmals pro Monat","Seltener","Nie"]},
@@ -232,14 +233,14 @@ const DEFAULT_PLAN={p:["AB","AB"],t:[1,2],v:{1:"AB",2:"AB"},o:{"1A":null,"1B":nu
 // ===== Datenhaltung (Spaltenreihenfolge wie im Original) =====
 const now=()=>{const d=new Date(),p=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`};
 function columns(){const c=["ID","Datenschutz_zugestimmt","Zustimmung_Zeit"];
- QUESTIONS.forEach(q=>{c.push(q.key);if(q.other||q.otherText)c.push(q.key+"_Sonstiges")});
+ QUESTIONS.filter(q=>!q.noStore).forEach(q=>{c.push(q.key);if(q.other||q.otherText)c.push(q.key+"_Sonstiges")});
  PHASES.forEach(f=>{c.push("Reihenfolge_"+f.key);VARIANTS.forEach(v=>{for(let n=1;n<=UEQ.length;n++)c.push(`${f.key}_${v.id}_UEQS${n}`);c.push(`${f.key}_${v.id}_Kommentar`);
   if(f.sus){for(let n=1;n<=SUS_ITEMS.length;n++)c.push(`SUS_${v.id}_${n}`);c.push(`SUS_${v.id}_Score`)}});
   c.push(f.rank+"_Ranking");VARIANTS.forEach(v=>c.push(`${f.rank}_Rang_${v.id}`))});
  for(const t of[1,2]){c.push(`A${t}_Reihenfolge_Varianten`);VARIANTS.forEach(v=>{c.push(`A${t}_${v.id}_Reihenfolge_Aufgaben`);
   for(let n=1;n<=TASKS[t].measured.length;n++)TASK_COLS[t].forEach(k=>c.push(`A${t}_${v.id}_${pad2(n)}_${k}`));c.push(`A${t}_${v.id}_Anzahl_Richtig`,`A${t}_${v.id}_Mittlere_Zeit_ms`)});
   c.push(`A${t}_Gesamt_Anzahl_Richtig`,`A${t}_Gesamt_Mittlere_Zeit_ms`)}
- return c.concat(["Aufgabentypen_Reihenfolge","Startzeit","Ausgeschlossen","Abschluss_Zeit","Gesamtdauer_s","Abbruch_Grund","Abbruch_Zeit","Vollbild_verlassen","Fokus_verloren","Fenster_zu_klein","Speicherfehler"])}
+ return c.concat(["Aufgabentypen_Reihenfolge","Startzeit","Bildschirm_Breite_px","Bildschirm_Hoehe_px","Ausgeschlossen","Abschluss_Zeit","Gesamtdauer_s","Abbruch_Grund","Abbruch_Zeit","Vollbild_verlassen","Fokus_verloren","Fenster_zu_klein","Speicherfehler"])}
 function derived(d){const o={};for(const t of[1,2]){let ok=[],ms=[];VARIANTS.forEach(v=>{let a=[],b=[];
   for(let n=1;n<=TASKS[t].measured.length;n++){const p=`A${t}_${v.id}_${pad2(n)}`;if(d[p+"_Richtig"]!==undefined&&d[p+"_Richtig"]!=="")a.push(+d[p+"_Richtig"]);if(d[p+"_Zeit_ms"]!==undefined&&d[p+"_Zeit_ms"]!=="")b.push(+d[p+"_Zeit_ms"])}
   o[`A${t}_${v.id}_Anzahl_Richtig`]=a.length?a.reduce((x,y)=>x+y):"";o[`A${t}_${v.id}_Mittlere_Zeit_ms`]=b.length?Math.round(b.reduce((x,y)=>x+y)/b.length):"";ok.push(...a);ms.push(...b)});
@@ -361,7 +362,7 @@ const privPg=()=>({sec:SEC.intro,noEnter:1,run(){let on=false;
  const tog=()=>{if(!read){err("Bitte lies die Information zuerst bis zum Ende (nach unten scrollen).");return}on=!on;$("#cons").classList.toggle("on",on);$("#cons .box").textContent=on?"✓":"";b.disabled=!on};
  $("#cons").onclick=tog;const nx=async()=>{if(!on)return;b.disabled=true;err("");
   // Erst jetzt wird der bisherige Startdatensatz zusammen mit der dokumentierten Zustimmung übertragen.
-  await save({Datenschutz_zugestimmt:"ja",Zustimmung_Zeit:now()},{immediate:true});
+  await save({Datenschutz_zugestimmt:"ja",Zustimmung_Zeit:now(),Bildschirm_Breite_px:screen.width,Bildschirm_Hoehe_px:screen.height},{immediate:true});
   if(S.saveFail){err("Die Zustimmung und deine Angaben konnten nicht gespeichert werden. Bitte prüfe deine Verbindung und klicke erneut auf „Weiter“.");b.disabled=false;return}
   startAutoSave();preloadImages();next()
  };b.onclick=nx;S.cur={next:nx,fill(){unlock();if(!on)tog()}}}});
@@ -375,10 +376,10 @@ const qPg=(q,idx)=>({sec:SEC.base,run(){const n=q.options.length+(q.other?1:0),s
   box.querySelectorAll(".choice").forEach(c=>c.onclick=e=>{const o=c.dataset.o;if(e.target.id=="oth"){if(o){chk.add(OTHER);if(q.exclusive)chk.delete(q.exclusive)}paint();return}
    if(q.type=="radio")val=o;else{if(chk.has(o))chk.delete(o);else{chk.add(o);if(q.exclusive){if(o==q.exclusive){chk.clear();chk.add(o);if(q.other)$("#oth").value=""}else chk.delete(q.exclusive)}if(o==OTHER)$("#oth").focus()}}paint()});
   if(q.other)$("#oth").oninput=e=>{if(e.target.value.trim()){chk.add(OTHER);if(q.exclusive)chk.delete(q.exclusive);paint()}}}
- const nx=()=>{let v={};if(q.type!="multi"){if(!val)return err("Bitte wähle eine Antwort aus.");v[q.key]=val;
+ const nx=()=>{let v={};if(q.type!="multi"){if(!val)return err("Bitte wähle eine Antwort aus.");if(!q.noStore)v[q.key]=val;
    if(q.otherText){const ot=val==OTHER?$("#oth").value.trim():"";if(val==OTHER&&!ot)return err("Bitte gib bei „Sonstiges“ an, welchem Bereich du dich zuordnest.");v[q.key+"_Sonstiges"]=ot}}
   else{const sel=q.options.filter(o=>chk.has(o)),oc=q.other&&chk.has(OTHER),ot=oc?$("#oth").value.trim():"";if(oc&&!ot)return err("Bitte gib bei „Sonstiges“ an, was du nutzt.");if(!sel.length&&!oc)return err("Bitte wähle mindestens eine Antwort aus.");v[q.key]=sel.concat(oc?[OTHER]:[]).join(" | ");if(q.other)v[q.key+"_Sonstiges"]=ot}
-  if(EXCLUDE_COLOR_DEFICIENCY&&q.key=="Farbschwaeche"&&v.Farbschwaeche=="Ja"){v.Ausgeschlossen="ja";v.Abschluss_Zeit=now();S.finished=true;save(v);return show(excludedPg(),null)}
+  if(q.noStore){const excl=EXCLUDE_COLOR_DEFICIENCY&&val=="Ja";val="";if(excl){save({Ausgeschlossen:"ja",Abschluss_Zeit:now()},{immediate:true});S.finished=true;return show(excludedPg(),null)}return next()}
   save(v);next()};
  $("#nx").onclick=nx;S.cur={next:nx,fill(){if(q.type=="dropdown"){if(!val){val=q.options[0];$("#dd").value=val}}else if(q.type=="radio"){if(!val){val=q.options.at(-1);paint()}}else if(!chk.size){chk.add(q.options[0]);paint()}}}}});
 const orderSave=ph=>()=>{save({["Reihenfolge_"+PHASES[ph].key]:S.order.map(v=>v.id).join(" | ")})};
@@ -482,6 +483,11 @@ const isMobileDevice=()=>{const ua=navigator.userAgent||"",d=navigator.userAgent
  // Touchscreen-Laptops sollen NICHT blockiert werden: keine Pointer-/Touch-Heuristik außer dem iPad-Fall (iPadOS meldet sich als Mac).
  if(d&&d.mobile===true)return true;
  return /Android|iPhone|iPad|iPod|Mobile|Silk|Tablet/i.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)};
+// ===== Zoom unterbinden (Pinch, Trackpad-Geste, Strg/Cmd + Mausrad, Strg/Cmd +/-/0) =====
+["gesturestart","gesturechange","gestureend"].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
+document.addEventListener("touchmove",e=>{if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});
+document.addEventListener("wheel",e=>{if(e.ctrlKey)e.preventDefault()},{passive:false});
+document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&["+","-","=","0","_"].includes(e.key))e.preventDefault()});
 const envState=()=>isMobileDevice()?"mobile":(innerWidth<GUARD.MIN_WIDTH||innerHeight<GUARD.MIN_HEIGHT)?"small":"";
 const bump=k=>{if(S.data&&S.data.ID)S.data[k]=(+S.data[k]||0)+1};
 function abortStudy(reason,text){if(S.aborted||S.finished)return true;S.aborted=S.finished=true;clearInterval(S.timer);S.enter=null;S.cur=null;ovHide();abortBtn.style.display="none";
