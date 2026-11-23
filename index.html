@@ -38,7 +38,15 @@ h2{font:600 20px "Segoe UI",sans-serif;margin:8px 0 0}
 .choice input[type=text]{flex:1;font:inherit;padding:4px 8px;border:1px solid var(--border);background:var(--input)}
 select,input[type=text].id,input[type=password].id{font:inherit;font-size:16px;padding:8px;border:1px solid var(--border);background:var(--input);color:var(--text)}
 input.id{text-align:center;font-size:20px!important;width:300px}
-.scroll{border:1px solid var(--border);background:var(--input);padding:12px 16px;overflow:auto;flex:1;font-size:16px}
+.scroll{border:1px solid var(--border);background:var(--input);padding:12px 16px;overflow-y:scroll;overflow-x:hidden;flex:1;font-size:16px}
+/* Scrollbalken dauerhaft sichtbar (auch auf dem Mac, wo Balken sonst erst beim Scrollen erscheinen) */
+.scroll::-webkit-scrollbar{width:14px}
+.scroll::-webkit-scrollbar-track{background:var(--track)}
+.scroll::-webkit-scrollbar-thumb{background:var(--line);border:3px solid var(--track);border-radius:8px}
+.scroll::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+@supports not selector(::-webkit-scrollbar){.scroll{scrollbar-width:auto;scrollbar-color:var(--line) var(--track)}}
+#cons.locked{opacity:.45;cursor:not-allowed}#cons.locked:hover{background:transparent}
+#scrollhint{text-align:center;font-size:14px;color:var(--muted);margin:8px 0 0}
 .scroll h3{font:600 16px "Segoe UI",sans-serif;color:var(--accent);margin:14px 0 6px}.scroll p{margin:0 0 8px}.scroll .li{margin-bottom:3px}
 .two{display:grid;grid-template-columns:640px 1fr;gap:28px;flex:1;min-height:0}
 .two>div{min-height:0;display:flex;flex-direction:column}
@@ -70,7 +78,15 @@ textarea{font:inherit;padding:8px 10px;border:1px solid var(--border);background
 .chip{color:#fff;font:600 14px "Segoe UI",sans-serif;padding:6px 10px;margin:2px 6px;cursor:grab;text-align:left}
 /* Chips teilen sich die verfügbare Höhe (max. 42px, min. 26px), damit nicht gescrollt werden muss. */
 .lb .chip{height:auto;min-height:26px;max-height:45px;flex:1 1 0;display:flex;align-items:center;box-sizing:border-box}
-#dev{position:fixed;left:2px;bottom:2px;display:flex;gap:2px}#dev button{background:var(--dis);border:0;font-size:11px;padding:2px 7px;cursor:pointer}
+#abortBtn{position:fixed;left:12px;bottom:12px;z-index:9000;background:#fff;color:var(--error);border:1px solid var(--error);padding:6px 14px;font:600 13px "Segoe UI",sans-serif;cursor:pointer}
+#abortBtn:hover{background:var(--error);color:#fff}
+#abortModal{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:24px}
+#abortModal>div{max-width:540px;background:var(--card);border:1px solid var(--border);padding:32px 38px;text-align:center}
+#abortModal p{font-size:16px;margin:12px 0 22px}
+#abortModal .row{display:flex;gap:12px;justify-content:center}
+#abortModal .btn.sec{background:var(--dis);color:var(--text)}
+#abortModal .btn.danger{background:var(--error)}
+#dev{position:fixed;left:170px;bottom:2px;display:flex;gap:2px}#dev button{background:var(--dis);border:0;font-size:11px;padding:2px 7px;cursor:pointer}
 @media(max-width:1100px){.two{grid-template-columns:1fr;overflow:auto}.route{grid-template-columns:1fr;overflow:auto}#card{padding:20px}}
 #fullscreenGate,#envBlock{position:fixed;inset:0;z-index:9999;background:var(--page);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}
 #fullscreenGate>div,#envBlock>div{max-width:560px;background:var(--card);border:1px solid var(--border);padding:36px 42px}
@@ -241,12 +257,14 @@ function makeSaveBody(){
 }
 // Antworten werden sofort im Arbeitsspeicher aktualisiert, aber gebündelt übertragen.
 function save(vals,options={}){
+ if(S.wiped)return Promise.resolve(true);
  Object.assign(S.data,vals);
  if(!S.data.ID||!S.data.Datenschutz_zugestimmt)return Promise.resolve(true);
  saveDirty=true;
  return options.immediate?flushSave():Promise.resolve(true);
 }
 async function flushSave(){
+ if(S.wiped)return true;
  if(!S.data.ID||!S.data.Datenschutz_zugestimmt||!saveDirty)return !S.saveFail;
  if(savePromise)return savePromise;
  savePromise=(async()=>{
@@ -333,17 +351,21 @@ const idPg=()=>({sec:SEC.intro,run(){shell(this,`<h1>${esc(ID_TITLE)}</h1><div s
   try{await loadTaskConfig()}catch(e){console.error(e);b.disabled=false;return err("Die Aufgabendatei konnte nicht geladen werden. Bitte prüfe, ob aufgaben.json neben der HTML-Datei liegt und gültig ist. "+e.message)}b.disabled=false;
   S.dev=dev;S.t0=Date.now();S.last=Date.now();S.active=true;
   // Bis zur Zustimmung bleiben ID, Startzeit und Ablaufplan nur im Arbeitsspeicher.
-  S.data={ID:id,Startzeit:now(),Aufgabentypen_Reihenfolge:pl.t.join(" > ")};S.pages=makePages(pl);startGuards();next()};$("#nx").onclick=nx;S.cur={next:nx,fill(){if(!$("#pid").value.trim())$("#pid").value="DEV";S.dev=1}}}});
+  S.data={ID:id,Startzeit:now(),Aufgabentypen_Reihenfolge:pl.t.join(" > ")};S.pages=makePages(pl);startGuards();showAbortBtn();next()};$("#nx").onclick=nx;S.cur={next:nx,fill(){if(!$("#pid").value.trim())$("#pid").value="DEV";S.dev=1}}}});
 const privPg=()=>({sec:SEC.intro,noEnter:1,run(){let on=false;
  const blocks=DP.map(([k,t],n)=>k=="li"?`<div class="li" style="margin-bottom:${DP[n+1]&&DP[n+1][0]=="li"?3:8}px"><i>•</i><span>${bold(t)}</span></div>`:k=="h"?`<h3>${esc(t)}</h3>`:`<p>${bold(t)}</p>`).join("");
- shell(this,`<h1>${esc(DP_TITLE)}</h1><div class="scroll">${blocks}</div><div style="text-align:center;font-weight:600;margin:10px 0 8px">${esc(DP_NO)}</div><div class="choice c" id="cons" style="margin:0"><span class="box k"></span><span>${esc(DP_CONSENT)}</span></div>`);
- const b=$("#nx");b.disabled=true;const tog=()=>{on=!on;$("#cons").classList.toggle("on",on);$("#cons .box").textContent=on?"✓":"";b.disabled=!on};
+ shell(this,`<h1>${esc(DP_TITLE)}</h1><div class="scroll" id="dpscroll" tabindex="0">${blocks}</div><div style="text-align:center;font-weight:600;margin:8px 0 8px">${esc(DP_NO)}</div><div class="choice c locked" id="cons" style="margin:0"><span class="box k"></span><span>${esc(DP_CONSENT)}</span></div>`);
+ const b=$("#nx");b.disabled=true;let read=false;
+ const sc=$("#dpscroll"),unlock=()=>{if(read)return;read=true;$("#cons").classList.remove("locked");err("")};
+ const chk=()=>{if(sc.scrollTop+sc.clientHeight>=sc.scrollHeight-8)unlock()};
+ sc.addEventListener("scroll",chk);window.addEventListener("resize",chk);setTimeout(chk,100);
+ const tog=()=>{if(!read){err("Bitte lies die Information zuerst bis zum Ende (nach unten scrollen).");return}on=!on;$("#cons").classList.toggle("on",on);$("#cons .box").textContent=on?"✓":"";b.disabled=!on};
  $("#cons").onclick=tog;const nx=async()=>{if(!on)return;b.disabled=true;err("");
   // Erst jetzt wird der bisherige Startdatensatz zusammen mit der dokumentierten Zustimmung übertragen.
   await save({Datenschutz_zugestimmt:"ja",Zustimmung_Zeit:now()},{immediate:true});
   if(S.saveFail){err("Die Zustimmung und deine Angaben konnten nicht gespeichert werden. Bitte prüfe deine Verbindung und klicke erneut auf „Weiter“.");b.disabled=false;return}
   startAutoSave();preloadImages();next()
- };b.onclick=nx;S.cur={next:nx,fill(){if(!on)tog()}}}});
+ };b.onclick=nx;S.cur={next:nx,fill(){unlock();if(!on)tog()}}}});
 const qPg=(q,idx)=>({sec:SEC.base,run(){const n=q.options.length+(q.other?1:0),sz=n<=4?"":n<=6?"m":"c";let val="",chk=new Set();
  shell(this,`<div class="q">${esc(q.text)}</div>${q.hint?`<div class="hint">${esc(q.hint)}</div>`:""}<div id="opts" style="margin-top:24px"></div>`,{center:1});
  const box=$("#opts");
@@ -432,8 +454,8 @@ const task2Pg=sp=>({sec:sp.sec,wide:1,flow:1,noEnter:1,run(){let started=false,t
   const ms=Math.round(performance.now()-t0);clearInterval(S.timer);const names=rank.map(i=>sp.lines[i][0]);
   if(sp.save){const o={[sp.save+"_Reihenfolge"]:names.join(" > "),[sp.save+"_Zeit_ms"]:ms,[sp.orderKey]:orderValue(sp.orderKey,sp.nr)};if(sp.correct)o[sp.save+"_Richtig"]=names.join()==sp.correct.join()?1:0;save(o)}next()};
  $("#nx").onclick=nx;S.cur={next:nx,fill(){start();if(!rank.length)toggle(pool[0])}}}});
-const excludedPg=()=>({sec:SEC.end,run(){shell(this,`<h1>Vielen Dank für dein Interesse!</h1><div class="panel txt">${rich("Da die Studie Aufgaben mit farbigen Linien enthält, können Personen mit bekannter Farbsehschwäche oder Farbenblindheit leider nicht teilnehmen.\n\nDeine bisherigen Angaben werden nicht weiter verwendet.")}</div>`,{center:1,btn:"Beenden"});$("#nx").onclick=()=>{card.innerHTML="<h1 style='margin:auto'>Du kannst dieses Fenster jetzt schließen.</h1>"}}});
-const donePg=()=>({sec:SEC.end,run(){shell(this,`<h1>Vielen Dank!</h1><div style="text-align:center;font-size:16px;color:var(--muted)"><span id="st">Deine Angaben werden gespeichert …</span><br></div>`,{center:1,btn:"Beenden"});
+const excludedPg=()=>({sec:SEC.end,run(){abortBtn.style.display="none";shell(this,`<h1>Vielen Dank für dein Interesse!</h1><div class="panel txt">${rich("Da die Studie Aufgaben mit farbigen Linien enthält, können Personen mit bekannter Farbsehschwäche oder Farbenblindheit leider nicht teilnehmen.\n\nDeine bisherigen Angaben werden nicht weiter verwendet.")}</div>`,{center:1,btn:"Beenden"});$("#nx").onclick=()=>{card.innerHTML="<h1 style='margin:auto'>Du kannst dieses Fenster jetzt schließen.</h1>"}}});
+const donePg=()=>({sec:SEC.end,run(){abortBtn.style.display="none";shell(this,`<h1>Vielen Dank!</h1><div style="text-align:center;font-size:16px;color:var(--muted)"><span id="st">Deine Angaben werden gespeichert …</span><br></div>`,{center:1,btn:"Beenden"});
  $("#nx").disabled=true;
  const status=$("#st"),btn=$("#nx");
  const finishSave=async()=>{btn.disabled=true;const ok=await flushSave();if(ok){status.textContent="Deine Angaben wurden erfolgreich gespeichert.";btn.textContent="Beenden";btn.disabled=false;btn.onclick=()=>{card.innerHTML="<h1 style='margin:auto'>Du kannst dieses Fenster jetzt schließen.</h1>"}}else{status.innerHTML="<b style='color:#b00020'>Die Daten konnten noch nicht übertragen werden.</b><br>Bitte prüfe deine Internetverbindung und versuche es erneut. Deine Antworten bleiben bis zum Schließen dieses Fensters im Arbeitsspeicher.";btn.textContent="Erneut speichern";btn.disabled=false;btn.onclick=finishSave}};
@@ -463,7 +485,7 @@ const isMobileDevice=()=>{const ua=navigator.userAgent||"",d=navigator.userAgent
  return /Android|iPhone|iPad|iPod|Mobile|Silk|Tablet/i.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)};
 const envState=()=>isMobileDevice()?"mobile":(innerWidth<GUARD.MIN_WIDTH||innerHeight<GUARD.MIN_HEIGHT)?"small":"";
 const bump=k=>{if(S.data&&S.data.ID)S.data[k]=(+S.data[k]||0)+1};
-function abortStudy(reason,text){if(S.aborted||S.finished)return true;S.aborted=S.finished=true;clearInterval(S.timer);S.enter=null;S.cur=null;ovHide();
+function abortStudy(reason,text){if(S.aborted||S.finished)return true;S.aborted=S.finished=true;clearInterval(S.timer);S.enter=null;S.cur=null;ovHide();abortBtn.style.display="none";
  save({Abbruch_Grund:reason,Abbruch_Zeit:now(),Gesamtdauer_s:Math.round((Date.now()-S.t0)/1000)});flushSave();
  card.className="";card.innerHTML=`<h1>Die Studie wurde beendet</h1><div class="panel txt">${rich(text+"\n\nBitte wende dich an "+GUARD.CONTACT+".")}</div>`;return true}
 function guardTick(){if(!S.active||S.finished||S.dev)return false;const t=Date.now();
@@ -486,6 +508,55 @@ function startGuards(){if(S.guardsOn)return;S.guardsOn=true;
  window.addEventListener("blur",()=>{if(S.active&&!S.finished&&!document.hidden)bump("Fokus_verloren")});
  window.addEventListener("resize",envCheck);document.addEventListener("fullscreenchange",envCheck);
 }
+// ===== Manueller Abbruch mit Löschung der Daten =====
+const abortBtn=document.createElement("button");
+abortBtn.id="abortBtn";abortBtn.textContent="Studie abbrechen";abortBtn.style.display="none";
+document.body.appendChild(abortBtn);
+const showAbortBtn=()=>{abortBtn.style.display=""};
+
+abortBtn.onclick=()=>{
+ if(S.finished||S.aborted||document.getElementById("abortModal"))return;
+ const m=document.createElement("div");m.id="abortModal";
+ m.innerHTML=`<div><h1>Studie abbrechen?</h1><p id="abMsg">Wenn du abbrichst, werden <b>alle bisher gespeicherten Daten gelöscht</b>. Es bleibt nur der Vermerk, dass die Studie manuell abgebrochen wurde. Eine erneute Teilnahme ist anschließend nicht möglich.</p><div class="row"><button class="btn sec" id="abNo">Zurück zur Studie</button><button class="btn danger" id="abYes">Abbrechen und Daten löschen</button></div></div>`;
+ document.body.appendChild(m);
+ $("#abNo").focus();
+ $("#abNo").onclick=()=>m.remove();
+ $("#abYes").onclick=()=>wipeAndAbort(m);
+};
+
+async function wipeAndAbort(m){
+ const msg=$("#abMsg"),yes=$("#abYes"),no=$("#abNo");
+ yes.disabled=no.disabled=true;msg.textContent="Daten werden gelöscht …";
+ const backup=S.data;
+ // Weitere Speicherungen stoppen und laufende abwarten
+ S.wiped=true;saveDirty=false;clearInterval(autoSaveTimer);autoSaveTimer=null;
+ if(savePromise){try{await savePromise}catch(e){}}
+ saveDirty=false;
+ let ok=true;
+ if(backup.Datenschutz_zugestimmt){          // nur wenn überhaupt etwas gespeichert wurde
+  S.data={ID:backup.ID,Abbruch_Grund:"Manuell abgebrochen",Abbruch_Zeit:now()};
+  ok=false;
+  for(let a=0;a<=GUARD.SAVE_RETRIES&&!ok;a++){
+   try{
+    const r=await fetch(SAVE_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:makeSaveBody()});
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    ok=true;
+   }catch(e){console.error(e);await new Promise(x=>setTimeout(x,1500*(a+1)))}
+  }
+ }
+ if(!ok){
+  // Löschen fehlgeschlagen: Zustand wiederherstellen, Teilnehmende können erneut versuchen oder weitermachen
+  S.data=backup;S.wiped=false;saveDirty=true;startAutoSave();
+  msg.innerHTML="<b style='color:var(--error)'>Die Daten konnten nicht gelöscht werden.</b><br>Bitte prüfe deine Internetverbindung und versuche es erneut.";
+  yes.disabled=no.disabled=false;return;
+ }
+ S.aborted=S.finished=true;clearInterval(S.timer);S.enter=null;S.cur=null;
+ ovHide();m.remove();abortBtn.remove();
+ try{if(document.fullscreenElement)await document.exitFullscreen()}catch(e){}
+ card.className="";
+ card.innerHTML="<h1 style='margin:auto;text-align:center'>Die Studie wurde abgebrochen.<br><span style='font-size:16px;font-weight:400;color:var(--muted)'>Deine Daten wurden gelöscht. Du kannst dieses Fenster jetzt schließen.</span></h1>";
+}
+
 // Vollbild muss durch eine bewusste Nutzeraktion gestartet werden.
 const gate=document.createElement("div");gate.id="fullscreenGate";
 gate.innerHTML=`<div><h1>Studie im Vollbild starten</h1><p>Für die bestmögliche Darstellung wird die Studie im Vollbild geöffnet. Klicke auf „Studie starten“, um fortzufahren.</p><button class="btn" id="fullscreenStart">Studie starten</button><p style="font-size:13px;margin-bottom:0">Du kannst den Vollbildmodus jederzeit mit Esc verlassen.</p></div>`;
