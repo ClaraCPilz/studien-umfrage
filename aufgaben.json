@@ -282,9 +282,9 @@
           "uebungen": [
             {
               "id": 1,
-              "linie_1": "pink",
-              "linie_2": "gelb",
-              "mindestens_gemeinsame_stationenzahl": 4,
+              "linie_1": "gelb",
+              "linie_2": "rote",
+              "mindestens_gemeinsame_stationenzahl": 3,
               "bild": "Bilder/aufgabe1_uebung_B.png"
             }
           ],
@@ -422,9 +422,9 @@
           "uebungen": [
             {
               "id": 1,
-              "ausgefallene_linie": "braun",
-              "startstation": "Sonnenstraße",
-              "zielstation": "Tierpark",
+              "ausgefallene_linie": "lila",
+              "startstation": "Schulstraße",
+              "zielstation": "Waldstraße",
               "bild": "Bilder/aufgabe2_uebung_B.png"
             }
           ],
