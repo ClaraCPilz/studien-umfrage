@@ -283,7 +283,7 @@
             {
               "id": 1,
               "linie_1": "gelb",
-              "linie_2": "rote",
+              "linie_2": "rot",
               "mindestens_gemeinsame_stationenzahl": 3,
               "bild": "Bilder/aufgabe1_uebung_B.png"
             }
