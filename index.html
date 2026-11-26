@@ -376,7 +376,7 @@ const qPg=(q,idx)=>({sec:SEC.base,run(){const n=q.options.length+(q.other?1:0),s
   else{const sel=q.options.filter(o=>chk.has(o)),oc=q.other&&chk.has(OTHER),ot=oc?$("#oth").value.trim():"";if(oc&&!ot)return err("Bitte gib bei „Sonstiges“ an, was du nutzt.");if(!sel.length&&!oc)return err("Bitte wähle mindestens eine Antwort aus.");v[q.key]=sel.concat(oc?[OTHER]:[]).join(" | ");if(q.other)v[q.key+"_Sonstiges"]=ot}
   if(q.noStore){const excl=EXCLUDE_COLOR_DEFICIENCY&&val&&val.startsWith("Nein");val="";if(excl){save({Ausgeschlossen:"ja",Abschluss_Zeit:now()},{immediate:true});S.finished=true;return show(excludedPg(),null)}return next()}
   save(v);next()};
- $("#nx").onclick=nx;S.cur={next:nx,fill(){if(q.type=="dropdown"){if(!val){val=q.options[0];$("#dd").value=val}}else if(q.type=="radio"){if(!val){val=q.options.at(-1);paint()}}else if(!chk.size){chk.add(q.options[0]);paint()}}}}});
+ $("#nx").onclick=nx;S.cur={next:nx,fill(){if(q.type=="dropdown"){if(!val){val=q.options[0];$("#dd").value=val}}else if(q.type=="radio"){if(!val){val=q.noStore?q.options[0]:q.options.at(-1);paint()}}else if(!chk.size){chk.add(q.options[0]);paint()}}}}});
 const orderSave=ph=>()=>{save({["Reihenfolge_"+PHASES[ph].key]:S.order.map(v=>v.id).join(" | ")})};
 function ratingPg(ph,pos){const f=PHASES[ph];return{sec:f.sec,wide:1,run(){const v=S.order[pos],vals=Array(UEQ.length).fill(null);
  const rows=UEQ.map(([l,r],i)=>`<tr data-r="${i}"><td class="l">${l}</td>${UEQ_COLS.map((c,j)=>`<td><button class="dot" title="${esc(c)}" data-r="${i}" data-c="${j}"></button></td>`).join("")}<td class="r">${r}</td></tr>`).join("");
